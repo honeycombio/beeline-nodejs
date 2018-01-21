@@ -1,0 +1,20 @@
+{
+  "name": "honeycomb-nodejs-magic",
+  "version": "1.0.0",
+  "description": "",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "format": "prettier --write \"lib/**/*.js\"",
+    "check-format": "prettier \"lib/**/*.js\""
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "prettier": "^1.10.2"
+  },
+  "dependencies": {
+    "libhoney": "^1.0.0-beta.10",
+    "shimmer": "^1.2.0"
+  }
+}

@@ -59,4 +59,4 @@ This will cause an extra column (`custom/extra`) to be added to your dataset.
 
 # Footnotes
 
-1. For the currently limited set of supported packages.
+1. For the currently limited set of supported packages, and only until you realize how powerful added custom instrumentation can make things :)

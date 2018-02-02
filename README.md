@@ -1,6 +1,6 @@
 # Honeycomb NodeJS Magic
 
-An experimental onramp to getting your data into honeycomb as quickly as possible.  With zero custom instrumentation required([1](#footnotes).
+An experimental onramp to getting your data into honeycomb as quickly as possible. With zero custom instrumentation required([1](#footnotes).
 
 # Full Magic
 
@@ -13,7 +13,7 @@ require("honeycomb-nodejs-magic")({
 })
 ```
 
-Both `writeKey` and `dataset` can also be supplied in the environment, by setting `HONEYCOMB_WRITEKEY` and `HONEYCOMB_DATASET`, respectively.  If they're
+Both `writeKey` and `dataset` can also be supplied in the environment, by setting `HONEYCOMB_WRITEKEY` and `HONEYCOMB_DATASET`, respectively. If they're
 both specified in the environment, the required change to your code is even smaller:
 
 ```
@@ -24,16 +24,16 @@ This line _has_ to come before any `require`/`import` for packages that you migh
 
 # Instrumented packages
 
-The following is a list of packages we've added instrumentation for.  Some actually add context to events, while others are only instrumented to enable
+The following is a list of packages we've added instrumentation for. Some actually add context to events, while others are only instrumented to enable
 context propagation (mostly the `Promise`-like packages.)
 
 * bluebird - instrumented only for context propagation
-* express - adds columns with prefix `express/`
-* http - adds columns with prefix `http/`
-* https - adds columns with prefix `http/`
+* express - adds columns with prefix `app.`
+* http - adds columns with prefix `http.`
+* https - adds columns with prefix `http.`
 * mpromise - instrumented only for context propagation
-* mysql2 - adds columns with prefix `mysql/`
-* react-dom/server - adds columns with prefix `react-dom/`
+* mysql2 - adds columns with prefix `mysql2.`
+* react-dom/server - adds columns with prefix `react.`
 * sequelize - instrumented only for context propagation
 
 (if you'd like to see anything more here, please file an issue or :+1: one already filed!)

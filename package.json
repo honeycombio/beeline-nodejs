@@ -24,7 +24,6 @@
     "prettier": "^1.10.2"
   },
   "dependencies": {
-    "babel-preset-react": "^6.24.1",
     "libhoney": "^1.0.0-beta.10",
     "methods": "^1.1.2",
     "on-headers": "^1.0.1",

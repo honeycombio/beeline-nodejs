@@ -30,7 +30,7 @@ context propagation (mostly the `Promise`-like packages.)
 * bluebird - instrumented only for context propagation
 * express - adds columns with prefix `app.`
 * http - adds columns with prefix `http.`
-* https - adds columns with prefix `http.`
+* https - adds columns with prefix `https.`
 * mpromise - instrumented only for context propagation
 * mysql2 - adds columns with prefix `mysql2.`
 * react-dom/server - adds columns with prefix `react.`

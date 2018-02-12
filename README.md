@@ -4,7 +4,7 @@ An experimental onramp to getting your data into honeycomb as quickly as possibl
 
 # Full Magic
 
-If you've got a nodejs `express` app, you can get request-level instrumentation of express and other packages you use by adding:
+If you've got a nodejs `express` app, you can get request-level instrumentation of express and other packages you use by adding the following **before** `require`/`import`ing of other packages.:
 
 ```
 require("honeycomb-nodejs-magic")({
@@ -19,8 +19,6 @@ both specified in the environment, the required change to your code is even smal
 ```
 require("honeycomb-nodejs-magic")();
 ```
-
-This line _has_ to come before any `require`/`import` for packages that you might want instrumented.
 
 # Instrumented packages
 

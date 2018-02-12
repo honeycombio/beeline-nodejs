@@ -1,6 +1,6 @@
 {
   "name": "honeycomb-nodejs-magic",
-  "version": "1.0.0",
+  "version": "1.0.0-beta1",
   "description": "",
   "main": "lib/index.js",
   "scripts": {
@@ -24,7 +24,7 @@
     "prettier": "^1.10.2"
   },
   "dependencies": {
-    "libhoney": "^1.0.0-beta.10",
+    "libhoney": "^1.0.0",
     "methods": "^1.1.2",
     "on-headers": "^1.0.1",
     "shimmer": "^1.2.0",

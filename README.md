@@ -1,6 +1,6 @@
 # Honeycomb NodeJS Magic
 
-An experimental onramp to getting your data into honeycomb as quickly as possible. With zero custom instrumentation required([1](#footnotes).
+An experimental onramp to getting your data into honeycomb as quickly as possible. With zero custom instrumentation required([1](#footnotes)).
 
 # Full Magic
 
@@ -51,7 +51,7 @@ var honeyMagic = require("honeycomb-nodejs-magic")();
 honeyMagic.customContext.add("extra", val);
 ```
 
-This will cause an extra column (`custom/extra`) to be added to your dataset.
+This will cause an extra column (`custom.extra`) to be added to your dataset.
 
 ---
 

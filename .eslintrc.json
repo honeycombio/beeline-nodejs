@@ -1,0 +1,14 @@
+{
+  "env": {
+    "es6": true
+  },
+  "extends": ["eslint:recommended"],
+  "parserOptions": {
+    "ecmaVersion": 2015
+  },
+  "rules": {
+    "no-console": "off",
+    "semi": 2,
+    "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }]
+  }
+}

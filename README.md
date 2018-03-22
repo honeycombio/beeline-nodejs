@@ -2,13 +2,14 @@
 
 An experimental onramp to getting your data into [Honeycomb](https://honeycomb.io) as quickly as possible. With zero custom instrumentation required([1](#footnotes)).
 
-Requires Node 6+?
+Requires Node 8+.
 
 # Full Magic
 
 If you've got a nodejs `express` app, you can get request-level instrumentation of express and other packages you use, magically.
 
 Start by installing this package:
+
 ```bash
 npm install --save honeycomb-nodejs-magic
 ```
@@ -16,7 +17,9 @@ npm install --save honeycomb-nodejs-magic
 And adding this to the top of your `app.js` **before** `require`/`import`ing of other packages:
 
 ```javascript
-require("honeycomb-nodejs-magic")({ writeKey: "YOUR-WRITE-KEY" /* , ... additional optional configuration ... */ })
+require("honeycomb-nodejs-magic")({
+  writeKey: "YOUR-WRITE-KEY" /* , ... additional optional configuration ... */,
+});
 ```
 
 # Configuration
@@ -133,8 +136,8 @@ Use the `DEBUG=honeycomb-magic:*` environment variable to produce debug output.
 
 # Example questions
 
-- Which endpoints on my app are the slowest?
-- Where is my app doing the most work / spending the most time?
+* Which endpoints on my app are the slowest?
+* Where is my app doing the most work / spending the most time?
 
 TODO: edit for clarity :)
 

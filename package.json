@@ -17,7 +17,7 @@
     "*.{md,markdown}": ["prettier --parser markdown --write", "git add"],
     "*.{css,scss}": ["prettier --parser css --write", "git add"]
   },
-  "author": "",
+  "author": "support@honeycomb.io",
   "license": "Apache-2.0",
   "devDependencies": {
     "supertest": "^3.0.0",

@@ -1,12 +1,12 @@
 # Honeycomb NodeJS Magic
 
-An experimental onramp to getting your data into [Honeycomb](https://honeycomb.io) as quickly as possible. With zero custom instrumentation required([1](#footnotes)).
+This package instruments your Express/NodeJS application for use with [Honeycomb](https://honeycomb.io). Slice and dice requests by endpoint, status, or even User ID, with zero custom instrumentation required([1](#footnotes)).
 
-Requires Node 8+.
+Requires Node 8+ and Express for best results. Sign up for a [Honeycomb trial](https://ui.honeycomb.io/signup) to obtain a Write Key before starting.
 
-# Full Magic
+# Installation (Quick)
 
-If you've got a nodejs `express` app, you can get request-level instrumentation of express and other packages you use, magically.
+If you've got a NodeJS `express` app, you can get request-level instrumentation of Express and other packages you use, magically.
 
 Start by installing this package:
 
@@ -18,18 +18,19 @@ And adding this to the top of your `app.js` **before** `require`/`import`ing of 
 
 ```javascript
 require("honeycomb-nodejs-magic")({
-  writeKey: "YOUR-WRITE-KEY" /* , ... additional optional configuration ... */,
+  writeKey: "YOUR-WRITE-KEY"
+  /* ... additional optional configuration ... */,
 });
 ```
 
 # Configuration
 
-The `optional configuration` above allows configuring global (honeycomb credentials and dataset) as well as per-instrumentation settings:
+The `optional configuration` above allows configuring global settings (Honeycomb credentials and dataset name) as well as per-instrumentation settings:
 
-```
+```javascript
 {
-    writeKey: "/* your honeycomb write key */",
-    dataset: "/* the name of the dataset you want to use */"
+    writeKey: "/* your honeycomb write key, required */",
+    dataset: "/* the name of the dataset you want to use (defaults to "nodejs") */"
     $instrumentationName: {
         /* instrumentation specific settings */
     }
@@ -40,7 +41,7 @@ Both `writeKey` and `dataset` can also be supplied in the environment, by settin
 
 For instrumentation settings, use the name of the instrumentation. For example, to add configuration options for `express`, your config object might look like:
 
-```
+```javascript
 {
     writeKey: "1234567890asbcdef",
     dataset: "my-express-server",
@@ -50,7 +51,41 @@ For instrumentation settings, use the name of the instrumentation. For example, 
 }
 ```
 
-For available configuration options per instrumentation, see the instrumentation sections below.
+For available configuration options per instrumentation, see the Instrumented packages section below.
+
+# Example questions
+
+* Which of my app's requests are the slowest?
+* Where's my app doing the most work / spending the most time?
+* Which users are using the endpoint that I'd like to deprecate?
+* Which XHR endpoints take the longest?
+
+# Example event
+
+```javascript
+{
+  "Timestamp": "2018-03-20T00:47:25.339Z",
+  "express.baseUrl": "",
+  "express.fresh": false,
+  "express.hostname": "localhost",
+  "express.http_version": "1.1",
+  "express.ip": "127.0.0.1",
+  "express.method": "POST",
+  "express.originalUrl": "/checkValid",
+  "express.path": "/checkValid",
+  "express.protocol": "http",
+  "express.query": "{}",
+  "express.response_time_ms": 15.229326,
+  "express.secure": false,
+  "express.status_code": "200",
+  "express.url": "/checkValid",
+  "express.xhr": true,
+  "meta.instrumentation_count": 4,
+  "meta.instrumentations": "[\"child_process\",\"express\",\"http\",\"https\"]",
+  "meta.request_id": "11ad83a2-ca8d-4918-9db2-27524456d9f7",
+  "meta.type": "express"
+}
+```
 
 # Instrumented packages
 
@@ -133,40 +168,6 @@ This will cause an extra column (`custom.extra`) to be added to your dataset.
 # Troubleshooting
 
 Use the `DEBUG=honeycomb-magic:*` environment variable to produce debug output.
-
-# Example questions
-
-* Which endpoints on my app are the slowest?
-* Where is my app doing the most work / spending the most time?
-
-TODO: edit for clarity :)
-
-# Example event
-
-```javascript
-{
-  "Timestamp": "2018-03-20T00:47:25.339Z",
-  "express.baseUrl": "",
-  "express.fresh": false,
-  "express.hostname": "localhost",
-  "express.http_version": "1.1",
-  "express.ip": "127.0.0.1",
-  "express.method": "POST",
-  "express.originalUrl": "/checkValid",
-  "express.path": "/checkValid",
-  "express.protocol": "http",
-  "express.query": "{}",
-  "express.response_time_ms": 15.229326,
-  "express.secure": false,
-  "express.status_code": "200",
-  "express.url": "/checkValid",
-  "express.xhr": true,
-  "meta.instrumentation_count": 4,
-  "meta.instrumentations": "[\"child_process\",\"express\",\"http\",\"https\"]",
-  "meta.request_id": "11ad83a2-ca8d-4918-9db2-27524456d9f7",
-  "meta.type": "express"
-}
-```
 
 ---
 

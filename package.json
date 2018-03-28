@@ -1,6 +1,6 @@
 {
   "name": "honeycomb-nodejs-magic",
-  "version": "1.0.0-beta7",
+  "version": "1.0.0",
   "description": "",
   "main": "lib/index.js",
   "scripts": {

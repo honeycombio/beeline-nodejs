@@ -1,5 +1,7 @@
 # Honeycomb NodeJS Magic
 
+[![Build Status](https://travis-ci.org/honeycombio/honeycomb-nodejs-magic.svg?branch=master)](https://travis-ci.org/honeycombio/honeycomb-nodejs-magic)
+
 This package instruments your Express/NodeJS application for use with [Honeycomb](https://honeycomb.io). Slice and dice requests by endpoint, status, or even User ID, with zero custom instrumentation required([1](#footnotes)).
 
 Requires Node 8+. Sign up for a [Honeycomb trial](https://ui.honeycomb.io/signup) to obtain a Write Key before starting.

@@ -1,7 +1,13 @@
 {
   "name": "honeycomb-nodejs-magic",
+  "description": "automatic instrumentation for honeycomb.io",
+  "author": "support@honeycomb.io",
+  "license": "Apache-2.0",
   "version": "1.0.0",
-  "description": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/honeycombio/honeycomb-nodejs-magic.git"
+  },
   "main": "lib/index.js",
   "scripts": {
     "test": "jest",
@@ -17,8 +23,6 @@
     "*.{md,markdown}": ["prettier --parser markdown --write", "git add"],
     "*.{css,scss}": ["prettier --parser css --write", "git add"]
   },
-  "author": "support@honeycomb.io",
-  "license": "Apache-2.0",
   "devDependencies": {
     "supertest": "^3.0.0",
     "express": "^4.16.2",

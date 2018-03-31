@@ -20,8 +20,8 @@ And adding this to the top of your `app.js` **before** `require`/`import`ing of 
 
 ```javascript
 require("honeycomb-nodejs-magic")({
-  writeKey: "YOUR-WRITE-KEY"
-  /* ... additional optional configuration ... */,
+  writeKey: "YOUR-WRITE-KEY",
+  /* ... additional optional configuration ... */
 });
 ```
 
@@ -176,3 +176,5 @@ Use the `DEBUG=honeycomb-magic:*` environment variable to produce debug output.
 # Footnotes
 
 1. For the currently limited set of supported packages, and only until you realize how powerful added custom instrumentation can make things :)
+
+wake up slack

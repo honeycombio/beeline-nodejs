@@ -176,3 +176,5 @@ Use the `DEBUG=honeycomb-magic:*` environment variable to produce debug output.
 # Footnotes
 
 1. For the currently limited set of supported packages, and only until you realize how powerful added custom instrumentation can make things :)
+
+ping

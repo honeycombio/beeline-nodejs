@@ -57,10 +57,39 @@ For available configuration options per instrumentation, see the Instrumented pa
 
 # Example questions
 
-* Which of my app's requests are the slowest?
+* Which of my express app's endpoints are the slowest?
+
+```
+BREAKDOWN: url
+CALCULATE: P99(durationMs)
+FILTER: meta.type == express
+ORDER BY: P99(durationMs) DESC
+```
+
 * Where's my app doing the most work / spending the most time?
+
+```
+BREAKDOWN: meta.type
+CALCULATE: P99(durationMs)
+ORDER BY: P99(durationMs) DESC
+```
+
 * Which users are using the endpoint that I'd like to deprecate?
+
+```
+BREAKDOWN: user.email
+CALCULATE: COUNT
+FILTER: url == <endpoint-url>
+```
+
 * Which XHR endpoints take the longest?
+
+```
+BREAKDOWN: url
+CALCULATE: P99(durationMs)
+FILTER: meta.type == express AND xhr == true
+ORDER BY: P99(durationMs) DESC
+```
 
 # Example event
 

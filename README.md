@@ -20,8 +20,8 @@ And adding this to the top of your `app.js` **before** `require`/`import`ing of 
 
 ```javascript
 require("honeycomb-nodejs-magic")({
-  writeKey: "YOUR-WRITE-KEY"
-  /* ... additional optional configuration ... */,
+  writeKey: "YOUR-WRITE-KEY",
+  /* ... additional optional configuration ... */
 });
 ```
 
@@ -57,31 +57,60 @@ For available configuration options per instrumentation, see the Instrumented pa
 
 # Example questions
 
-* Which of my app's requests are the slowest?
+* Which of my express app's endpoints are the slowest?
+
+```
+BREAKDOWN: url
+CALCULATE: P99(durationMs)
+FILTER: meta.type == express
+ORDER BY: P99(durationMs) DESC
+```
+
 * Where's my app doing the most work / spending the most time?
+
+```
+BREAKDOWN: meta.type
+CALCULATE: P99(durationMs)
+ORDER BY: P99(durationMs) DESC
+```
+
 * Which users are using the endpoint that I'd like to deprecate?
+
+```
+BREAKDOWN: user.email
+CALCULATE: COUNT
+FILTER: url == <endpoint-url>
+```
+
 * Which XHR endpoints take the longest?
+
+```
+BREAKDOWN: url
+CALCULATE: P99(durationMs)
+FILTER: meta.type == express AND xhr == true
+ORDER BY: P99(durationMs) DESC
+```
 
 # Example event
 
 ```javascript
 {
   "Timestamp": "2018-03-20T00:47:25.339Z",
-  "express.baseUrl": "",
-  "express.fresh": false,
-  "express.hostname": "localhost",
-  "express.http_version": "1.1",
-  "express.ip": "127.0.0.1",
-  "express.method": "POST",
-  "express.originalUrl": "/checkValid",
-  "express.path": "/checkValid",
-  "express.protocol": "http",
-  "express.query": "{}",
-  "express.response_time_ms": 15.229326,
-  "express.secure": false,
-  "express.status_code": "200",
-  "express.url": "/checkValid",
-  "express.xhr": true,
+  "baseUrl": "",
+  "fresh": false,
+  "hostname": "localhost",
+  "httpVersion": "1.1",
+  "ip": "127.0.0.1",
+  "method": "POST",
+  "originalUrl": "/checkValid",
+  "path": "/checkValid",
+  "protocol": "http",
+  "query": "{}",
+  "durationMs": 15.229326,
+  "secure": false,
+  "statusCode": "200",
+  "url": "/checkValid",
+  "xhr": true,
   "meta.instrumentation_count": 4,
   "meta.instrumentations": "[\"child_process\",\"express\",\"http\",\"https\"]",
   "meta.request_id": "11ad83a2-ca8d-4918-9db2-27524456d9f7",

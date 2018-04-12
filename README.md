@@ -60,35 +60,35 @@ For available configuration options per instrumentation, see the Instrumented pa
 * Which of my express app's endpoints are the slowest?
 
 ```
-BREAKDOWN: url
-CALCULATE: P99(durationMs)
+BREAKDOWN: request.url
+CALCULATE: P99(duration_ms)
 FILTER: meta.type == express
-ORDER BY: P99(durationMs) DESC
+ORDER BY: P99(duration_ms) DESC
 ```
 
 * Where's my app doing the most work / spending the most time?
 
 ```
 BREAKDOWN: meta.type
-CALCULATE: P99(durationMs)
-ORDER BY: P99(durationMs) DESC
+CALCULATE: P99(duration_ms)
+ORDER BY: P99(duration_ms) DESC
 ```
 
 * Which users are using the endpoint that I'd like to deprecate?
 
 ```
-BREAKDOWN: user.email
+BREAKDOWN: request.user.email
 CALCULATE: COUNT
-FILTER: url == <endpoint-url>
+FILTER: request.url == <endpoint-url>
 ```
 
 * Which XHR endpoints take the longest?
 
 ```
-BREAKDOWN: url
-CALCULATE: P99(durationMs)
-FILTER: meta.type == express AND xhr == true
-ORDER BY: P99(durationMs) DESC
+BREAKDOWN: request.url
+CALCULATE: P99(duration_ms)
+FILTER: meta.type == express AND request.xhr == true
+ORDER BY: P99(duration_ms) DESC
 ```
 
 # Example event
@@ -96,25 +96,25 @@ ORDER BY: P99(durationMs) DESC
 ```javascript
 {
   "Timestamp": "2018-03-20T00:47:25.339Z",
-  "baseUrl": "",
-  "fresh": false,
-  "hostname": "localhost",
-  "httpVersion": "1.1",
-  "ip": "127.0.0.1",
-  "method": "POST",
-  "originalUrl": "/checkValid",
-  "path": "/checkValid",
-  "protocol": "http",
-  "query": "{}",
-  "durationMs": 15.229326,
-  "secure": false,
-  "statusCode": "200",
-  "url": "/checkValid",
-  "xhr": true,
+  "request.base_url": "",
+  "request.fresh": false,
+  "request.hostname": "localhost",
+  "request.http_version": "1.1",
+  "request.ip": "127.0.0.1",
+  "request.method": "POST",
+  "request.original_url": "/checkValid",
+  "request.path": "/checkValid",
+  "request.protocol": "http",
+  "request.query": "{}",
+  "request.secure": false,
+  "request.url": "/checkValid",
+  "request.xhr": true,
+  "response.status_code": "200",
   "meta.instrumentation_count": 4,
   "meta.instrumentations": "[\"child_process\",\"express\",\"http\",\"https\"]",
   "meta.request_id": "11ad83a2-ca8d-4918-9db2-27524456d9f7",
   "meta.type": "express"
+  "duration_ms": 15.229326,
 }
 ```
 
@@ -145,7 +145,7 @@ For example:
 
 If `req.user` is an object `{ id: 1, username: "toshok" }` and your config settings include `express: { userContext: ["username"] }`, the following will be included in the express event sent to honeycomb:
 
-| `express.user.username` |
+| `request.user.username` |
 | :---------------------- |
 | `toshok`                |
 

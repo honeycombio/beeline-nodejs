@@ -1,6 +1,6 @@
-# Honeycomb NodeJS Magic
+# Honeycomb Beeline for NodeJS
 
-[![Build Status](https://travis-ci.org/honeycombio/honeycomb-nodejs-magic.svg?branch=master)](https://travis-ci.org/honeycombio/honeycomb-nodejs-magic)
+[![Build Status](https://travis-ci.org/honeycombio/beeline-nodejs.svg?branch=master)](https://travis-ci.org/honeycombio/beeline-nodejs)
 
 This package instruments your Express/NodeJS application for use with [Honeycomb](https://honeycomb.io). Slice and dice requests by endpoint, status, or even User ID, with zero custom instrumentation required([1](#footnotes)).
 
@@ -13,13 +13,13 @@ If you've got a NodeJS `express` app, you can get request-level instrumentation 
 Start by installing this package:
 
 ```bash
-npm install --save honeycomb-nodejs-magic
+npm install --save honeycomb-beeline
 ```
 
 And adding this to the top of your `app.js` **before** `require`/`import`ing of other packages:
 
 ```javascript
-require("honeycomb-nodejs-magic")({
+require("honeycomb-beeline")({
   writeKey: "YOUR-WRITE-KEY",
   /* ... additional optional configuration ... */
 });
@@ -185,20 +185,20 @@ The package instrumentations will send context to honeycomb about the actual req
 If there's additional fields you'd like to include in events, you can use the `customContext` interface:
 
 ```
-var honeyMagic = require("honeycomb-nodejs-magic")();
+var honeycomb = require("honeycomb-beeline")();
 
 .
 .
 .
 
-honeyMagic.customContext.add("extra", val);
+honeycomb.customContext.add("extra", val);
 ```
 
 This will cause an extra column (`custom.extra`) to be added to your dataset.
 
 # Troubleshooting
 
-Use the `DEBUG=honeycomb-magic:*` environment variable to produce debug output.
+Use the `DEBUG=honeycomb-beeline:*` environment variable to produce debug output.
 
 ---
 

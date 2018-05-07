@@ -14,7 +14,7 @@ const honey = require("honeycomb-beeline")();
 honey.customContext.add("extra", val);
 ```
 
-This will cause an extra column (`custom.extra`) to be added to your dataset, and the value you add will be sent along with all events within the current request that are generated after that line.
+This will cause an extra column (`app.extra`) to be added to your dataset, and the value you add will be sent along with all events within the current request that are generated after that line.
 
 ## Examples
 

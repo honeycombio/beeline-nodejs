@@ -8,7 +8,7 @@ deploy:
   email: toshok@toshokelectric.com
   on:
     tags: true
-    repo: honeycombio/honeycomb-nodejs-magic
+    repo: honeycombio/beeline-nodejs
   api_key:
     secure: WuU/Br10qu9Yq8SEynqXuYupuguLLSQRixzmJKpbZBlZpfXuov3n6P0Fn5CX8uePEdBk9UkuErbP8bUstk/Rj0iU0meCFsJ8VVRt2x+g5b0+XVejkBr3mvSWLGrlUTmrg4KgbDV0gfKdhOEzvbgutqT2IsUSfvmYZipfvvI99V0X/FdMmw4WYetUW2Ibv3/gi2Yp2LFgtFZBGtKanfSp/Kfm6qUQWcCVZZI0B+qgQri6F++VqRe9JZhV0DxV8yrTrJrJ/hs9/y7vwEAsvQ0ckT6Nmxyu6pVYLvLMBxQGqeemsEmPyG4tjd5UC1xuS7SyhfgGuBba9bUIYlAUit/45Hg5iZNfNbURpftRqZvGcnKu04XKkfUpA70XMBIWZAVhK7pa+yMqqu1GbEEpOIUif8f4rX4xFWH5+yBuEAKvRrF/B/ppm0ooryk0sL7TjjBGSGS6l+quzSYAj3AkRyzcB+VO5KzXUGOqqELeaXL97u6VlQMEErVNU/tlbdckcBeVwyZUpuw7qPWo0A9iQQloFZa1c50aUaHVBAMRMZpmvd2FGsr2avvpH5wGV4O7+38kGQz9TGxy/i+NfvLK1Wqv3yZTM3oapfxqLedM2aOukGDDL/GatoHtC8QMR288GZPXKOOddlM2aPCd3yIQ6CskhyfVLLL8topwcTnv6YBPst0=
 notifications:

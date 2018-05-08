@@ -115,6 +115,11 @@ ORDER BY: P99(duration_ms) DESC
   "meta.type": "express"
   "meta.version": "4.16.3",
   "meta.beeline_version": "1.0.2",
+  "meta.node_version": "v9.10.0",
+  "totals.mysql2.count": 2,
+  "totals.mysql2.duration_ms": 13.291,
+  "totals.mysql2.query.count": 2,
+  "totals.mysql2.query.duration_ms": 13.291,
   "trace.trace_id": "11ad83a2-ca8d-4918-9db2-27524456d9f7",
   "trace.span_id": "4a3892ba-0936-46e1-8e17-31b887326027",
   "name": "request",

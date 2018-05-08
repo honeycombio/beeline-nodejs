@@ -181,20 +181,7 @@ Instrumented only for context propagation
 
 # Adding additional context
 
-The package instrumentations will send context to honeycomb about the actual requests and queries, but they can't automatically capture all context that you might want.
-If there's additional fields you'd like to include in events, you can use the `customContext` interface:
-
-```
-var honeycomb = require("honeycomb-beeline")();
-
-.
-.
-.
-
-honeycomb.customContext.add("extra", val);
-```
-
-This will cause an extra column (`custom.extra`) to be added to your dataset.
+See [docs/CustomContext.md](https://github.com/honeycombio/beeline-nodejs/blob/master/docs/CustomContext.md)
 
 # Troubleshooting
 
@@ -204,4 +191,4 @@ Use the `DEBUG=honeycomb-beeline:*` environment variable to produce debug output
 
 # Footnotes
 
-1. For the currently limited set of supported packages, and only until you realize how powerful added custom instrumentation can make things :)
+1.  For the currently limited set of supported packages, and only until you realize how powerful added custom instrumentation can make things :)

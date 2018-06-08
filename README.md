@@ -139,7 +139,7 @@ Instrumented only for context propagation
 
 ## express
 
-Adds columns with prefix `express.`
+Adds columns with prefix `request.`
 
 ### Configuration options
 
@@ -171,13 +171,31 @@ Adds columns with prefix `http.`
 
 Adds columns with prefix `https.`
 
+## mongoose
+
+Instrumented only for context propagation
+
+## mongodb
+
+Adds columns with prefix `db.`
+
+### Configuration options
+
+| Name                       | Type    |
+| -------------------------- | ------- |
+| `mongodb.includeDocuments` | boolean |
+
+#### `mongodb.includeDocuments`
+
+If true, documents in the api will be JSON serialized and included in the events sent to honeycomb.
+
 ## mpromise
 
 Instrumented only for context propagation
 
 ## mysql2
 
-Adds columns with prefix `mysql2.`
+Adds columns with prefix `db.`
 
 ## react-dom/server
 

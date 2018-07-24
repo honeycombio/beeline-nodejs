@@ -138,18 +138,33 @@ If you're dealing with multiple services (either on the same host or different o
 #### marshalTraceContext()
 
 ```javascript
-let traceContext = beeline.marshalTraceContext();
+beeline.marshalTraceContext();
 ```
 
 Returns a serialized form of the current trace context (including the trace id and the current span), encoded as a string. The format is documented at https://github.com/honeycombio/beeline-nodejs/blob/master/lib/propagation.js#L16
 
+example:
+
+```javascript
+let traceContext = beeline.marshalTraceContext();
+console.log(traceContext); // => 1;trace_id=weofijwoeifj,parent_id=owefjoweifj,context=SGVsbG8gV29ybGQ=
+```
+
 #### unmarshalTraceContext()
 
 ```javascript
-let { traceId, parentSpanId } = beeline.unmarshalTraceContext(traceContext);
+beeline.unmarshalTraceContext(traceContext);
 ```
 
 Returns an object containing the properties `traceId` and `parentSpanId`, which are the two optional parameters with `startTrace()` above.
+
+example:
+
+```javascript
+let { traceId, parentSpanId } = beeline.unmarshalTraceContext();
+
+let trace = startTrace({ name }, traceId, parentSpanId);
+```
 
 #### TRACE_HTTP_HEADER
 
@@ -164,8 +179,8 @@ service1:
 ```javascript
   // assuming we're in a trace already, having been started with startTrace()
   // directly, or because we're in an express handler.
-  let traceContext = beeline.marshalTraceContext(;)
-  await service2.doSomething({
+  let traceContext = beeline.marshalTraceContext();
+  await service2Client.doSomething({
     // add the traceContext in our RPC call payload
     traceContext,
     arg1: val1,
@@ -177,13 +192,14 @@ service2:
 
 ```javascript
 let service2 = createBespokeServer();
+
+// the handler for the `doSomething` call above
 service2.on("something", async payload => {
-  // the handler for the `doSomething` call above
   let { traceContext, ...restOfPayload } = payload;
   let { traceId, parentSpanId } = traceContext;
 
   // passing traceId+parentSpanId causes this local trace to be stitched
-  // into the greater distributed trace
+  // into the greater distributed trace.
   beeline.startTrace(
     {
       name: "something",

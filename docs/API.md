@@ -30,9 +30,7 @@ There are a few surfaces to the API:
 beeline.startTrace(metadataContext[, withTraceId, withParentSpanId])
 ```
 
-Starts a new local trace and initializes the async context propagation machinery. Most other API calls require
-a trace to be active to actually do anything (i.e. calling `startSpan` does nothing if there's no trace.) Returns
-a reference to the trace, and installs the root span as the current span.
+Starts a new local trace and initializes the async context propagation machinery. Most other API calls require a trace to be active to actually do anything (i.e. calling `startSpan` does nothing if there's no trace.) Returns a reference to the trace, and installs the root span as the current span.
 
 `metadataContext` is a map of initial properties of the root span.
 
@@ -53,8 +51,7 @@ let trace = beeline.startTrace({
 beeline.finishTrace(trace);
 ```
 
-Sends the trace's root span, and tears down the async context propagation machinery. This _must_ be called in order
-to send the root span.
+Sends the trace's root span, and tears down the async context propagation machinery. This _must_ be called in order to send the root span.
 
 example:
 
@@ -107,6 +104,8 @@ beeline.startSpan(metadataContext);
 
 Starts a new span within an existing trace. This new span is added as a child of the current span, and recorded as the current span.
 
+Returns a reference to the span (to be used in `finishSpan` below.)
+
 example:
 
 ```javascript
@@ -129,7 +128,54 @@ let span1 = beeline.startSpan({
 beeline.finishSpan(span);
 ```
 
+Emits an event to honeycomb containing all the context for this span. Pops the span stack such that the parent span is now the current span.
+
+The beeline assumes that within a process, all spans are fully unclosed by their parent span. If you finish a parent span before all children have been finished we'll emit a warning.
+
+example:
+
+```
+let parentSpan = beeline.startSpan({
+  name: "parent span",
+});
+
+let childSpan = beeline.startSpan({
+  name: "childSpan span",
+});
+
+// childSpan is the current span
+
+beeline.finishSpan(childSpan);
+
+// childSpan's data has been sent to honeycomb.
+// now parentSpan is the current span
+
+beeline.finishSpan(parentSpan);
+// parentSpan's data has been sent to honeycomb.
+```
+
 #### withSpan()
+
+If you're doing something synchronously (looping, for instance, or using a synchronous node api) you can use `withSpan` to wrap this operation. It safely wraps the invocation of `fn` with `startSpan()` and `finishSpan()` calls. It returns the return value of fn, so can be used in a expression context.
+
+As with `startSpan()`, `metadataContext` is the map of initial properties for the span. The span created by `withSpan` is added as a child of the current span, and the child installed as current span for the execution of `fn`.
+
+example
+
+```javascript
+let sum = beeline.withSpan(
+  {
+    task: "calculating the sum",
+  },
+  () => {
+    let s = 0;
+    for (let i of bigArray) {
+      s += i;
+    }
+    return s;
+  }
+);
+```
 
 ### Interprocess trace propagation
 
@@ -220,18 +266,116 @@ service2.on("something", async payload => {
 
 ### Adding context
 
+_[TODO: This part is most likely to see changes as we figure out inter-process trace context propagation]_
+
+There are two axes to useful traces: depth and width. Depth is a measure of how many operations are performed, and width is a measure of how much information there is to associate with each operation. Depth is addressed by the startSpan/finishSpan. Width is addressed by the methods in this section.
+
 #### addContext()
+
+```javascript
+beeline.addContext(contextMap);
+```
+
+Adds all key/value pairs in `contextMap` as fields on the current span. Used primarily from beeline instrumentation (and use a cross language beeline namespace.)
+
+example:
+
+```javascript
+beeline.addContext({
+  field1: value1,
+  field2: value2,
+});
+```
 
 #### removeContext()
 
+```javascript
+beeline.removeContext(key);
+```
+
+Removes a single `key` (and its value) from the fields on the current span. A noop if the key doesn't exist.
+
+example:
+
+```javascript
+beeline.removeContext(fieldName);
+```
+
 #### customContext.add()
+
+```javascript
+beeline.customContext.add(key, value);
+```
+
+Adds a single key/value pair as a field on the current span. The key is automatically prefixed with `app.` to set it apart from (and keep from conflicting with) the instrumentation-added fields.
+
+example:
+
+```javascript
+beeline.customContext.add("userName", "toshok");
+// adds the key/value pair { "app.userName": "toshok" } to the current span
+```
 
 #### customContext.remove()
 
+```javascript
+beeline.customContext.remove(key);
+```
+
+Removes a single key/value pair from the current span. A noop if the key doesn't exist.
+
+example:
+
+```javascript
+beeline.customContext.remove("userName");
+```
+
 #### schema
+
+_[TODO more here, but it should be 99% of use to instrumentation authors, not beeline users]_
 
 ### Async Context Bookkeeping
 
+The beeline uses nodejs's builtin `async_hooks` module to ensure its trace context is propagated through async calls, but there are some common patterns that break this magic (The most common is a worker/connection pool abstraction seen in many db packages).
+
 #### bindFunctionToTrace()
 
+```javascript
+beeline.bindFunctionToTrace(fn);
+```
+
+Forces the function `fn` to be invoked with the trace context active when this call is executed.
+
+example:
+
+````javascript
+myDBLibrary.query("select * from table",
+                  beeline.bindFunctionToTrace(rows => {
+                    // inside this function the trace is guaranteed to be
+                    // the same as the the active trace when myDBLibrary.query
+                    // was called, even if some pattern in myDBLibrary causes
+                    // the context to be lost.
+                  }));
+
 #### runWithoutTrace()
+
+```javascript
+beeline.runWithoutTrace(fn)
+````
+
+Immediately executes fn _outside_ of the current trace if there is one. That is, clears the trace context only for the execution of fn, so fn runs without knowledge of the current trace.
+
+This is less likely to be used outside of instrumentation than `bindFunctionToTrace`, but
+can be useful if there are calls to instrumented libraries that you explicitly do not want to show up in your traces. For instance, the beeline uses this function so that the http POST the beeline makes to honeycomb's api is not included in the trace.
+
+example
+
+```javascript
+// trace active at this point
+
+beeline.runWithoutTrace(() => {
+  // no trace is active within this function and within all async calls it makes.
+});
+
+// trace reinstated after the function is finished executing.
+```

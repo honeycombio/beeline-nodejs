@@ -24,17 +24,22 @@ There are a few surfaces to the API:
 
 ### Creating traces and spans
 
+In general you're going to be creating spans more often than traces. If you're using express, you may not ever have to use any of the trace API.
+
 #### startTrace()
 
 ```javascript
 beeline.startTrace(metadataContext[, withTraceId, withParentSpanId])
 ```
 
-Starts a new local trace and initializes the async context propagation machinery. Most other API calls require a trace to be active to actually do anything (i.e. calling `startSpan` does nothing if there's no trace.) Returns a reference to the trace, and installs the root span as the current span.
+Starts a new local trace and initializes the async context propagation machinery. You _must_ have an active trace for the rest of the API to do anything. If you call `startSpan` when you aren't currently in an trace, an `Error` will be thrown. The instrumentations (which must operate in both trace/non-trace environments) handle this by checking `beeline.traceActive()` and only creating spans if they're within a trace.
 
-`metadataContext` is a map of initial properties of the root span.
+This method also creates the root span for the trace (using `beeline.startSpan` below), and adds `metadataContext` as its initial context. This
+root span is installed as the current span.
 
-For an explanation of `withTraceId` and `withParentSpanId`, see "Interprocess trace propagation" below.
+Returns a reference to the trace.
+
+For an explanation of `withTraceId` and `withParentSpanId`, see [Interprocess trace propagation](#interprocess-trace-propagation) below.
 
 example:
 
@@ -61,6 +66,7 @@ let trace = beeline.startTrace({
   filePath,
 });
 fs.writeFile(filePath, fileContents, err => {
+  beeline.customContext.add("fileError", err.toString());
   beeline.finishTrace(trace);
 });
 ```
@@ -86,14 +92,16 @@ beeline.withTrace(
   () => fs.writeFileSync(filePath, fileContents)
 );
 
-let fib = beeline.withTrace(
-  {
-    task: "computing fibonacci number",
-    n,
-  },
-  () => computeFib(n)
+// Another example of withTrace, in an expression context:
+console.log(
+  `the answer is ${beeline.withTrace(
+    {
+      task: "computing fibonacci number",
+      n,
+    },
+    () => computeFib(n)
+  )}`
 );
-console.log(`The answer is ${fib}.`);
 ```
 
 #### startSpan()
@@ -114,11 +122,8 @@ let span = beeline.startSpan({
   filePath,
 });
 fs.writeFile(filePath, fileContents, err => {
+  beeline.customContext.add("fileError", err.toString());
   beeline.finishSpan(trace);
-});
-
-let span1 = beeline.startSpan({
-  name: "parent span",
 });
 ```
 
@@ -130,20 +135,26 @@ beeline.finishSpan(span);
 
 Emits an event to honeycomb containing all the context for this span. Pops the span stack such that the parent span is now the current span.
 
-The beeline assumes that within a process, all spans are fully unclosed by their parent span. If you finish a parent span before all children have been finished we'll emit a warning.
+The beeline assumes that within a process, child spans complete before their parent spans. If you finish a parent span before all children have been finished we'll emit a warning.
 
 example:
 
-```
+```javascript
+// assuming startTrace called before, the trace's root span is the current span
+
 let parentSpan = beeline.startSpan({
   name: "parent span",
 });
+
+// since the root span is the current span, parentSpan added as a child of it.
+// parentSpan is now the current span.
 
 let childSpan = beeline.startSpan({
   name: "childSpan span",
 });
 
-// childSpan is the current span
+// since parentSpan is the current span, childSpan added as a child of it.
+// childSpan is now the current span.
 
 beeline.finishSpan(childSpan);
 
@@ -262,8 +273,6 @@ service2.on("something", async payload => {
 });
 ```
 
-####
-
 ### Adding context
 
 _[TODO: This part is most likely to see changes as we figure out inter-process trace context propagation]_
@@ -276,7 +285,7 @@ There are two axes to useful traces: depth and width. Depth is a measure of how 
 beeline.addContext(contextMap);
 ```
 
-Adds all key/value pairs in `contextMap` as fields on the current span. Used primarily from beeline instrumentation (and use a cross language beeline namespace.)
+Adds all key/value pairs in `contextMap` as toplevel fields on the current span. Should only be used when writing your own instrumentation. Context added with this method is _only_ attached to the current span. We recommend using `customContext.add()` for application-specific context, as `customContext.add()`-added context will be attached to all spans sent after it was added.
 
 example:
 
@@ -307,13 +316,13 @@ beeline.removeContext(fieldName);
 beeline.customContext.add(key, value);
 ```
 
-Adds a single key/value pair as a field on the current span. The key is automatically prefixed with `app.` to set it apart from (and keep from conflicting with) the instrumentation-added fields.
+Adds a single key/value pair as a field on the current span. The key is automatically prefixed with `app.` to set it apart from (and keep from conflicting with) the instrumentation-added fields. Custom context is attached to all spans sent after the call to `customContext.add` call.
 
 example:
 
 ```javascript
 beeline.customContext.add("userName", "toshok");
-// adds the key/value pair { "app.userName": "toshok" } to the current span
+// adds the key/value pair { "app.userName": "toshok" } to the current span, and all those that sent after.
 ```
 
 #### customContext.remove()
@@ -356,6 +365,7 @@ myDBLibrary.query("select * from table",
                     // was called, even if some pattern in myDBLibrary causes
                     // the context to be lost.
                   }));
+```
 
 #### runWithoutTrace()
 

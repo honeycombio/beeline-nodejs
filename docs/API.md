@@ -229,20 +229,26 @@ The HTTP header that the beeline uses both for sending and receiving trace conte
 
 #### How to use it? An example
 
-Imagine two services written in Javascript using a bespoke RPC transport, with service1 making a call to service2.
+Imagine two services written in Javascript using a bespoke RPC transport, with service1 making a call to service2. Each service starts and finishes its own local trace, but by virtue of the marshalTraceContext/unmarshalTraceContext apis, uses the same trace ID for both (so all spans from both services are stitched together into the same distributed trace.)
 
 service1:
 
 ```javascript
-  // assuming we're in a trace already, having been started with startTrace()
-  // directly, or because we're in an express handler.
+  // this next line isn't necessary if you're within an express handler
+  let trace = beeline.startTrace();
+
   let traceContext = beeline.marshalTraceContext();
-  await service2Client.doSomething({
-    // add the traceContext in our RPC call payload
-    traceContext,
-    arg1: val1,
-    arg2: val2,
-  })
+  try {
+    await service2Client.doSomething({
+      // add the traceContext in our RPC call payload
+      traceContext,
+      arg1: val1,
+      arg2: val2,
+    })
+  } finally {
+    // make sure we finish our local trace regardless if doSomething succeeds or not.
+    beeline.finishTrace(trace);
+  }
 ```
 
 service2:

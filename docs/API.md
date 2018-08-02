@@ -345,6 +345,49 @@ example:
 beeline.customContext.remove("userName");
 ```
 
+#### startTimer()
+
+```javascript
+beeline.startTimer(name);
+```
+
+Starts and returns a reference to the named timer. The timer itself is not tied to any particular trace or span.
+
+example:
+
+```javascript
+let timer = beeline.startTimer(operationName);
+```
+
+#### finishTimer()
+
+```javascript
+beeline.finishTimer(timer);
+```
+
+Computes duration (in millseconds) from `startTimer` call, and adds the field `${name}_ms` (with value the compute duration) to the current span.
+
+#### withTimer()
+
+```javascript
+beeline.withTimer(name, fn);
+```
+
+Similar to `withTrace` and `withSpan`, `withTimer` is useful when you want to time a piece of synchronous code. The return value is the return vale of `fn`, so it can be used in expression contexts.
+
+example:
+
+```javascript
+let sum = beeline.withTimer("sum", () => {
+  let s = 0;
+  for (let i of bigArray) {
+    s += i;
+  }
+  return s;
+});
+// field "sum_ms" is added to the current span
+```
+
 #### schema
 
 _[TODO more here, but it should be 99% of use to instrumentation authors, not beeline users]_

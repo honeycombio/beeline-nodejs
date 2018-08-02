@@ -3,7 +3,7 @@
 The beeline does a lot of magic for you, but there will probably be parts of your application where you'll want to add
 some additional instrumentation. There might also be problems with async context propagation that you'll need to work
 around while waiting for a bug fix. We now have a public API for you to use that addresses both those use-cases. It'll
-also help if you want write a custom instrumentation for your favorite npm package :)
+also help if you want to write a custom instrumentation for your favorite npm package :)
 
 ## Accessing the API
 
@@ -17,12 +17,12 @@ const beeline = require("honeycomb-beeline")();
 
 There are a few surfaces to the API:
 
-1.  Traces and spans
-2.  Interprocess trace propagation
-3.  Adding context to spans, including timers
-4.  Dealing with async context propagation
+1.  [Traces and spans](#traces-and-spans)
+2.  [Interprocess trace propagation](#interprocess-trace-propagation)
+3.  [Adding context to spans](#adding-context-to-spans)
+4.  [Async context bookkeeping](#async-context-bookkeeping)
 
-### Creating traces and spans
+### Traces and spans
 
 In general you're going to be creating spans more often than traces. If you're using express, you may not ever have to use any of the trace API.
 
@@ -279,7 +279,7 @@ service2.on("something", async payload => {
 });
 ```
 
-### Adding context
+### Adding context to spans
 
 _[TODO: This part is most likely to see changes as we figure out inter-process trace context propagation]_
 
@@ -349,7 +349,7 @@ beeline.customContext.remove("userName");
 
 _[TODO more here, but it should be 99% of use to instrumentation authors, not beeline users]_
 
-### Async Context Bookkeeping
+### Async context bookkeeping
 
 The beeline uses nodejs's builtin `async_hooks` module to ensure its trace context is propagated through async calls, but there are some common patterns that break this magic (The most common is a worker/connection pool abstraction seen in many db packages).
 

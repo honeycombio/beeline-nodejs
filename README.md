@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/honeycombio/beeline-nodejs.svg?branch=master)](https://travis-ci.org/honeycombio/beeline-nodejs)
 
-This package instruments your Express/NodeJS application for use with [Honeycomb](https://honeycomb.io). Slice and dice requests by endpoint, status, or even User ID, with zero custom instrumentation required([1](#footnotes)).
+This package instruments your Express/NodeJS application for use with [Honeycomb](https://honeycomb.io). Slice and dice requests by endpoint, status, or even User ID, with zero custom instrumentation required([1](#footnotes)), and includes an [experimental API](#API) for filling in the holes in automatic instrumentation, or for adding service-specific custom instrumentation.
 
 Requires Node 8+. Sign up for a [Honeycomb trial](https://ui.honeycomb.io/signup) to obtain a Write Key before starting.
 
@@ -53,7 +53,7 @@ For instrumentation settings, use the name of the instrumentation. For example, 
 }
 ```
 
-For available configuration options per instrumentation, see the Instrumented packages section below.
+For available configuration options per instrumentation, see the [Automatically instrumented packages](#Automatically_instrumented_packages) section below.
 
 # Example questions
 
@@ -128,7 +128,7 @@ ORDER BY: P99(duration_ms) DESC
 }
 ```
 
-# Instrumented packages
+# Automatically instrumented packages
 
 The following is a list of packages we've added instrumentation for. Some actually add context to events, while others are only instrumented to enable
 context propagation (mostly the `Promise`-like packages.)
@@ -206,6 +206,10 @@ Adds columns with prefix `react.`
 Instrumented only for context propagation
 
 (if you'd like to see anything more here, please file an issue or :+1: one already filed!)
+
+# API
+
+We're starting work on a public API for the beeline (reference in [docs/API.md](https://github.com/honeycombio/beeline-nodejs/blob/master/docs/API.md)). It should be considered experimental and subject to change (even in semver patch releases), but in practice we don't expect it to change in backward incompatible ways while we work on it. There will be a final version bump when the API is considered "done" when we'll make all the breaking changes. We value your feedback, so if you find anything confusing or suboptimal or at all unclear, let us know!
 
 # Adding additional context
 

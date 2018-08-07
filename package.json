@@ -8,7 +8,9 @@
     "type": "git",
     "url": "https://github.com/honeycombio/beeline-nodejs.git"
   },
-  "bugs": "https://github.com/honeycombio/beeline-nodejs/issues",
+  "bugs": {
+    "url": "https://github.com/honeycombio/beeline-nodejs/issues"
+  },
   "main": "lib/index.js",
   "scripts": {
     "test": "jest",

@@ -18,11 +18,33 @@
     "precommit": "lint-staged"
   },
   "lint-staged": {
-    "*.{js,jsx}": ["prettier --parser flow --write", "eslint", "git add"],
-    "*.json": ["prettier --parser json --write", "git add"],
-    "*.{graphql,gql}": ["prettier --parser graphql --write", "git add"],
-    "*.{md,markdown}": ["prettier --parser markdown --write", "git add"],
-    "*.{css,scss}": ["prettier --parser css --write", "git add"]
+    "ignore": [
+      "package.json",
+      "package-lock.json"
+    ],
+    "linters": {
+      "*.{js,jsx}": [
+        "prettier --parser flow --write",
+        "eslint",
+        "git add"
+      ],
+      "*.json": [
+        "prettier --parser json --write",
+        "git add"
+      ],
+      "*.{graphql,gql}": [
+        "prettier --parser graphql --write",
+        "git add"
+      ],
+      "*.{md,markdown}": [
+        "prettier --parser markdown --write",
+        "git add"
+      ],
+      "*.{css,scss}": [
+        "prettier --parser css --write",
+        "git add"
+      ]
+    }
   },
   "devDependencies": {
     "eslint": "^4.19.1",

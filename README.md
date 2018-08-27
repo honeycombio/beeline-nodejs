@@ -53,7 +53,7 @@ For instrumentation settings, use the name of the instrumentation. For example, 
 }
 ```
 
-For available configuration options per instrumentation, see the [Automatically instrumented packages](#Automatically_instrumented_packages) section below.
+For available configuration options per instrumentation, see the [Automatically instrumented packages](#automatically-instrumented-packages) section below.
 
 # Example questions
 

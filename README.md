@@ -2,9 +2,13 @@
 
 [![Build Status](https://travis-ci.org/honeycombio/beeline-nodejs.svg?branch=master)](https://travis-ci.org/honeycombio/beeline-nodejs)
 
-This package instruments your Express/NodeJS application for use with [Honeycomb](https://honeycomb.io). Slice and dice requests by endpoint, status, or even User ID, with zero custom instrumentation required([1](#footnotes)), and includes an [experimental API](#API) for filling in the holes in automatic instrumentation, or for adding service-specific custom instrumentation.
+This package instruments your Express/NodeJS application for use with [Honeycomb](https://honeycomb.io), a service for debugging your software in production.
+
+Slice and dice requests by endpoint, status, or even User ID, with zero custom instrumentation required([1](#footnotes)). Includes an [experimental API](#API) for filling in the holes in automatic instrumentation, or for adding service-specific custom instrumentation.
 
 Requires Node 8+. Sign up for a [Honeycomb trial](https://ui.honeycomb.io/signup) to obtain a Write Key before starting.
+
+- [Usage and Examples](https://docs.honeycomb.io/getting-data-in/beelines/nodejs-beeline/)
 
 # Installation (Quick)
 

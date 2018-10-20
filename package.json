@@ -27,7 +27,7 @@
     "*.{css,scss}": ["prettier --parser css --write", "git add"]
   },
   "devDependencies": {
-    "eslint": "^4.19.1",
+    "eslint": "^5.7.0",
     "express": "^4.16.3",
     "husky": "^0.14.3",
     "jest": "^22.4.3",

@@ -3,7 +3,8 @@
 [![Build Status](https://travis-ci.org/honeycombio/beeline-nodejs.svg?branch=master)](https://travis-ci.org/honeycombio/beeline-nodejs)
 
 This package makes it easy to instrument your Express/NodeJS application to send useful events to [Honeycomb](https://honeycomb.io), a service for debugging your software in production.
-- [Usage and Examples](https://docs.honeycomb.io/getting-data-in/beelines/nodejs-beeline/)
+
+* [Usage and Examples](https://docs.honeycomb.io/getting-data-in/beelines/nodejs-beeline/)
 
 Slice and dice requests by endpoint, status, or even User ID, with zero custom instrumentation required([1](#footnotes)). Includes an [experimental API](#API) for filling in the holes in automatic instrumentation, or for adding service-specific custom instrumentation.
 
@@ -57,6 +58,10 @@ For instrumentation settings, use the name of the instrumentation. For example, 
 ```
 
 For available configuration options per instrumentation, see the [Automatically instrumented packages](#automatically-instrumented-packages) section below.
+
+## Use a proxy?
+
+If the environment variables `HTTPS_PROXY` or `https_proxy` are set, the beeline will pick up and configure itself to use the proxy for all event traffic to honeycomb.
 
 # Example questions
 

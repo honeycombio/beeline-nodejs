@@ -127,6 +127,10 @@ fs.writeFile(filePath, fileContents, err => {
 });
 ```
 
+#### startAsyncSpan
+
+_(unstable API - possibly changing in the future)_
+
 ```javascript
 beeline.startAsyncSpan(metadataContext, spanFn);
 ```

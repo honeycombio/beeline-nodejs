@@ -48,6 +48,7 @@
   },
   "jest": {
     "verbose": true,
-    "timers": "real"
+    "timers": "real",
+    "testURL": "http://localhost/"
   }
 }

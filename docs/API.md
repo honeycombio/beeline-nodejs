@@ -123,7 +123,36 @@ let span = beeline.startSpan({
 });
 fs.writeFile(filePath, fileContents, err => {
   beeline.customContext.add("fileError", err.toString());
-  beeline.finishSpan(trace);
+  beeline.finishSpan(span);
+});
+```
+
+#### startAsyncSpan
+
+_(unstable API - possibly changing in the future)_
+
+```javascript
+beeline.startAsyncSpan(metadataContext, spanFn);
+```
+
+Starts a new async span within an existing trace. This new span is added as a child of the current span, and recorded as the current
+span within the context of calling `spanFn`. Outside of `spanFn` the current span is unchanged. The newly created span is passed as
+the only argument to `spanFn` (to be used in `finishSpan` below.)
+
+Async spans are the norm within the beeline-packaged instrumentation, and you should use them for all asynchronous operations.
+
+example:
+
+```javascript
+beeline.startAsyncSpan({
+    task: "writing a file",
+    filePath,
+}, span => {
+       fs.writeFile(filePath, fileContents, err => {
+           beeline.customContext.add("fileError", err.toString());
+           beeline.finishSpan(span);
+       });
+   }
 });
 ```
 

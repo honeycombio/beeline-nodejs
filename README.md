@@ -5,7 +5,7 @@
 This package makes it easy to instrument your Express/NodeJS application to send useful events to [Honeycomb](https://honeycomb.io), a service for debugging your software in production.
 
 * [Usage and Examples](https://docs.honeycomb.io/getting-data-in/beelines/nodejs-beeline/)
-* [API Reference](https://doc.esdoc.org/github.com/honeycombio/libhoney-js/)
+* [API Reference](https://doc.esdoc.org/github.com/honeycombio/beeline-nodejs/)
 
 ## Dependencies
 

@@ -247,7 +247,7 @@ Returns an object containing the properties `traceId` and `parentSpanId`, which 
 example:
 
 ```javascript
-let { traceId, parentSpanId } = beeline.unmarshalTraceContext();
+let { traceId, parentSpanId } = beeline.unmarshalTraceContext(req.header[beeline.TRACE_HTTP_HEADER ]);
 
 let trace = startTrace({ name }, traceId, parentSpanId);
 ```

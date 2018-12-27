@@ -196,7 +196,7 @@ beeline.finishSpan(parentSpan);
 
 #### withSpan()
 
-If you're doing something synchronously (looping, for instance, or using a synchronous node api) you can use `withSpan` to wrap this operation. It safely wraps the invocation of `fn` with `startSpan()` and `finishSpan()` calls. It returns the return value of fn, so can be used in a expression context.
+If you're doing something synchronously (looping, for instance, or using a synchronous node api) you can use `withSpan` to wrap this operation. It safely wraps the invocation of `fn` with `startSpan()` and `finishSpan()` calls, while providing `span` to the body of `fn` for adding further context. It returns the return value of fn, so can be used in a expression context.
 
 As with `startSpan()`, `metadataContext` is the map of initial properties for the span. The span created by `withSpan` is added as a child of the current span, and the child installed as current span for the execution of `fn`.
 

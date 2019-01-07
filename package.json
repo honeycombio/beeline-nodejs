@@ -13,7 +13,7 @@
   },
   "main": "lib/index.js",
   "scripts": {
-    "test": "jest",
+    "test": "DEBUG=honeycomb-beeline:* jest",
     "format": "prettier --write \"lib/**/*.js\"",
     "check-format": "prettier \"lib/**/*.js\"",
     "lint": "eslint \"lib/**/*.js\"",

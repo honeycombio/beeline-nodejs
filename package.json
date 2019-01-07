@@ -13,34 +13,18 @@
   },
   "main": "lib/index.js",
   "scripts": {
-    "test": "jest",
+    "test": "DEBUG=honeycomb-beeline:* jest",
     "format": "prettier --write \"lib/**/*.js\"",
     "check-format": "prettier \"lib/**/*.js\"",
     "lint": "eslint \"lib/**/*.js\"",
     "precommit": "lint-staged"
   },
   "lint-staged": {
-    "*.{js,jsx}": [
-      "prettier --parser flow --write",
-      "eslint",
-      "git add"
-    ],
-    "*.json": [
-      "prettier --parser json --write",
-      "git add"
-    ],
-    "*.{graphql,gql}": [
-      "prettier --parser graphql --write",
-      "git add"
-    ],
-    "*.{md,markdown}": [
-      "prettier --parser markdown --write",
-      "git add"
-    ],
-    "*.{css,scss}": [
-      "prettier --parser css --write",
-      "git add"
-    ]
+    "*.{js,jsx}": ["prettier --parser flow --write", "eslint", "git add"],
+    "*.json": ["prettier --parser json --write", "git add"],
+    "*.{graphql,gql}": ["prettier --parser graphql --write", "git add"],
+    "*.{md,markdown}": ["prettier --parser markdown --write", "git add"],
+    "*.{css,scss}": ["prettier --parser css --write", "git add"]
   },
   "devDependencies": {
     "eslint": "^5.7.0",
@@ -52,6 +36,7 @@
     "prettier": "^1.12.1",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
+    "semver": "^5.6.0",
     "supertest": "^3.0.0"
   },
   "dependencies": {

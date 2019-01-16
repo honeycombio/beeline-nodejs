@@ -3,7 +3,7 @@
   "description": "automatic instrumentation for honeycomb.io",
   "author": "support@honeycomb.io",
   "license": "Apache-2.0",
-  "version": "1.2.1",
+  "version": "1.3.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/honeycombio/beeline-nodejs.git"
@@ -20,27 +20,11 @@
     "precommit": "lint-staged"
   },
   "lint-staged": {
-    "*.{js,jsx}": [
-      "prettier --parser flow --write",
-      "eslint",
-      "git add"
-    ],
-    "*.json": [
-      "prettier --parser json --write",
-      "git add"
-    ],
-    "*.{graphql,gql}": [
-      "prettier --parser graphql --write",
-      "git add"
-    ],
-    "*.{md,markdown}": [
-      "prettier --parser markdown --write",
-      "git add"
-    ],
-    "*.{css,scss}": [
-      "prettier --parser css --write",
-      "git add"
-    ]
+    "*.{js,jsx}": ["prettier --parser flow --write", "eslint", "git add"],
+    "*.json": ["prettier --parser json --write", "git add"],
+    "*.{graphql,gql}": ["prettier --parser graphql --write", "git add"],
+    "*.{md,markdown}": ["prettier --parser markdown --write", "git add"],
+    "*.{css,scss}": ["prettier --parser css --write", "git add"]
   },
   "devDependencies": {
     "eslint": "^5.12.0",

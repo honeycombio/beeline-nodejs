@@ -1,9 +1,7 @@
-# Public API
+**This document is intended for anyone looking to write custom instrumentation for your favorite NPM package.**
 
-The beeline does a lot of magic for you, but there will probably be parts of your application where you'll want to add
-some additional instrumentation. There might also be problems with async context propagation that you'll need to work
-around while waiting for a bug fix. We now have a public API for you to use that addresses both those use-cases. It'll
-also help if you want to write a custom instrumentation for your favorite npm package :)
+If you're looking to understand how to **use** the Beeline for Node.js in your application,
+please check out our [Usage and Examples](https://docs.honeycomb.io/beeline/nodejs/) documentation instead.
 
 ## Accessing the API
 
@@ -224,7 +222,7 @@ If you're dealing with multiple services (either on the same host or different o
 #### marshalTraceContext()
 
 ```javascript
-beeline.marshalTraceContext();
+beeline.marshalTraceContext(beeline.getTraceContext());
 ```
 
 Returns a serialized form of the current trace context (including the trace id and the current span), encoded as a string. The format is documented at https://github.com/honeycombio/beeline-nodejs/blob/master/lib/propagation.js#L16
@@ -232,7 +230,7 @@ Returns a serialized form of the current trace context (including the trace id a
 example:
 
 ```javascript
-let traceContext = beeline.marshalTraceContext();
+let traceContext = beeline.marshalTraceContext(beeline.getTraceContext());
 console.log(traceContext); // => 1;trace_id=weofijwoeifj,parent_id=owefjoweifj,context=SGVsbG8gV29ybGQ=
 ```
 
@@ -266,7 +264,7 @@ service1:
   // this next line isn't necessary if you're within an express handler
   let trace = beeline.startTrace();
 
-  let traceContext = beeline.marshalTraceContext();
+  let traceContext = beeline.marshalTraceContext(beeline.getTraceContext);
   try {
     await service2Client.doSomething({
       // add the traceContext in our RPC call payload
@@ -435,7 +433,7 @@ Forces the function `fn` to be invoked with the trace context active when this c
 
 example:
 
-````javascript
+```javascript
 myDBLibrary.query("select * from table",
                   beeline.bindFunctionToTrace(rows => {
                     // inside this function the trace is guaranteed to be
@@ -449,7 +447,7 @@ myDBLibrary.query("select * from table",
 
 ```javascript
 beeline.runWithoutTrace(fn)
-````
+```
 
 Immediately executes fn _outside_ of the current trace if there is one. That is, clears the trace context only for the execution of fn, so fn runs without knowledge of the current trace.
 
@@ -457,7 +455,6 @@ This is less likely to be used outside of instrumentation than `bindFunctionToTr
 can be useful if there are calls to instrumented libraries that you explicitly do not want to show up in your traces. For instance, the beeline uses this function so that the http POST the beeline makes to honeycomb's api is not included in the trace.
 
 example
-
 ```javascript
 // trace active at this point
 

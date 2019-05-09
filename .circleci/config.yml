@@ -15,12 +15,16 @@ jobs:
       nodeversion:
         type: string
         default: "11"
+    parameters:
+      npm_install:
+        type: string
+        default: "ci"
     executor:
       name: node
       nodeversion: "<< parameters.nodeversion >>"
     steps:
       - checkout
-      - run: npm ci
+      - run: npm << parameters.npm_install >>
       - run: npm test
 
   publish:
@@ -41,12 +45,15 @@ workflows:
       - test_libhoney:
           name: test_node891
           nodeversion: "8.9.1"
+          npm_install: "i"
       - test_libhoney:
           name: test_node9
           nodeversion: "9"
+          npm_install: "i"
       - test_libhoney:
           name: test_node1000
           nodeversion: "10.0.0"
+          npm_install: "i"
       - test_libhoney:
           name: test_node10
           nodeversion: "10"

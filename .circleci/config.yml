@@ -36,7 +36,6 @@ jobs:
       - run: npm publish
 
 workflows:
-  version: 2
   build-libhoney:
     jobs:
       - test_libhoney:

@@ -1,15 +1,15 @@
 # Honeycomb Beeline for NodeJS
 
-[![Build Status](https://travis-ci.org/honeycombio/beeline-nodejs.svg?branch=master)](https://travis-ci.org/honeycombio/beeline-nodejs)
+[![CircleCI](https://circleci.com/gh/honeycombio/beeline-nodejs.svg?style=svg)](https://circleci.com/gh/honeycombio/beeline-nodejs)
 
 This package makes it easy to instrument your Express/NodeJS application to send useful events to [Honeycomb](https://honeycomb.io), a service for debugging your software in production.
 
-* [Usage and Examples](https://docs.honeycomb.io/getting-data-in/beelines/nodejs-beeline/)
-* [API Reference](https://doc.esdoc.org/github.com/honeycombio/beeline-nodejs/)
+- [Usage and Examples](https://docs.honeycomb.io/getting-data-in/beelines/nodejs-beeline/)
+- [API Reference](https://doc.esdoc.org/github.com/honeycombio/beeline-nodejs/)
 
 ## Dependencies
 
-* **Node 8+** - relies on Node 8's `async_hooks`
+- **Node 8+** - relies on Node 8's `async_hooks`
 
 ## Contributions
 

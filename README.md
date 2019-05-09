@@ -1,6 +1,6 @@
 # Honeycomb Beeline for NodeJS
 
-[![CircleCI](https://circleci.com/gh/honeycombio/beeline-nodejs.svg?style=svg)](https://circleci.com/gh/honeycombio/beeline-nodejs)
+[![CircleCI](https://circleci.com/gh/honeycombio/beeline-nodejs.svg?style=shield)](https://circleci.com/gh/honeycombio/beeline-nodejs)
 
 This package makes it easy to instrument your Express/NodeJS application to send useful events to [Honeycomb](https://honeycomb.io), a service for debugging your software in production.
 

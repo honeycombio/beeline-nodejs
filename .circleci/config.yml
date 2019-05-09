@@ -15,7 +15,6 @@ jobs:
       nodeversion:
         type: string
         default: "11"
-    parameters:
       npm_install:
         type: string
         default: "ci"

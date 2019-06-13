@@ -245,7 +245,9 @@ Returns an object containing the properties `traceId` and `parentSpanId`, which 
 example:
 
 ```javascript
-let { traceId, parentSpanId } = beeline.unmarshalTraceContext(req.header[beeline.TRACE_HTTP_HEADER ]);
+let { traceId, parentSpanId } = beeline.unmarshalTraceContext(
+  req.header[beeline.TRACE_HTTP_HEADER]
+);
 
 let trace = startTrace({ name }, traceId, parentSpanId);
 ```
@@ -261,21 +263,21 @@ Imagine two services written in Javascript using a bespoke RPC transport, with s
 service1:
 
 ```javascript
-  // this next line isn't necessary if you're within an express handler
-  let trace = beeline.startTrace();
+// this next line isn't necessary if you're within an express handler
+let trace = beeline.startTrace();
 
-  let traceContext = beeline.marshalTraceContext(beeline.getTraceContext);
-  try {
-    await service2Client.doSomething({
-      // add the traceContext in our RPC call payload
-      traceContext,
-      arg1: val1,
-      arg2: val2,
-    })
-  } finally {
-    // make sure we finish our local trace regardless if doSomething succeeds or not.
-    beeline.finishTrace(trace);
-  }
+let traceContext = beeline.marshalTraceContext(beeline.getTraceContext);
+try {
+  await service2Client.doSomething({
+    // add the traceContext in our RPC call payload
+    traceContext,
+    arg1: val1,
+    arg2: val2,
+  });
+} finally {
+  // make sure we finish our local trace regardless if doSomething succeeds or not.
+  beeline.finishTrace(trace);
+}
 ```
 
 service2:
@@ -434,19 +436,21 @@ Forces the function `fn` to be invoked with the trace context active when this c
 example:
 
 ```javascript
-myDBLibrary.query("select * from table",
-                  beeline.bindFunctionToTrace(rows => {
-                    // inside this function the trace is guaranteed to be
-                    // the same as the the active trace when myDBLibrary.query
-                    // was called, even if some pattern in myDBLibrary causes
-                    // the context to be lost.
-                  }));
+myDBLibrary.query(
+  "select * from table",
+  beeline.bindFunctionToTrace(rows => {
+    // inside this function the trace is guaranteed to be
+    // the same as the the active trace when myDBLibrary.query
+    // was called, even if some pattern in myDBLibrary causes
+    // the context to be lost.
+  })
+);
 ```
 
 #### runWithoutTrace()
 
 ```javascript
-beeline.runWithoutTrace(fn)
+beeline.runWithoutTrace(fn);
 ```
 
 Immediately executes fn _outside_ of the current trace if there is one. That is, clears the trace context only for the execution of fn, so fn runs without knowledge of the current trace.
@@ -455,6 +459,7 @@ This is less likely to be used outside of instrumentation than `bindFunctionToTr
 can be useful if there are calls to instrumented libraries that you explicitly do not want to show up in your traces. For instance, the beeline uses this function so that the http POST the beeline makes to honeycomb's api is not included in the trace.
 
 example
+
 ```javascript
 // trace active at this point
 
@@ -463,4 +468,23 @@ beeline.runWithoutTrace(() => {
 });
 
 // trace reinstated after the function is finished executing.
+```
+
+#### flush()
+
+```javascript
+beeline.flush();
+```
+
+Returns a `Promise` that will resolve when all finished spans have been acknowledged Honeycomb. any spans finished _after_ the flush call will not be waited on.
+
+example
+
+```javascript
+beeline.finishTrace(trace);
+// we've finished the trace, let's wait until all spans have been acknowledged
+await beeline.flush();
+
+// we're here, so everything has been sent.
+process.exit(0);
 ```

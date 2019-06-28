@@ -110,6 +110,8 @@ beeline.startSpan(metadataContext);
 
 Starts a new span within an existing trace. This new span is added as a child of the current span, and recorded as the current span.
 
+If the span is part of an asynchronous operation (e.g. it might end outside its parent's bounds), use `startAsyncSpan` instead.
+
 Returns a reference to the span (to be used in `finishSpan` below.)
 
 example:
@@ -127,8 +129,6 @@ fs.writeFile(filePath, fileContents, err => {
 
 #### startAsyncSpan
 
-_(unstable API - possibly changing in the future)_
-
 ```javascript
 beeline.startAsyncSpan(metadataContext, spanFn);
 ```
@@ -137,7 +137,7 @@ Starts a new async span within an existing trace. This new span is added as a ch
 span within the context of calling `spanFn`. Outside of `spanFn` the current span is unchanged. The newly created span is passed as
 the only argument to `spanFn` (to be used in `finishSpan` below.)
 
-Async spans are the norm within the beeline-packaged instrumentation, and you should use them for all asynchronous operations.
+Async spans are the norm within the beeline-packaged instrumentation, and you should use them for all asynchronous operations&mdash;e.g. if the child might end outside its parent's bounds.
 
 example:
 

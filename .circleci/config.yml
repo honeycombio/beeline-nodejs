@@ -48,6 +48,8 @@ workflows:
           filters:
               branches:
                 only: /.*/
+              tags:
+                only: /.+/
       - test_libhoney:
           name: test_node9
           nodeversion: "9"
@@ -55,6 +57,8 @@ workflows:
           filters:
               branches:
                 only: /.*/
+              tags:
+                only: /.+/
       - test_libhoney:
           name: test_node1000
           nodeversion: "10.0.0"
@@ -62,18 +66,24 @@ workflows:
           filters:
               branches:
                 only: /.*/
+              tags:
+                only: /.+/
       - test_libhoney:
           name: test_node10
           nodeversion: "10"
           filters:
               branches:
                 only: /.*/
+              tags:
+                only: /.+/
       - test_libhoney:
           name: test_node11
           nodeversion: "11"
           filters:
               branches:
                 only: /.*/
+              tags:
+                only: /.+/
       - publish:
           requires:
             - test_node891

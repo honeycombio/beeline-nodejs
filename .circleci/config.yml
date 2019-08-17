@@ -68,6 +68,6 @@ workflows:
             - test_node11
           filters:
               branches:
-                only: master
+                ignore: /.*/
               tags:
                 only: /.+/

@@ -3,7 +3,7 @@
   "description": "automatic instrumentation for honeycomb.io",
   "author": "support@honeycomb.io",
   "license": "Apache-2.0",
-  "version": "1.6.1",
+  "version": "1.7.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/honeycombio/beeline-nodejs.git"

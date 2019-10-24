@@ -85,7 +85,7 @@ workflows:
               tags:
                 only: /.+/
       - test_libhoney:
-          name: test_node11
+          name: test_node12
           nodeversion: "12"
           filters:
               branches:

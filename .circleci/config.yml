@@ -5,7 +5,7 @@ executors:
     parameters:
       nodeversion:
         type: string
-        default: "11"
+        default: "12"
     docker:
       - image: circleci/node:<< parameters.nodeversion >>
 
@@ -14,7 +14,7 @@ jobs:
     parameters:
       nodeversion:
         type: string
-        default: "11"
+        default: "12"
       npm_install:
         type: string
         default: "ci"
@@ -28,7 +28,7 @@ jobs:
 
   publish:
     docker:
-      - image: circleci/node:11.15.0-stretch
+      - image: circleci/node:12.12.0-buster
     steps:
       - checkout
       - run:
@@ -79,6 +79,14 @@ workflows:
       - test_libhoney:
           name: test_node11
           nodeversion: "11"
+          filters:
+              branches:
+                only: /.*/
+              tags:
+                only: /.+/
+      - test_libhoney:
+          name: test_node12
+          nodeversion: "12"
           filters:
               branches:
                 only: /.*/

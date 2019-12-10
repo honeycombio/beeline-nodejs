@@ -105,6 +105,7 @@ workflows:
             - test_node1000
             - test_node10
             - test_node11
+            - test_node12
           filters:
               branches:
                 ignore: /.*/

@@ -51,9 +51,15 @@ workflows:
   build-libhoney:
     jobs:
       - test_libhoney:
+          name: lint
+          nodeversion: "12"
+          npm_task: "run lint"
+      - test_libhoney:
           name: test_node891
           nodeversion: "8.9.1"
           npm_install: "i"
+          requires:
+            - lint
           filters:
               branches:
                 only: /.*/
@@ -63,6 +69,8 @@ workflows:
           name: test_node9
           nodeversion: "9"
           npm_install: "i"
+          requires:
+            - lint
           filters:
               branches:
                 only: /.*/
@@ -72,6 +80,8 @@ workflows:
           name: test_node1000
           nodeversion: "10.0.0"
           npm_install: "i"
+          requires:
+            - lint
           filters:
               branches:
                 only: /.*/
@@ -80,6 +90,8 @@ workflows:
       - test_libhoney:
           name: test_node10
           nodeversion: "10"
+          requires:
+            - lint
           filters:
               branches:
                 only: /.*/
@@ -88,6 +100,8 @@ workflows:
       - test_libhoney:
           name: test_node11
           nodeversion: "11"
+          requires:
+            - lint
           filters:
               branches:
                 only: /.*/
@@ -96,6 +110,8 @@ workflows:
       - test_libhoney:
           name: test_node12
           nodeversion: "12"
+          requires:
+            - lint
           filters:
               branches:
                 only: /.*/

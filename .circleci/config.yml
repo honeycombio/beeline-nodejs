@@ -24,13 +24,16 @@ jobs:
       npm_install:
         type: string
         default: "ci"
+      npm_task:
+        type: string
+        default: "test"
     executor:
       name: node
       nodeversion: "<< parameters.nodeversion >>"
     steps:
       - checkout
       - run: npm << parameters.npm_install >>
-      - run: npm test
+      - run: npm << parameters.npm_task >>
 
   publish:
     docker:

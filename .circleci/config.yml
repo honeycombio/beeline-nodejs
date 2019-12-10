@@ -44,7 +44,6 @@ jobs:
           name: store npm auth token
           command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
       - run: npm ci
-      - run: npm run lint
       - run: npm publish
 
 workflows:

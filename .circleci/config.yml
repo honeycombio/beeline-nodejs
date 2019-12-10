@@ -8,7 +8,13 @@ executors:
         default: "12"
     docker:
       - image: circleci/node:<< parameters.nodeversion >>
-
+        environment:
+          PGUSER: root
+          PGDATABASE: circle_test
+      - image: circleci/postgres:9-alpine-ram
+        environment:
+          POSTGRES_USER: root
+          POSTGRES_DB: circle_test
 jobs:
   test_libhoney:
     parameters:

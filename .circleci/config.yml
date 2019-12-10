@@ -53,6 +53,11 @@ workflows:
           name: lint
           nodeversion: "12"
           npm_task: "run lint"
+          filters:
+              branches:
+                only: /.*/
+              tags:
+                only: /.+/
       - test_libhoney:
           name: test_node891
           nodeversion: "8.9.1"

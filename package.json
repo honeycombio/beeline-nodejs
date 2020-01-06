@@ -46,7 +46,7 @@
   "dependencies": {
     "array-flatten": "^2.1.2",
     "debug": "^4.1.1",
-    "libhoney": "^2.0.1",
+    "libhoney": "^2.0.2",
     "on-headers": "^1.0.2",
     "shimmer": "^1.2.1",
     "uuid": "^3.3.2"

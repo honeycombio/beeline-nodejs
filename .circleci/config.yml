@@ -59,17 +59,6 @@ workflows:
               tags:
                 only: /.+/
       - test_libhoney:
-          name: test_node891
-          nodeversion: "8.9.1"
-          npm_install: "i"
-          requires:
-            - lint
-          filters:
-              branches:
-                only: /.*/
-              tags:
-                only: /.+/
-      - test_libhoney:
           name: test_node9
           nodeversion: "9"
           npm_install: "i"
@@ -123,7 +112,6 @@ workflows:
                 only: /.+/
       - publish:
           requires:
-            - test_node891
             - test_node9
             - test_node1000
             - test_node10

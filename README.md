@@ -9,7 +9,7 @@ This package makes it easy to instrument your Express/NodeJS application to send
 
 ## Dependencies
 
-- **Node 8+** - relies on Node 8's `async_hooks`
+- **Node 10+**
 
 ## Contributions
 

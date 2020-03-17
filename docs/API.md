@@ -42,7 +42,7 @@ For an explanation of `withTraceId` and `withParentSpanId`, see [Interprocess tr
 example:
 
 ```javascript
-let trace = beeline.startTrace({
+let rootSpan = beeline.startTrace({
   field1: value1,
   field2: value2,
 });
@@ -51,7 +51,7 @@ let trace = beeline.startTrace({
 #### finishTrace()
 
 ```javascript
-beeline.finishTrace(trace);
+beeline.finishTrace(rootSpan);
 ```
 
 Sends the trace's root span, and tears down the async context propagation machinery. This _must_ be called in order to send the root span.
@@ -59,13 +59,13 @@ Sends the trace's root span, and tears down the async context propagation machin
 example:
 
 ```javascript
-let trace = beeline.startTrace({
+let rootSpan = beeline.startTrace({
   task: "writing a file",
   filePath,
 });
 fs.writeFile(filePath, fileContents, err => {
   beeline.customContext.add("fileError", err.toString());
-  beeline.finishTrace(trace);
+  beeline.finishTrace(rootSpan);
 });
 ```
 
@@ -314,6 +314,23 @@ _[TODO: This part is most likely to see changes as we figure out inter-process t
 
 There are two axes to useful traces: depth and width. Depth is a measure of how many operations are performed, and width is a measure of how much information there is to associate with each operation. Depth is addressed by the startSpan/finishSpan. Width is addressed by the methods in this section.
 
+#### span.addContext()
+
+```javascript
+// given a reference to a span (from startTrace, startSpan, startAsyncSpan)
+span.addContext(contextMap);
+```
+
+Adds all key/value pairs in `contextMap` as toplevel fields on the current span. Context added with this method is _only_ attached to the current span. For attaching context to all spans sent after this call, use `addTraceContext`. Unlike `addContext` below, `span.addContext` does not prepend `app.`. It is primarily intended for use in instrumentations that maintain their own prefixes.
+
+#### addTraceContext()
+
+```javascript
+beeline.addTraceContext(contextMap);
+```
+
+Adds all key/value pairs in `contextMap` as toplevel fields on the current span, prepending `app.` This context will be attached to all spans sent after the call to `addTraceContext`, and all fields will be propagated to downstream/outbound http/https requests.
+
 #### addContext()
 
 ```javascript
@@ -321,6 +338,8 @@ beeline.addContext(contextMap);
 ```
 
 Adds all key/value pairs in `contextMap` as toplevel fields on the current span. Should only be used when writing your own instrumentation. Context added with this method is _only_ attached to the current span. We recommend using `customContext.add()` for application-specific context, as `customContext.add()`-added context will be attached to all spans sent after it was added.
+
+In the next major version, this method will be changed to prepend `app.` to keys, much like `addTraceContext` above.
 
 example:
 
@@ -345,6 +364,8 @@ example:
 beeline.removeContext(fieldName);
 ```
 
+Deprecated: this method will be removed in the next major release.
+
 #### customContext.add()
 
 ```javascript
@@ -360,6 +381,8 @@ beeline.customContext.add("userName", "toshok");
 // adds the key/value pair { "app.userName": "toshok" } to the current span, and all those that sent after.
 ```
 
+Deprecated: this method will be removed in the next major release. Please use `.addTraceContext` above.
+
 #### customContext.remove()
 
 ```javascript
@@ -373,6 +396,8 @@ example:
 ```javascript
 beeline.customContext.remove("userName");
 ```
+
+Deprecated: this method will be removed in the next major release.
 
 #### startTimer()
 

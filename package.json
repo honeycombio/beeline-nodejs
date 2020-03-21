@@ -37,7 +37,7 @@
     "lint-staged": "^8.1.5",
     "pg": "^7.14.0",
     "pg-query-stream": "^2.0.1",
-    "prettier": "^1.16.4",
+    "prettier": "^1.19.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "semver": "^7.1.3",

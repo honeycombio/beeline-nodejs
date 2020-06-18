@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "removeComments": true,
+    "outDir": "./lib/propagation"
+  },
+  "exclude": ["node_modules"],
+  "files": ["./lib/propagation/typescript/w3c_context.ts"]
+}

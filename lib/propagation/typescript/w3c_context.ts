@@ -6,11 +6,10 @@ function initializeSpanContext(spanContext: SpanContext) {
 }
 
 function parseOtelTrace(header) {
-    const { traceparent } = header;
-    return parseTraceParent(traceparent);
+    return parseTraceParent(header);
 }
 
-export { parseTraceParent };
+export { parseOtelTrace };
 
 /*class CreateSpanContext implements SpanContext {
     traceId: string;

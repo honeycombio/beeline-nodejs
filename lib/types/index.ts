@@ -1,4 +1,5 @@
 import * as api from '@opentelemetry/api';
+import { HttpTraceContext } from '@opentelemetry/core';
 
 export interface ExporterConfig {
     logger?: api.Logger;
@@ -7,7 +8,15 @@ export interface ExporterConfig {
     dataset: string;
 }
 
-export interface HoneycombSpan {
+export interface PropagationContext {
+    traceId: string;
+    parentSpanId: string;
+    dataset: string;
+    traceContext?: {};
+    traceFlags?: any;
+}
+
+export interface SpanContext {
     'trace.trace_id': string;
     'trace.span_id': string;
     name: string;

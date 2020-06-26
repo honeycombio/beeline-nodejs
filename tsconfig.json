@@ -2,9 +2,7 @@
   "compilerOptions": {
     "module": "commonjs",
     "removeComments": true,
-    "rootDir": ".",
-    "outDir": "build/src"
   },
   "exclude": ["node_modules"],
-  "include": ["lib/propagation/typescript/w3c_context.ts", "lib/types"]
+  "include": ["lib/propagation/w3c_context.ts", "lib/types"]
 }

@@ -5,7 +5,7 @@ function parseOtelTrace(header) {
     return parseTraceParent(header);
 }
 
-export { parseOtelTrace };
+export { parseOtelTrace, TRACE_PARENT_HEADER };
 
 /*class CreateSpanContext implements SpanContext {
     traceId: string;

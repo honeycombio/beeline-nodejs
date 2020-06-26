@@ -1,8 +1,0 @@
-{
-  "compilerOptions": {
-    "module": "commonjs",
-    "removeComments": true,
-  },
-  "exclude": ["node_modules"],
-  "include": ["lib/propagation/w3c_context.ts", "lib/types"]
-}

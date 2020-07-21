@@ -47,6 +47,7 @@
     "supertest": "^3.4.2"
   },
   "dependencies": {
+    "@opentelemetry/core": "^0.9.0",
     "array-flatten": "^2.1.2",
     "crypto": "^1.0.1",
     "debug": "^4.1.1",

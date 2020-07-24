@@ -255,11 +255,11 @@ let trace = startTrace({ name }, traceId, parentSpanId);
 ```
 
 ```javascript
-let { traceId, parentSpanId, customContext } = beeline.unmarshalTraceContext(
+let { traceId, parentSpanId, dataset, customContext } = beeline.unmarshalTraceContext(
   req.header[beeline.TRACE_HTTP_HEADER]
 );
 
-let trace = startTrace({ name }, traceId, parentSpanId, customContext);
+let trace = startTrace({ name }, traceId, parentSpanId, dataset, customContext);
 ```
 
 #### TRACE_HTTP_HEADER

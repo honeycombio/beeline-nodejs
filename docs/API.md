@@ -27,7 +27,7 @@ In general you're going to be creating spans more often than traces. If you're u
 #### startTrace()
 
 ```javascript
-beeline.startTrace(metadataContext[, withTraceId, withParentSpanId])
+beeline.startTrace(metadataContext[, withTraceId, withParentSpanId, traceContext, withDataset])
 ```
 
 Starts a new local trace and initializes the async context propagation machinery. You _must_ have an active trace for the rest of the API to do anything. If you call `startSpan` when you aren't currently in an trace, an `Error` will be thrown. The instrumentations (which must operate in both trace/non-trace environments) handle this by checking `beeline.traceActive()` and only creating spans if they're within a trace.
@@ -37,7 +37,7 @@ root span is installed as the current span.
 
 Returns a reference to the trace.
 
-For an explanation of `withTraceId` and `withParentSpanId`, see [Interprocess trace propagation](#interprocess-trace-propagation) below.
+For an explanation of `withTraceId`, `withParentSpanId`, and `traceContext` see [Interprocess trace propagation](#interprocess-trace-propagation) below.
 
 example:
 
@@ -240,7 +240,9 @@ console.log(traceContext); // => 1;trace_id=weofijwoeifj,parent_id=owefjoweifj,c
 beeline.unmarshalTraceContext(traceContext);
 ```
 
-Returns an object containing the properties `traceId` and `parentSpanId`, which are the two optional parameters with `startTrace()` above.
+Returns an object containing the properties `traceId`, `parentSpanId`, `dataset`, and `customContext` which are the four optional parameters with `startTrace()` above.
+
+`customContext` will include any custom fields propagated from other services, such as with `beeline.addTraceContext()`.
 
 example:
 
@@ -250,6 +252,14 @@ let { traceId, parentSpanId } = beeline.unmarshalTraceContext(
 );
 
 let trace = startTrace({ name }, traceId, parentSpanId);
+```
+
+```javascript
+let { traceId, parentSpanId, dataset, customContext } = beeline.unmarshalTraceContext(
+  req.header[beeline.TRACE_HTTP_HEADER]
+);
+
+let trace = startTrace({ name }, traceId, parentSpanId, dataset, customContext);
 ```
 
 #### TRACE_HTTP_HEADER

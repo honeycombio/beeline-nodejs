@@ -225,7 +225,7 @@ If you're dealing with multiple services (either on the same host or different o
 beeline.marshalTraceContext(beeline.getTraceContext());
 ```
 
-Returns a serialized form of the current trace context (including the trace id and the current span), encoded as a string. The format is documented at https://github.com/honeycombio/beeline-nodejs/blob/master/lib/propagation.js#L16
+Returns a serialized form of the current trace context (including the trace id and the current span), encoded as a string. The format is documented at https://github.com/honeycombio/beeline-nodejs/blob/main/lib/propagation.js#L16
 
 example:
 

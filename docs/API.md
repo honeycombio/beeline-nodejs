@@ -234,9 +234,9 @@ To consume trace headers propagated from other services, incoming headers must b
 
 `customContext` will include any custom fields propagated from other services, such as with `beeline.addTraceContext()`. In interop with other vendors, `customContext` will also contain any properties parsed from the header outside of the explicitly supported trace/span fields.
 
-**The following APIs exist to ease the task of adding propagation to other transports.**
+#### The following APIs exist to ease the task of adding propagation to other transports.
 
-#### marshalTraceContext()
+#### `marshalTraceContext()`
 
 ```javascript
 beeline.marshalTraceContext(beeline.getTraceContext());
@@ -251,7 +251,7 @@ let traceContext = beeline.marshalTraceContext(beeline.getTraceContext());
 console.log(traceContext); // => 1;trace_id=weofijwoeifj,parent_id=owefjoweifj,context=SGVsbG8gV29ybGQ=
 ```
 
-#### unmarshalTraceContext()
+#### `unmarshalTraceContext()`
 
 ```javascript
 beeline.unmarshalTraceContext(string);
@@ -277,7 +277,7 @@ let { traceId, parentSpanId, dataset, customContext } = beeline.unmarshalTraceCo
 let trace = startTrace({ name }, traceId, parentSpanId, dataset, customContext);
 ```
 
-##### trace interop
+### trace interop
 
 To interop tracing with w3c and aws load balancers, use vendor-specific unmarshal/unmarshal functions
 

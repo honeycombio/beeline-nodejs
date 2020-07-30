@@ -43,8 +43,8 @@ Contents
     - [`aws.httpTraceParserHook()`](#awshttptraceparserhook)
     - [`aws.httpTracePropagationHook()`](#awshttptracepropagationhook)
 - [`TRACE_HTTP_HEADER`](#trace_http_header)
-  - [aws.TRACE_HTTP_HEADER](#awstrace_http_header)
-  - [w3c.TRACE_HTTP_HEADER](#w3ctrace_http_header)
+  - [`aws.TRACE_HTTP_HEADER`](#awstrace_http_header)
+  - [`w3c.TRACE_HTTP_HEADER`](#w3ctrace_http_header)
 
 3.  [Adding context to spans](#adding-context-to-spans)
 
@@ -269,7 +269,7 @@ If you're dealing with multiple services (either on the same host or different o
 
 #### Trace context object
 
-To consume trace headers propagated from other services, incoming headers must be parsed into a honeycomb trace context object. This object contains the properties which are the four optional parameters with `startTrace()` above:
+To consume trace headers propagated from other services, incoming headers must be parsed into a honeycomb trace context object. The marshalTraceContext() functions below can be used to parse a trace header into this object. You may also write a custom parser hook and pass it to the `httpTraceParserHook` configuration setting. A trace context object contains the following properties, which are the four optional parameters with [`startTrace()`](#starttrace) above:
 
 - `traceId`
 - `parentSpanId`
@@ -334,31 +334,58 @@ To interop tracing with w3c and aws load balancers, use vendor-specific unmarsha
   beeline.w3c.unmarshalTraceContext(beeline.getTraceContext());
   ```
 
-  - `w3c.marshalTraceContext()`
+  - #### `w3c.marshalTraceContext()`
     Accepts the current trace context and returns an serialized trace header in w3c format
     - `w3c.TRACE_HTTP_HEADER` is also available; the serialized format of [`traceparent`](https://www.w3.org/TR/trace-context/#traceparent-header) is expected
 
+```javascript
+beeline.w3c.marshalTraceContext(beeline.getTraceContext());
+
+let { traceId, parentSpanId, dataset, customContext } = beeline.unmarshalTraceContext(
+  req.header[beeline.w3c.TRACE_HTTP_HEADER]
+);
+
+let trace = startTrace({ name }, traceId, parentSpanId, dataset, customContext);
+```
+
+- #### `w3c.httpTraceParserHook()`
+
+  Accepts an http request and parses both `traceparent` and `tracestate` W3C. Returns a [trace context object](#trace-context-object).
+
+  Can be passed without arguments to the `httpTraceParserHook` beeline config setting for automatic w3c trace parsing.
+
+  **Example:**
+  This configuration will consume w3c trace headers and propagate honeycomb trace headers (the default).
+
   ```javascript
-  beeline.w3c.marshalTraceContext(beeline.getTraceContext());
+  const beeline = require("honeycomb-beeline");
 
-  let { traceId, parentSpanId, dataset, customContext } = beeline.unmarshalTraceContext(
-    req.header[beeline.w3c.TRACE_HTTP_HEADER]
-  );
-
-  let trace = startTrace({ name }, traceId, parentSpanId, dataset, customContext);
+  beeline({
+    writeKey: process.env.HONEYCOMB_WRITE_KEY,
+    dataset: process.env.HONEYCOMB_DATASET,
+    httpTraceParserHook: beeline.w3c.httpTraceParserHook,
+  });
   ```
 
-  - #### `w3c.httpTraceParserHook()`
+- #### `w3c.httpTracePropagationHook()`
 
-    Accepts an http request and parses both `traceparent` and `tracestate` W3C. Returns a [trace context object](#trace-context-object).
+  Accepts the active trace context (can be retrieved via [`getTraceContext()`](#gettracecontext)) and returns an object containing W3C headers as key/value pair(s): `traceparent`, and `tracestate` if applicable.
 
-    Can be passed without arguments to the `httpTraceParserHook` beeline config setting for automatic w3c trace parsing.
+  Can be passed without arguments to the `httpTracePropagationHook` beeline config setting for automatic w3c trace propagation.
 
-  - #### `w3c.httpTracePropagationHook()`
+  **Example:**
+  This will both consume/parse and propagate w3c trace headers.
 
-    Accepts the active trace context (can be retrieved via [`getTraceContext()`](#gettracecontext)) and returns an object containing W3C headers as key/value pair(s): `traceparent`, and `tracestate` if applicable.
+  ```javascript
+  const beeline = require("honeycomb-beeline");
 
-    Can be passed without arguments to the `httpTracePropagationHook` beeline config setting for automatic w3c trace propagation.
+  beeline({
+    writeKey: process.env.HONEYCOMB_WRITE_KEY,
+    dataset: process.env.HONEYCOMB_DATASET,
+    httpTraceParserHook: beeline.w3c.httpTraceParserHook,
+    httpTracePropagationHook: beeline.w3c.httpTracePropagationHook,
+  });
+  ```
 
 - ### AWS
 
@@ -391,11 +418,38 @@ To interop tracing with w3c and aws load balancers, use vendor-specific unmarsha
 
     Can be passed without arguments to the `httpTraceParserHook` beeline config setting for automatic aws trace parsing.
 
+    **Example:**
+    This configuration will consume AWS trace headers, and propagate honeycomb trace headers (the default).
+
+    ```javascript
+    const beeline = require("honeycomb-beeline");
+
+    beeline({
+      writeKey: process.env.HONEYCOMB_WRITE_KEY,
+      dataset: process.env.HONEYCOMB_DATASET,
+      httpTraceParserHook: beeline.aws.httpTraceParserHook,
+    });
+    ```
+
   - #### `aws.httpTracePropagationHook()`
 
     Accepts the active trace context (can be retrieved via [`getTraceContext()`](#gettracecontext)) and returns an object containing an [`X-Amzn-Trace-Id`](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-request-tracing.html) trace header and its serialized string value as a key/value pair.
 
     Can be passed without arguments to the `httpTracePropagationHook` beeline config setting for automatic aws trace propagation.
+
+    **Example:**
+    This will both consume/parse and propagate aws trace headers.
+
+    ```javascript
+    const beeline = require("honeycomb-beeline");
+
+    beeline({
+      writeKey: process.env.HONEYCOMB_WRITE_KEY,
+      dataset: process.env.HONEYCOMB_DATASET,
+      httpTraceParserHook: beeline.aws.httpTraceParserHook,
+      httpTracePropagationHook: beeline.aws.httpTracePropagationHook,
+    });
+    ```
 
 #### `TRACE_HTTP_HEADER`
 

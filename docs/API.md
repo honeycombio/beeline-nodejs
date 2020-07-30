@@ -92,6 +92,8 @@ let rootSpan = beeline.startTrace({
 });
 ```
 
+---
+
 #### finishTrace()
 
 ```javascript
@@ -112,6 +114,8 @@ fs.writeFile(filePath, fileContents, err => {
   beeline.finishTrace(rootSpan);
 });
 ```
+
+---
 
 #### withTrace()
 
@@ -146,9 +150,13 @@ console.log(
 );
 ```
 
+---
+
 #### getTraceContext()
 
 Returns the current active trace, which is the needed input for any [marshalTraceContext](#marshaltracecontext) function.
+
+---
 
 #### startSpan()
 
@@ -174,6 +182,8 @@ fs.writeFile(filePath, fileContents, err => {
   beeline.finishSpan(span);
 });
 ```
+
+---
 
 #### startAsyncSpan
 
@@ -201,6 +211,8 @@ beeline.startAsyncSpan({
    }
 });
 ```
+
+---
 
 #### finishSpan()
 
@@ -240,6 +252,8 @@ beeline.finishSpan(parentSpan);
 // parentSpan's data has been sent to honeycomb.
 ```
 
+---
+
 #### withSpan()
 
 If you're doing something synchronously (looping, for instance, or using a synchronous node api) you can use `withSpan` to wrap this operation. It safely wraps the invocation of `fn` with `startSpan()` and `finishSpan()` calls. It returns the return value of fn, so can be used in a expression context.
@@ -262,6 +276,8 @@ let sum = beeline.withSpan(
   }
 );
 ```
+
+---
 
 ### Interprocess trace propagation
 
@@ -295,6 +311,8 @@ let traceContext = beeline.marshalTraceContext(beeline.getTraceContext());
 console.log(traceContext); // => 1;trace_id=weofijwoeifj,parent_id=owefjoweifj,context=SGVsbG8gV29ybGQ=
 ```
 
+---
+
 #### `unmarshalTraceContext()`
 
 ```javascript
@@ -320,6 +338,8 @@ let { traceId, parentSpanId, dataset, customContext } = beeline.unmarshalTraceCo
 
 let trace = startTrace({ name }, traceId, parentSpanId, dataset, customContext);
 ```
+
+---
 
 ### Trace interoperability
 
@@ -451,6 +471,8 @@ let trace = startTrace({ name }, traceId, parentSpanId, dataset, customContext);
     });
     ```
 
+---
+
 #### `TRACE_HTTP_HEADER`
 
 The HTTP header that the beeline uses both for sending and receiving trace context. The value is `"X-Honeycomb-Trace"`.
@@ -507,19 +529,27 @@ service2.on("something", async payload => {
 });
 ```
 
+---
+
 #### `w3c.TRACE_HTTP_HEADER`
 
 Contains the w3c trace header key expected for w3c parsing and propagation. Can be used in custom trace parse or trace propagation hooks. [Example above](#w3cmarshalTraceContext)
 
+---
+
 #### `aws.TRACE_HTTP_HEADER`
 
 Contains the aws trace header key expected for aws parsing and propagation. Can be used in custom trace parse or trace propagation hooks. [Example above](#awsmarshalTraceContext)
+
+---
 
 ### Adding context to spans
 
 _[TODO: This part is most likely to see changes as we figure out inter-process trace context propagation]_
 
 There are two axes to useful traces: depth and width. Depth is a measure of how many operations are performed, and width is a measure of how much information there is to associate with each operation. Depth is addressed by the startSpan/finishSpan. Width is addressed by the methods in this section.
+
+---
 
 #### span.addContext()
 
@@ -530,6 +560,8 @@ span.addContext(contextMap);
 
 Adds all key/value pairs in `contextMap` as toplevel fields on the current span. Context added with this method is _only_ attached to the current span. For attaching context to all spans sent after this call, use `addTraceContext`. Unlike `addContext` below, `span.addContext` does not prepend `app.`. It is primarily intended for use in instrumentations that maintain their own prefixes.
 
+---
+
 #### addTraceContext()
 
 ```javascript
@@ -537,6 +569,8 @@ beeline.addTraceContext(contextMap);
 ```
 
 Adds all key/value pairs in `contextMap` as toplevel fields on the current span, prepending `app.` This context will be attached to all spans sent after the call to `addTraceContext`, and all fields will be propagated to downstream/outbound http/https requests.
+
+---
 
 #### addContext()
 
@@ -557,6 +591,8 @@ beeline.addContext({
 });
 ```
 
+---
+
 #### removeContext()
 
 ```javascript
@@ -571,7 +607,9 @@ example:
 beeline.removeContext(fieldName);
 ```
 
-Deprecated: this method will be removed in the next major release.
+**Deprecated: this method will be removed in the next major release.**
+
+---
 
 #### customContext.add()
 
@@ -588,7 +626,9 @@ beeline.customContext.add("userName", "toshok");
 // adds the key/value pair { "app.userName": "toshok" } to the current span, and all those that sent after.
 ```
 
-Deprecated: this method will be removed in the next major release. Please use `.addTraceContext` above.
+**Deprecated: this method will be removed in the next major release. Please use [`.addTraceContext`](#addtracecontext) above.**
+
+---
 
 #### customContext.remove()
 
@@ -606,6 +646,8 @@ beeline.customContext.remove("userName");
 
 Deprecated: this method will be removed in the next major release.
 
+---
+
 #### startTimer()
 
 ```javascript
@@ -620,6 +662,8 @@ example:
 let timer = beeline.startTimer(operationName);
 ```
 
+---
+
 #### finishTimer()
 
 ```javascript
@@ -627,6 +671,8 @@ beeline.finishTimer(timer);
 ```
 
 Computes duration (in millseconds) from `startTimer` call, and adds the field `${name}_ms` (with value the compute duration) to the current span.
+
+---
 
 #### withTimer()
 
@@ -649,13 +695,19 @@ let sum = beeline.withTimer("sum", () => {
 // field "sum_ms" is added to the current span
 ```
 
+---
+
 #### schema
 
 _[TODO more here, but it should be 99% of use to instrumentation authors, not beeline users]_
 
+---
+
 ### Async context bookkeeping
 
 The beeline uses nodejs's builtin `async_hooks` module to ensure its trace context is propagated through async calls, but there are some common patterns that break this magic (The most common is a worker/connection pool abstraction seen in many db packages).
+
+---
 
 #### bindFunctionToTrace()
 
@@ -679,6 +731,8 @@ myDBLibrary.query(
 );
 ```
 
+---
+
 #### runWithoutTrace()
 
 ```javascript
@@ -701,6 +755,8 @@ beeline.runWithoutTrace(() => {
 
 // trace reinstated after the function is finished executing.
 ```
+
+---
 
 #### flush()
 

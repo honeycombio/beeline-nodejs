@@ -47,6 +47,77 @@ jobs:
       - run: npm publish
 
 workflows:
+  nightly:
+    triggers:
+      - schedule:
+          cron: "0 0 * * *"
+          filters:
+            branches:
+              only:
+                - main
+    jobs:
+      - test_libhoney:
+          name: lint
+          nodeversion: "12"
+          npm_task: "run lint"
+          filters:
+              branches:
+                only: /.*/
+              tags:
+                only: /.+/
+      - test_libhoney:
+          name: test_node9
+          nodeversion: "9"
+          npm_install: "i"
+          requires:
+            - lint
+          filters:
+              branches:
+                only: /.*/
+              tags:
+                only: /.+/
+      - test_libhoney:
+          name: test_node1000
+          nodeversion: "10.0.0"
+          npm_install: "i"
+          requires:
+            - lint
+          filters:
+              branches:
+                only: /.*/
+              tags:
+                only: /.+/
+      - test_libhoney:
+          name: test_node10
+          nodeversion: "10"
+          requires:
+            - lint
+          filters:
+              branches:
+                only: /.*/
+              tags:
+                only: /.+/
+      - test_libhoney:
+          name: test_node11
+          nodeversion: "11"
+          requires:
+            - lint
+          filters:
+              branches:
+                only: /.*/
+              tags:
+                only: /.+/
+      - test_libhoney:
+          name: test_node12
+          nodeversion: "12"
+          requires:
+            - lint
+          filters:
+              branches:
+                only: /.*/
+              tags:
+                only: /.+/
+
   build-libhoney:
     jobs:
       - test_libhoney:

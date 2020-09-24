@@ -57,7 +57,6 @@ jobs:
     steps:
       - checkout
       - run: npm i
-      - run: npm lint
       - run: npm test
 
   build_artifacts:

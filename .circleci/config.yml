@@ -1,11 +1,26 @@
 version: 2.1
 
+# Anchors to reduce repeating filter
+filters_publish: &filters_publish
+  filters:
+    tags:
+      only: /v[0-9].*/
+    branches:
+      ignore: /.*/
+
+matrix_nodeversions: &matrix_nodeversions
+  matrix:
+    parameters:
+      nodeversion: ["9", "10.0.0", "10", "11", "12"]
+
+current_nodeversion: &current_nodeversion "12"
+
 executors:
   node:
     parameters:
       nodeversion:
         type: string
-        default: "12"
+        default: *current_nodeversion
     docker:
       - image: circleci/node:<< parameters.nodeversion >>
         environment:
@@ -37,7 +52,6 @@ jobs:
   lint:
     executor:
       name: node
-      nodeversion: "12"
     steps:
       - checkout
       - run: npm ci
@@ -47,13 +61,9 @@ jobs:
     parameters:
       nodeversion:
         type: string
-        default: "12"
-      npm_install:
-        type: string
-        default: "ci"
+        default: *current_nodeversion
     executor:
       name: node
-      nodeversion: "<< parameters.nodeversion >>"
     steps:
       - checkout
       - run: npm i
@@ -62,7 +72,6 @@ jobs:
   build_artifacts:
     executor:
       name: node
-      nodeversion: "12"
     steps:
       - checkout
       - run: npm ci
@@ -83,7 +92,6 @@ jobs:
   publish_npm:
     executor:
       name: node
-      nodeversion: "12"
     steps:
       - checkout
       - run:
@@ -91,18 +99,6 @@ jobs:
           command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
       - run: npm ci
       - run: npm publish
-
-# Anchor to reduce repeating filter
-filters_all: &filters_all
-  filters:
-    tags:
-      only: /.*/
-filters_publish: &filters_publish
-  filters:
-    tags:
-      only: /v[0-9].*/
-    branches:
-      ignore: /.*/
 
 workflows:
   nightly:
@@ -114,16 +110,11 @@ workflows:
               only:
                 - main
     jobs:
-      - lint:
-          <<: *filters_all
+      - lint
       - test:
-          <<: *filters_all
           requires:
             - lint
-          matrix:
-            parameters:
-              nodeversion: ["9", "10.0.0", "10", "11", "12"]
-              npm_install: ["ci"] # CI only available on >=10, maybe?
+          <<: *matrix_nodeversions
 
   build:
     jobs:
@@ -131,10 +122,7 @@ workflows:
       - test:
           requires:
             - lint
-          matrix:
-            parameters:
-              nodeversion: ["9", "10.0.0", "10", "11", "12"]
-              npm_install: ["ci"] # CI only available on >=10, maybe?
+          <<: *matrix_nodeversions
       - build_artifacts:
           <<: *filters_publish
           requires:

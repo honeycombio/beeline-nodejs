@@ -3,7 +3,7 @@ version: 2.1
 # YAML Anchors to reduce copypasta
 
 # This is necessary for job to run when a tag is created
-filters_all_tags: &filters_all_tags
+filters_always: &filters_always
   filters:
     tags:
       only: /.*/
@@ -19,14 +19,15 @@ matrix_nodeversions: &matrix_nodeversions
     parameters:
       nodeversion: ["9", "10", "11", "12", "14"]
 
-current_nodeversion: &current_nodeversion "12"
+# Default version of node to use for lint and publishing
+default_nodeversion: &default_nodeversion "12"
 
 executors:
   node:
     parameters:
       nodeversion:
         type: string
-        default: *current_nodeversion
+        default: *default_nodeversion
     docker:
       - image: circleci/node:<< parameters.nodeversion >>
         environment:
@@ -67,7 +68,7 @@ jobs:
     parameters:
       nodeversion:
         type: string
-        default: *current_nodeversion
+        default: *default_nodeversion
     executor:
       name: node
     steps:
@@ -80,9 +81,10 @@ jobs:
       name: node
     steps:
       - checkout
+      - run: mkdir -p ~/artifacts
       - run: npm ci
       - run: npm pack
-      - run: cp  honeycomb-beeline-*.tgz ~/artifacts
+      - run: cp ./honeycomb-beeline-*.tgz ~/artifacts/
       - persist_to_workspace:
           root: ~/
           paths:
@@ -125,14 +127,14 @@ workflows:
   build:
     jobs:
       - lint:
-          <<: *filters_publish
+          <<: *filters_always
       - test:
-          <<: *filters_publish
+          <<: *filters_always
           requires:
             - lint
           <<: *matrix_nodeversions
       - build_artifacts:
-          <<: *filters_publish
+          <<: *filters_always
           requires:
             - test
       - publish_github:

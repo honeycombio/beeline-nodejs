@@ -1,17 +1,23 @@
 version: 2.1
 
-# Anchors to reduce repeating filter
+# YAML Anchors to reduce copypasta
+
+# This is necessary for job to run when a tag is created
+filters_all_tags: &filters_all_tags
+  filters:
+    tags:
+      only: /.*/
+
+# Restrict running to only be on tags starting with vNNNN
 filters_publish: &filters_publish
   filters:
     tags:
-      only: /v[0-9].*/
-    branches:
-      ignore: /.*/
+      only: /^v[0-9].*/
 
 matrix_nodeversions: &matrix_nodeversions
   matrix:
     parameters:
-      nodeversion: ["9", "10.0.0", "10", "11", "12"]
+      nodeversion: ["9", "10", "11", "12", "14"]
 
 current_nodeversion: &current_nodeversion "12"
 
@@ -118,8 +124,10 @@ workflows:
 
   build:
     jobs:
-      - lint
+      - lint:
+          <<: *filters_publish
       - test:
+          <<: *filters_publish
           requires:
             - lint
           <<: *matrix_nodeversions

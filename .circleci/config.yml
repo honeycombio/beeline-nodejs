@@ -41,7 +41,7 @@ jobs:
     steps:
       - checkout
       - run: npm ci
-      - run: npm lint
+      - run: npm run lint
 
   test:
     parameters:
@@ -98,6 +98,12 @@ filters_all: &filters_all
   filters:
     tags:
       only: /.*/
+filters_publish: &filters_publish
+  filters:
+    tags:
+      only: /v[0-9].*/
+    branches:
+      ignore: /.*/
 
 workflows:
   nightly:
@@ -131,29 +137,16 @@ workflows:
               nodeversion: ["9", "10.0.0", "10", "11", "12"]
               npm_install: ["ci"] # CI only available on >=10, maybe?
       - build_artifacts:
+          <<: *filters_publish
           requires:
             - test
-          filters:
-            tags:
-              only: /v[0-9].*/
-            branches:
-              ignore: /.*/
-
       - publish_github:
+          <<: *filters_publish
           context: Honeycomb Secrets
           requires:
             - build_artifacts
-          filters:
-            tags:
-              only: /v[0-9].*/
-            branches:
-              ignore: /.*/
       - publish_npm:
+          <<: *filters_publish
           context: Honeycomb Secrets
           requires:
             - test
-          filters:
-            tags:
-              only: /v[0-9].*/
-            branches:
-              ignore: /.*/

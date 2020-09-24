@@ -13,6 +13,8 @@ filters_publish: &filters_publish
   filters:
     tags:
       only: /^v[0-9].*/
+    branches:
+      ignore: /.*/
 
 matrix_nodeversions: &matrix_nodeversions
   matrix:

@@ -1,11 +1,35 @@
 version: 2.1
 
+# YAML Anchors to reduce copypasta
+
+# This is necessary for job to run when a tag is created
+filters_always: &filters_always
+  filters:
+    tags:
+      only: /.*/
+
+# Restrict running to only be on tags starting with vNNNN
+filters_publish: &filters_publish
+  filters:
+    tags:
+      only: /^v[0-9].*/
+    branches:
+      ignore: /.*/
+
+matrix_nodeversions: &matrix_nodeversions
+  matrix:
+    parameters:
+      nodeversion: ["9", "10", "11", "12", "14"]
+
+# Default version of node to use for lint and publishing
+default_nodeversion: &default_nodeversion "12"
+
 executors:
   node:
     parameters:
       nodeversion:
         type: string
-        default: "12"
+        default: *default_nodeversion
     docker:
       - image: circleci/node:<< parameters.nodeversion >>
         environment:
@@ -15,29 +39,69 @@ executors:
         environment:
           POSTGRES_USER: root
           POSTGRES_DB: circle_test
+  github:
+    docker:
+      - image: cibuilds/github:0.13.0
+
+commands:
+  publish_github:
+    steps:
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: "Artifacts being published"
+          command: |
+            echo "about to publish to tag ${CIRCLE_TAG}"
+            ls -l ~/artifacts/*
+      - run:
+          name: "GHR Draft"
+          command: ghr -draft -n ${CIRCLE_TAG} -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} ${CIRCLE_TAG} ~/artifacts
+
 jobs:
-  test_libhoney:
+  lint:
+    executor:
+      name: node
+    steps:
+      - checkout
+      - run: npm ci
+      - run: npm run lint
+
+  test:
     parameters:
       nodeversion:
         type: string
-        default: "12"
-      npm_install:
-        type: string
-        default: "ci"
-      npm_task:
-        type: string
-        default: "test"
+        default: *default_nodeversion
     executor:
       name: node
-      nodeversion: "<< parameters.nodeversion >>"
     steps:
       - checkout
-      - run: npm << parameters.npm_install >>
-      - run: npm << parameters.npm_task >>
+      - run: npm i
+      - run: npm test
 
-  publish:
-    docker:
-      - image: circleci/node:12.12.0-buster
+  build_artifacts:
+    executor:
+      name: node
+    steps:
+      - checkout
+      - run: mkdir -p ~/artifacts
+      - run: npm ci
+      - run: npm pack
+      - run: cp ./honeycomb-beeline-*.tgz ~/artifacts/
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - artifacts
+      - store_artifacts:
+          path: ~/artifacts
+
+  publish_github:
+    executor: github
+    steps:
+      - publish_github
+
+  publish_npm:
+    executor:
+      name: node
     steps:
       - checkout
       - run:
@@ -56,140 +120,32 @@ workflows:
               only:
                 - main
     jobs:
-      - test_libhoney:
-          name: lint
-          nodeversion: "12"
-          npm_task: "run lint"
-          filters:
-              branches:
-                only: /.*/
-              tags:
-                only: /.+/
-      - test_libhoney:
-          name: test_node9
-          nodeversion: "9"
-          npm_install: "i"
+      - lint
+      - test:
           requires:
             - lint
-          filters:
-              branches:
-                only: /.*/
-              tags:
-                only: /.+/
-      - test_libhoney:
-          name: test_node1000
-          nodeversion: "10.0.0"
-          npm_install: "i"
-          requires:
-            - lint
-          filters:
-              branches:
-                only: /.*/
-              tags:
-                only: /.+/
-      - test_libhoney:
-          name: test_node10
-          nodeversion: "10"
-          requires:
-            - lint
-          filters:
-              branches:
-                only: /.*/
-              tags:
-                only: /.+/
-      - test_libhoney:
-          name: test_node11
-          nodeversion: "11"
-          requires:
-            - lint
-          filters:
-              branches:
-                only: /.*/
-              tags:
-                only: /.+/
-      - test_libhoney:
-          name: test_node12
-          nodeversion: "12"
-          requires:
-            - lint
-          filters:
-              branches:
-                only: /.*/
-              tags:
-                only: /.+/
+          <<: *matrix_nodeversions
 
-  build-libhoney:
+  build:
     jobs:
-      - test_libhoney:
-          name: lint
-          nodeversion: "12"
-          npm_task: "run lint"
-          filters:
-              branches:
-                only: /.*/
-              tags:
-                only: /.+/
-      - test_libhoney:
-          name: test_node9
-          nodeversion: "9"
-          npm_install: "i"
+      - lint:
+          <<: *filters_always
+      - test:
+          <<: *filters_always
           requires:
             - lint
-          filters:
-              branches:
-                only: /.*/
-              tags:
-                only: /.+/
-      - test_libhoney:
-          name: test_node1000
-          nodeversion: "10.0.0"
-          npm_install: "i"
+          <<: *matrix_nodeversions
+      - build_artifacts:
+          <<: *filters_always
           requires:
-            - lint
-          filters:
-              branches:
-                only: /.*/
-              tags:
-                only: /.+/
-      - test_libhoney:
-          name: test_node10
-          nodeversion: "10"
+            - test
+      - publish_github:
+          <<: *filters_publish
+          context: Honeycomb Secrets
           requires:
-            - lint
-          filters:
-              branches:
-                only: /.*/
-              tags:
-                only: /.+/
-      - test_libhoney:
-          name: test_node11
-          nodeversion: "11"
+            - build_artifacts
+      - publish_npm:
+          <<: *filters_publish
+          context: Honeycomb Secrets
           requires:
-            - lint
-          filters:
-              branches:
-                only: /.*/
-              tags:
-                only: /.+/
-      - test_libhoney:
-          name: test_node12
-          nodeversion: "12"
-          requires:
-            - lint
-          filters:
-              branches:
-                only: /.*/
-              tags:
-                only: /.+/
-      - publish:
-          requires:
-            - test_node9
-            - test_node1000
-            - test_node10
-            - test_node11
-            - test_node12
-          filters:
-              branches:
-                ignore: /.*/
-              tags:
-                only: /.+/
+            - test

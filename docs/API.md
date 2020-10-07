@@ -1,6 +1,6 @@
-**This document is intended for anyone looking to write custom instrumentation for your favorite NPM package.**
+This document is intended as a reference to the Beeline for Node.js API.
 
-If you're looking to understand how to **use** the Beeline for Node.js in your application,
+If you're looking for examples of how to use the Beeline in your application,
 please check out our [Usage and Examples](https://docs.honeycomb.io/beeline/nodejs/) documentation instead.
 
 ## Accessing the API

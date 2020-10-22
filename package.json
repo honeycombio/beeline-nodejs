@@ -44,7 +44,7 @@
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
     "semver": "^7.3.2",
-    "supertest": "^3.4.2"
+    "supertest": "^5.0.0"
   },
   "dependencies": {
     "@opentelemetry/core": "^0.12.0",

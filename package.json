@@ -40,7 +40,7 @@
     "lint-staged": "^8.1.5",
     "pg": "^7.14.0",
     "pg-query-stream": "^2.0.1",
-    "prettier": "^1.16.4",
+    "prettier": "^2.1.2",
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
     "semver": "^7.3.2",

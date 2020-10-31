@@ -276,7 +276,7 @@ service1:
 // this next line isn't necessary if you're within an express handler
 let trace = beeline.startTrace();
 
-let traceContext = beeline.marshalTraceContext(beeline.getTraceContext);
+let traceContext = beeline.marshalTraceContext(beeline.getTraceContext());
 try {
   await service2Client.doSomething({
     // add the traceContext in our RPC call payload

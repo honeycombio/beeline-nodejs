@@ -4,9 +4,9 @@
 
 Improvements:
 
-- Alays return valid parent context when creating span (#262)
-- Add default object value when configuring beeline (#258)
-- Support fastify v3 (#263)
+- Alays return valid parent context when creating span #262
+- Add default object value when configuring beeline #258
+- Support fastify v3 #263
 
 Maintenance:
 - Update dependencies #259 & #260

@@ -141,11 +141,11 @@ workflows:
             - test
       - publish_github:
           <<: *filters_publish
-          context: Honeycomb Secrets
+          context: Honeycomb Secrets for Public Repos
           requires:
             - build_artifacts
       - publish_npm:
           <<: *filters_publish
-          context: Honeycomb Secrets
+          context: Honeycomb Secrets for Public Repos
           requires:
             - test

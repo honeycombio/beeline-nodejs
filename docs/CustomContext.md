@@ -4,7 +4,7 @@ The builtin instrumentations will send context to honeycomb about the actual req
 
 If there are additional fields you'd like to include in events, you can use the `customContext` interface to add them:
 
-```
+```js
 const honey = require("honeycomb-beeline")();
 
 .
@@ -22,7 +22,7 @@ in each of the examples below, the `customContext` usage is higlighted by a `/**
 
 ### Using callbacks
 
-```
+```js
 const honey = require("honeycomb-beeline")();
 
 const express = require("express"),
@@ -55,7 +55,7 @@ app.get("/user/:user, (req, res, next) => {
 
 ### Using promises
 
-```
+```js
 const honey = require("honeycomb-beeline")();
 
 const express = require("express"),
@@ -87,7 +87,7 @@ app.get("/user/:user, (req, res, next) => {
 
 ### Using `async`/`await`
 
-```
+```js
 const honey = require("honeycomb-beeline")();
 
 const express = require("express"),
@@ -124,7 +124,7 @@ app.get("/user/:user, async (req, res, next) => {
 Each of the three examples above do the user lookup inside the request handler, but it's a more common pattern to do the lookup within the `app.param` callback itself.
 Here's how it would look doing it that way with `async`/`await`.
 
-```
+```js
 const honey = require("honeycomb-beeline")();
 
 const express = require("express"),

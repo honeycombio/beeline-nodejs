@@ -39,7 +39,7 @@
     "jest-in-case": "^1.0.2",
     "lint-staged": "^8.1.5",
     "pg": "^8.5.1",
-    "pg-query-stream": "^2.0.1",
+    "pg-query-stream": "^4.0.0",
     "prettier": "^2.1.2",
     "react": "^17.0.0",
     "react-dom": "^17.0.0",

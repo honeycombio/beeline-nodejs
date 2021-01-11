@@ -58,6 +58,9 @@ Contents
 
 - [`bindFunctionToTrace()`](#bindfunctiontotrace)
 - [`runWithoutTrace()`](#runwithouttrace)
+
+5.  [Flushing events](#flushing-events)
+
 - [`flush()`](#flush)
 
 ### Traces and spans
@@ -281,14 +284,12 @@ If you're dealing with multiple services (either on the same host or different o
 
 #### Trace context object
 
-To consume trace headers propagated from other services, incoming headers must be parsed into a honeycomb trace context object. The marshalTraceContext() functions below can be used to parse a trace header into this object. You may also write a custom parser hook and pass it to the `httpTraceParserHook` configuration setting. A trace context object contains the following properties, which are the four optional parameters with [`startTrace()`](#starttrace) above:
+Trace context object contains information about a trace that can cross process boundaries. Typically, this information is parsed from an incoming trace context header, such as using the unmarshalTraceContext() functions below. A trace context object contains the following properties, which are the four optional parameters with [`startTrace()`](#starttrace) above:
 
 - `traceId`
 - `parentSpanId`
 - `dataset`
 - `customContext`
-
-`customContext` will include any custom fields propagated from other services, such as with `beeline.addTraceContext()`. In interop with other vendors, `customContext` will also contain any properties parsed from the header outside of the explicitly supported trace/span fields.
 
 #### The following APIs exist to ease the task of adding propagation to other transports.
 
@@ -321,7 +322,7 @@ example:
 
 ```javascript
 let { traceId, parentSpanId } = beeline.unmarshalTraceContext(
-  req.header[beeline.TRACE_HTTP_HEADER]
+  req.headers[beeline.TRACE_HTTP_HEADER]
 );
 
 let trace = startTrace({ name }, traceId, parentSpanId);
@@ -329,7 +330,7 @@ let trace = startTrace({ name }, traceId, parentSpanId);
 
 ```javascript
 let { traceId, parentSpanId, dataset, customContext } = beeline.unmarshalTraceContext(
-  req.header[beeline.TRACE_HTTP_HEADER]
+  req.headers[beeline.TRACE_HTTP_HEADER]
 );
 
 let trace = startTrace({ name }, traceId, parentSpanId, dataset, customContext);
@@ -339,12 +340,18 @@ let trace = startTrace({ name }, traceId, parentSpanId, dataset, customContext);
 
 ### Trace interoperability
 
-To interop tracing with w3c and aws load balancers, use vendor-specific unmarshal/unmarshal functions
+To support interoperability with W3C and AWS tracing formats, we provide APIs for marshaling to/from their HTTP header values.
 
 - ### W3C
 
   - #### `w3c.unmarshalTraceContext()`
+
     Accepts a serialized w3c trace header [`traceparent`](https://www.w3.org/TR/trace-context/#traceparent-header) and returns a [trace context object](#trace-context-object).
+
+    Field mapping (traceparent --> Trace Context Object):
+
+    - traceId --> traceId
+    - spanId --> parentSpanId
 
   ```javascript
   beeline.w3c.unmarshalTraceContext(beeline.getTraceContext());
@@ -358,7 +365,7 @@ To interop tracing with w3c and aws load balancers, use vendor-specific unmarsha
 beeline.w3c.marshalTraceContext(beeline.getTraceContext());
 
 let { traceId, parentSpanId, dataset, customContext } = beeline.unmarshalTraceContext(
-  req.header[beeline.w3c.TRACE_HTTP_HEADER]
+  req.headers[beeline.w3c.TRACE_HTTP_HEADER]
 );
 
 let trace = startTrace({ name }, traceId, parentSpanId, dataset, customContext);
@@ -366,10 +373,16 @@ let trace = startTrace({ name }, traceId, parentSpanId, dataset, customContext);
 
 - ### AWS
 
-  (for use with load balancers)
-
   - #### `aws.unmarshalTraceContext()`
+
     Accepts a serialized aws trace header [`X-Amzn-Trace-Id`](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-request-tracing.html) and returns a [trace context object](#trace-context-object).
+
+    Field mapping (X-Amzn-Trace-Id --> Trace Context Object):
+
+    - Root --> traceId
+    - Parent --> parentSpanId
+      - If Parent is not present, Root --> parentSpanId
+    - any other field will be assigned to the customContext object
 
   ```javascript
   beeline.aws.unmarshalTraceContext(beeline.getTraceContext());
@@ -383,7 +396,7 @@ let trace = startTrace({ name }, traceId, parentSpanId, dataset, customContext);
   beeline.aws.marshalTraceContext(beeline.getTraceContext());
 
   let { traceId, parentSpanId, dataset, customContext } = beeline.unmarshalTraceContext(
-    req.header[beeline.aws.TRACE_HTTP_HEADER]
+    req.headers[beeline.aws.TRACE_HTTP_HEADER]
   );
 
   let trace = startTrace({ name }, traceId, parentSpanId, dataset, customContext);
@@ -673,6 +686,10 @@ beeline.runWithoutTrace(() => {
 
 // trace reinstated after the function is finished executing.
 ```
+
+---
+
+### Flushing events
 
 ---
 

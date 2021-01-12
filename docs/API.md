@@ -39,8 +39,8 @@ Contents
     - [`aws.marshalTraceContext()`](#awsmarshaltracecontext)
     - [`aws.unmarshalTraceContext()`](#awsunmarshaltracecontext)
 - [`TRACE_HTTP_HEADER`](#trace_http_header)
-  - [`aws.TRACE_HTTP_HEADER`](#awstrace_http_header)
   - [`w3c.TRACE_HTTP_HEADER`](#w3ctrace_http_header)
+  - [`aws.TRACE_HTTP_HEADER`](#awstrace_http_header)
 
 3.  [Adding context to spans](#adding-context-to-spans)
 

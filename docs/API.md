@@ -338,69 +338,55 @@ let trace = startTrace({ name }, traceId, parentSpanId, dataset, customContext);
 
 ---
 
-### Trace interoperability
+#### Trace interoperability
 
 To support interoperability with W3C and AWS tracing formats, we provide APIs for marshaling to/from their HTTP header values.
 
-- ### W3C
+#### W3C
 
-  - #### `w3c.unmarshalTraceContext()`
+##### `w3c.unmarshalTraceContext()`
 
-    Accepts a serialized w3c trace headers [`traceparent`](https://www.w3.org/TR/trace-context/#traceparent-header) and [`tracestate`](https://www.w3.org/TR/trace-context/#tracestate-header), and returns a [trace context object](#trace-context-object).
+Accepts serialized w3c trace headers [`traceparent`](https://www.w3.org/TR/trace-context/#traceparent-header) and [`tracestate`](https://www.w3.org/TR/trace-context/#tracestate-header), and returns a [trace context object](#trace-context-object).
 
-    Field mapping (traceparent, tracestate --> Trace Context Object):
-    - traceparent.traceId --> traceId
-    - traceparent.spanId --> parentSpanId
-    - tracestate --> customContext
-
-  ```javascript
-  beeline.w3c.unmarshalTraceContext(beeline.getTraceContext());
-  ```
-
-  - #### `w3c.marshalTraceContext()`
-    Accepts the current trace context and returns a serialized trace header in w3c format
-    - `w3c.TRACE_HTTP_HEADER` is also available; the serialized format of [`traceparent`](https://www.w3.org/TR/trace-context/#traceparent-header) is expected
+Field mapping (w3c trace headers --> Trace Context Object):
+- traceparent.traceId --> traceId
+- traceparent.spanId --> parentSpanId
+- tracestate --> customContext
 
 ```javascript
-beeline.w3c.marshalTraceContext(beeline.getTraceContext());
-
-let { traceId, parentSpanId, dataset, customContext } = beeline.unmarshalTraceContext(
-  req.headers[beeline.w3c.TRACE_HTTP_HEADER]
-);
-
-let trace = startTrace({ name }, traceId, parentSpanId, dataset, customContext);
+beeline.w3c.unmarshalTraceContext(traceparent, tracestate);
 ```
 
-- ### AWS
+##### `w3c.marshalTraceContext()`
+Accepts the current trace context and returns a serialized trace header in w3c [`traceparent`](https://www.w3.org/TR/trace-context/#traceparent-header) format.
 
-  - #### `aws.unmarshalTraceContext()`
+```javascript
+let traceHeader = beeline.w3c.marshalTraceContext(beeline.getTraceContext());
+```
 
-    Accepts a serialized aws trace header [`X-Amzn-Trace-Id`](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-request-tracing.html) and returns a [trace context object](#trace-context-object).
+#### AWS
 
-    Field mapping (X-Amzn-Trace-Id --> Trace Context Object):
-    - Root --> traceId
-    - Parent --> parentSpanId
-      - If Parent is not present, Self --> parentSpanId
-      - If Parent and Self not present, Root --> parentSpanId
-    - Any other field will be assigned to customContext
+##### `aws.unmarshalTraceContext()`
 
-  ```javascript
-  beeline.aws.unmarshalTraceContext(beeline.getTraceContext());
-  ```
+Accepts a serialized aws trace header [`X-Amzn-Trace-Id`](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-request-tracing.html) and returns a [trace context object](#trace-context-object).
 
-  - #### `aws.marshalTraceContext()`
-    Accepts the current trace context and returns an serialized trace header in aws format
-    - `aws.TRACE_HTTP_HEADER` is also available; the serialized format of [`X-Amzn-Trace-Id`](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-request-tracing.html) is expected
+Field mapping (aws trace header --> Trace Context Object):
+- Root --> traceId
+- Parent --> parentSpanId
+  - If Parent is not present, Self --> parentSpanId
+  - If Parent and Self not present, Root --> parentSpanId
+- Any other field will be assigned to customContext
 
-  ```javascript
-  beeline.aws.marshalTraceContext(beeline.getTraceContext());
+```javascript
+beeline.aws.unmarshalTraceContext(beeline.getTraceContext());
+```
 
-  let { traceId, parentSpanId, dataset, customContext } = beeline.unmarshalTraceContext(
-    req.headers[beeline.aws.TRACE_HTTP_HEADER]
-  );
+##### `aws.marshalTraceContext()`
+Accepts the current trace context and returns a serialized trace header in aws [`X-Amzn-Trace-Id`](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-request-tracing.html) format
 
-  let trace = startTrace({ name }, traceId, parentSpanId, dataset, customContext);
-  ```
+```javascript
+beeline.aws.marshalTraceContext(beeline.getTraceContext());
+```
 
 ---
 
@@ -462,15 +448,15 @@ service2.on("something", async payload => {
 
 ---
 
-#### `w3c.TRACE_HTTP_HEADER`
+##### `w3c.TRACE_HTTP_HEADER`
 
-Contains the w3c trace header key expected for w3c parsing and propagation. Can be used in custom trace parse or trace propagation hooks. [Example above](#w3cmarshalTraceContext)
+Contains the w3c trace header key expected for w3c parsing and propagation. Can be used in custom trace parse or trace propagation hooks. [Example above](#w3cmarshaltracecontext)
 
 ---
 
-#### `aws.TRACE_HTTP_HEADER`
+##### `aws.TRACE_HTTP_HEADER`
 
-Contains the aws trace header key expected for aws parsing and propagation. Can be used in custom trace parse or trace propagation hooks. [Example above](#awsmarshalTraceContext)
+Contains the aws trace header key expected for aws parsing and propagation. Can be used in custom trace parse or trace propagation hooks. [Example above](#awsmarshaltracecontext)
 
 ---
 

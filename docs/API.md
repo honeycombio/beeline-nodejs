@@ -29,8 +29,10 @@ Contents
 2.  [Interprocess trace propagation](#interprocess-trace-propagation)
 
 - [Trace context object](#trace-context-object)
-- [`marshalTraceContext()`](#marshaltracecontext)
-- [`unmarshalTraceContext()`](#unmarshaltracecontext)
+- [deprecated: `marshalTraceContext()`](#marshaltracecontext)
+- [deprecated: `unmarshalTraceContext()`](#unmarshaltracecontext)
+- [`honeycomb.marshalTraceContext()`](#honeycombmarshaltracecontext)
+- [`honeycomb.unmarshalTraceContext()`](#honeycombunmarshaltracecontext)
 - [Trace interoperability](#trace-interoperability)
   - [W3C](#w3c)
     - [`w3c.marshalTraceContext()`](#w3cmarshaltracecontext)
@@ -292,6 +294,55 @@ Trace context object contains information about a trace that can cross process b
 - `customContext`
 
 #### The following APIs exist to ease the task of adding propagation to other transports.
+
+#### `marshalTraceContext()`
+
+```javascript
+beeline.marshalTraceContext(beeline.getTraceContext());
+```
+
+Returns a serialized form of the current trace context (including the trace id and the current span), encoded as a string. The format is documented at https://github.com/honeycombio/beeline-nodejs/blob/main/lib/propagation/honeycomb.js#L17
+
+example:
+
+```javascript
+let traceContext = beeline.marshalTraceContext(beeline.getTraceContext());
+console.log(traceContext); // => 1;trace_id=weofijwoeifj,parent_id=owefjoweifj,context=SGVsbG8gV29ybGQ=
+```
+
+**Deprecated: this method will be removed in the next major release. Please use [`honeycomb.marshalTraceContext()`](#honeycombmarshaltracecontext) instead.**
+
+---
+
+#### `unmarshalTraceContext()`
+
+```javascript
+beeline.unmarshalTraceContext(traceContext);
+```
+
+Accepts a serialized trace header and returns a [trace context object](#trace-context-object).
+
+example:
+
+```javascript
+let { traceId, parentSpanId } = beeline.unmarshalTraceContext(
+  req.headers[beeline.TRACE_HTTP_HEADER]
+);
+
+let trace = startTrace({ name }, traceId, parentSpanId);
+```
+
+```javascript
+let { traceId, parentSpanId, dataset, customContext } = beeline.unmarshalTraceContext(
+  req.headers[beeline.TRACE_HTTP_HEADER]
+);
+
+let trace = startTrace({ name }, traceId, parentSpanId, dataset, customContext);
+```
+
+**Deprecated: this method will be removed in the next major release. Please use [`honeycomb.unmarshalTraceContext()`](#honeycombunmarshaltracecontext) instead.**
+
+---
 
 #### `honeycomb.marshalTraceContext()`
 

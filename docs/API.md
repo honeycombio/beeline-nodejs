@@ -369,6 +369,14 @@ beeline.honeycomb.unmarshalTraceContext(traceContext);
 
 Accepts a serialized trace header and returns a [trace context object](#trace-context-object).
 
+Field mapping (trace headers --> Trace Context Object):
+- trace_id --> traceId
+- parent_id --> parentSpanId
+- dataset --> dataset
+- context --> customContext
+
+`customContext` will include any custom fields propagated from other services, such as with `beeline.addTraceContext()`.
+
 example:
 
 ```javascript

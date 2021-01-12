@@ -346,19 +346,19 @@ To support interoperability with W3C and AWS tracing formats, we provide APIs fo
 
   - #### `w3c.unmarshalTraceContext()`
 
-    Accepts a serialized w3c trace header [`traceparent`](https://www.w3.org/TR/trace-context/#traceparent-header) and returns a [trace context object](#trace-context-object).
+    Accepts a serialized w3c trace headers [`traceparent`](https://www.w3.org/TR/trace-context/#traceparent-header) and [`tracestate`](https://www.w3.org/TR/trace-context/#tracestate-header), and returns a [trace context object](#trace-context-object).
 
-    Field mapping (traceparent --> Trace Context Object):
-
-    - traceId --> traceId
-    - spanId --> parentSpanId
+    Field mapping (traceparent, tracestate --> Trace Context Object):
+    - traceparent.traceId --> traceId
+    - traceparent.spanId --> parentSpanId
+    - tracestate --> customContext
 
   ```javascript
   beeline.w3c.unmarshalTraceContext(beeline.getTraceContext());
   ```
 
   - #### `w3c.marshalTraceContext()`
-    Accepts the current trace context and returns an serialized trace header in w3c format
+    Accepts the current trace context and returns a serialized trace header in w3c format
     - `w3c.TRACE_HTTP_HEADER` is also available; the serialized format of [`traceparent`](https://www.w3.org/TR/trace-context/#traceparent-header) is expected
 
 ```javascript
@@ -378,11 +378,11 @@ let trace = startTrace({ name }, traceId, parentSpanId, dataset, customContext);
     Accepts a serialized aws trace header [`X-Amzn-Trace-Id`](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-request-tracing.html) and returns a [trace context object](#trace-context-object).
 
     Field mapping (X-Amzn-Trace-Id --> Trace Context Object):
-
     - Root --> traceId
     - Parent --> parentSpanId
-      - If Parent is not present, Root --> parentSpanId
-    - any other field will be assigned to the customContext object
+      - If Parent is not present, Self --> parentSpanId
+      - If Parent and Self not present, Root --> parentSpanId
+    - Any other field will be assigned to customContext
 
   ```javascript
   beeline.aws.unmarshalTraceContext(beeline.getTraceContext());

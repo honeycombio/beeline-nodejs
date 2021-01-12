@@ -293,27 +293,27 @@ Trace context object contains information about a trace that can cross process b
 
 #### The following APIs exist to ease the task of adding propagation to other transports.
 
-#### `marshalTraceContext()`
+#### `honeycomb.marshalTraceContext()`
 
 ```javascript
-beeline.marshalTraceContext(beeline.getTraceContext());
+beeline.honeycomb.marshalTraceContext(beeline.getTraceContext());
 ```
 
-Returns a serialized form of the current trace context (including the trace id and the current span), encoded as a string. The format is documented at https://github.com/honeycombio/beeline-nodejs/blob/main/lib/propagation.js#L16
+Returns a serialized form of the current trace context (including the trace id and the current span), encoded as a string. The format is documented at https://github.com/honeycombio/beeline-nodejs/blob/main/lib/propagation/honeycomb.js#L17
 
 example:
 
 ```javascript
-let traceContext = beeline.marshalTraceContext(beeline.getTraceContext());
+let traceContext = beeline.honeycomb.marshalTraceContext(beeline.getTraceContext());
 console.log(traceContext); // => 1;trace_id=weofijwoeifj,parent_id=owefjoweifj,context=SGVsbG8gV29ybGQ=
 ```
 
 ---
 
-#### `unmarshalTraceContext()`
+#### `honeycomb.unmarshalTraceContext()`
 
 ```javascript
-beeline.unmarshalTraceContext(string);
+beeline.honeycomb.unmarshalTraceContext(traceContext);
 ```
 
 Accepts a serialized trace header and returns a [trace context object](#trace-context-object).
@@ -321,16 +321,16 @@ Accepts a serialized trace header and returns a [trace context object](#trace-co
 example:
 
 ```javascript
-let { traceId, parentSpanId } = beeline.unmarshalTraceContext(
-  req.headers[beeline.TRACE_HTTP_HEADER]
+let { traceId, parentSpanId } = beeline.honeycomb.unmarshalTraceContext(
+  req.headers[beeline.honeycomb.TRACE_HTTP_HEADER]
 );
 
 let trace = startTrace({ name }, traceId, parentSpanId);
 ```
 
 ```javascript
-let { traceId, parentSpanId, dataset, customContext } = beeline.unmarshalTraceContext(
-  req.headers[beeline.TRACE_HTTP_HEADER]
+let { traceId, parentSpanId, dataset, customContext } = beeline.honeycomb.unmarshalTraceContext(
+  req.headers[beeline.honeycomb.TRACE_HTTP_HEADER]
 );
 
 let trace = startTrace({ name }, traceId, parentSpanId, dataset, customContext);
@@ -378,7 +378,7 @@ Field mapping (aws trace header --> Trace Context Object):
 - Any other field will be assigned to customContext
 
 ```javascript
-beeline.aws.unmarshalTraceContext(beeline.getTraceContext());
+beeline.aws.unmarshalTraceContext(amazonTraceHeader);
 ```
 
 ##### `aws.marshalTraceContext()`
@@ -404,7 +404,7 @@ service1:
 // this next line isn't necessary if you're within an express handler
 let trace = beeline.startTrace();
 
-let traceContext = beeline.marshalTraceContext(beeline.getTraceContext());
+let traceContext = beeline.honeycomb.marshalTraceContext(beeline.getTraceContext());
 try {
   await service2Client.doSomething({
     // add the traceContext in our RPC call payload

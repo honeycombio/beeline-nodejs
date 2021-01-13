@@ -40,6 +40,15 @@ Contents
   - [AWS](#aws)
     - [`aws.marshalTraceContext()`](#awsmarshaltracecontext)
     - [`aws.unmarshalTraceContext()`](#awsunmarshaltracecontext)
+- [Trace hooks](#trace-hooks)
+  - [`httpTraceParserHook`](#httptraceparserhook)
+    - [`beeline.honeycomb.httpTraceParserHook`](#beelinehoneycombhttptraceparserhook)
+    - [`beeline.w3c.httpTraceParserHook`](#beelinew3chttptraceparserhook)
+    - [`beeline.aws.httpTraceParserHook`](#beelineawshttptraceparserhook)
+  - [`httpTracePropagationHook`](#httptracepropagationhook)
+    - [`beeline.honeycomb.httpTracePropagationHook`](#beelinehoneycombhttptracepropagationhook)
+    - [`beeline.w3c.httpTracePropagationHook`](#beelinew3chttptracepropagationhook)
+    - [`beeline.aws.httpTracePropagationHook`](#beelineawshttptracepropagationhook)
 - [`TRACE_HTTP_HEADER`](#trace_http_header)
   - [`w3c.TRACE_HTTP_HEADER`](#w3ctrace_http_header)
   - [`aws.TRACE_HTTP_HEADER`](#awstrace_http_header)
@@ -449,7 +458,7 @@ beeline.aws.marshalTraceContext(beeline.getTraceContext());
 
 ---
 
-#### Trace Hooks
+#### Trace hooks
 Trace hooks are convenience functions available to configure the beeline to use one of the three pre-defined trace header formats [Honeycomb, W3C, AWS] for both receiving (parser) and sending (propagation) inter-process requests.
 
 Example configuration:

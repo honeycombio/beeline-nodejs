@@ -40,6 +40,15 @@ Contents
   - [AWS](#aws)
     - [`aws.marshalTraceContext()`](#awsmarshaltracecontext)
     - [`aws.unmarshalTraceContext()`](#awsunmarshaltracecontext)
+- [Trace hooks](#trace-hooks)
+  - [`httpTraceParserHook`](#httptraceparserhook)
+    - [`beeline.honeycomb.httpTraceParserHook`](#beelinehoneycombhttptraceparserhook)
+    - [`beeline.w3c.httpTraceParserHook`](#beelinew3chttptraceparserhook)
+    - [`beeline.aws.httpTraceParserHook`](#beelineawshttptraceparserhook)
+  - [`httpTracePropagationHook`](#httptracepropagationhook)
+    - [`beeline.honeycomb.httpTracePropagationHook`](#beelinehoneycombhttptracepropagationhook)
+    - [`beeline.w3c.httpTracePropagationHook`](#beelinew3chttptracepropagationhook)
+    - [`beeline.aws.httpTracePropagationHook`](#beelineawshttptracepropagationhook)
 - [`TRACE_HTTP_HEADER`](#trace_http_header)
   - [`w3c.TRACE_HTTP_HEADER`](#w3ctrace_http_header)
   - [`aws.TRACE_HTTP_HEADER`](#awstrace_http_header)
@@ -446,6 +455,55 @@ Accepts the current trace context and returns a serialized trace header in aws [
 ```javascript
 beeline.aws.marshalTraceContext(beeline.getTraceContext());
 ```
+
+---
+
+#### Trace hooks
+Trace hooks are convenience functions available to configure the beeline to use one of the three pre-defined trace header formats [Honeycomb, W3C, AWS] for both receiving (parser) and sending (propagation) inter-process requests.
+
+Example configuration:
+```javascript
+beeline({
+  writeKey: 'writeKey',
+  dataset: 'my-dataset',
+  serviceName: 'my-node-service',
+  httpTraceParserHook: beeline.w3c.httpTraceParserHook,
+  httpTracePropagationHook: beeline.w3c.httpTracePropagationHook
+})
+```
+
+---
+
+##### `httpTraceParserHook`
+Accepts an HTTP request object and returns a [trace context object](#trace-context-object).
+
+###### `beeline.honeycomb.httpTraceParserHook`
+Used for parsing the [Honeycomb trace header](#trace_http_header)
+
+###### `beeline.w3c.httpTraceParserHook`
+Used for parsing the W3C [`traceparent`](https://www.w3.org/TR/trace-context/#traceparent-header) and [`tracestate`](https://www.w3.org/TR/trace-context/#tracestate-header) headers
+
+###### `beeline.aws.httpTraceParserHook`
+Used for parsing the [AWS trace header](#awstrace_http_header)
+
+---
+
+##### `httpTracePropagationHook`
+Accepts a [trace context object](#trace-context-object) and returns an array of HTTP headers containing trace propagation headers in the desired format.
+
+###### `beeline.honeycomb.httpTracePropagationHook`
+Marshals a trace context object into the following headers:
+- [Honeycomb trace header](#trace_http_header): context
+- [tracestate](https://www.w3.org/TR/trace-context/#tracestate-header): context.customContext.tracestate
+
+###### `beeline.w3c.httpTracePropagationHook`
+Marshals a trace context object into the following headers:
+- [traceparent](https://www.w3.org/TR/trace-context/#traceparent-header): context
+- [tracestate](https://www.w3.org/TR/trace-context/#tracestate-header): context.customContext
+
+###### `beeline.aws.httpTracePropagationHook`
+Marshals a trace context object into the following headers:
+- [AWS trace header](#awstrace_http_header): context
 
 ---
 

@@ -21,29 +21,24 @@
     "format": "prettier --write \"lib/**/*.js\"",
     "check-format": "prettier \"lib/**/*.js\"",
     "lint": "eslint \"lib/**/*.js\"",
-    "precommit": "lint-staged"
+    "prepare": "husky install"
   },
   "lint-staged": {
     "*.{js,jsx}": [
-      "prettier --parser flow --write",
-      "eslint",
-      "git add"
+      "prettier --write",
+      "eslint"
     ],
     "*.json": [
-      "prettier --parser json --write",
-      "git add"
+      "prettier --write"
     ],
     "*.{graphql,gql}": [
-      "prettier --parser graphql --write",
-      "git add"
+      "prettier --write"
     ],
     "*.{md,markdown}": [
-      "prettier --parser markdown --write",
-      "git add"
+      "prettier --write"
     ],
     "*.{css,scss}": [
-      "prettier --parser css --write",
-      "git add"
+      "prettier --write"
     ]
   },
   "devDependencies": {

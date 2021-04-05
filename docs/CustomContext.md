@@ -26,30 +26,30 @@ in each of the examples below, the `customContext` usage is higlighted by a `/**
 const honey = require("honeycomb-beeline")();
 
 const express = require("express"),
-      React = require("react"),
-      ReactDOM = require("react-dom/server"),
-      User = require("./user"),
-      UserView = require("./views/user);
+  React = require("react"),
+  ReactDOM = require("react-dom/server"),
+  User = require("./user"),
+  UserView = require("./views/user");
 
-app.param('user', (req, res, next, id) => {
-    req.userId = id;
-    next();
+app.param("user", (req, res, next, id) => {
+  req.userId = id;
+  next();
 });
 
-app.get("/user/:user, (req, res, next) => {
-    // the underlying DB event called by User.find will _not_ contain the additional fields.
-    User.find(req.userId, (err, user) => {
-        if (err) {
-            return next(err);
-        }
-/**/    honey.customContext.add("user.id", user.id);
-/**/    honey.customContext.add("user.email", user.email);
+app.get("/user/:user", (req, res, next) => {
+  // the underlying DB event called by User.find will _not_ contain the additional fields.
+  User.find(req.userId, (err, user) => {
+    if (err) {
+      return next(err);
+    }
+    /**/ honey.customContext.add("user.id", user.id);
+    /**/ honey.customContext.add("user.email", user.email);
 
-        // the express request event will contain the additional fields.
+    // the express request event will contain the additional fields.
 
-        // the react renderToString event here will also contain the additional fields.
-        res.send(ReactDOM.renderToString(React.createElement(UserView, { user })));
-    })
+    // the react renderToString event here will also contain the additional fields.
+    res.send(ReactDOM.renderToString(React.createElement(UserView, { user })));
+  });
 });
 ```
 
@@ -59,29 +59,31 @@ app.get("/user/:user, (req, res, next) => {
 const honey = require("honeycomb-beeline")();
 
 const express = require("express"),
-      React = require("react"),
-      ReactDOM = require("react-dom/server"),
-      User = require("./user"),
-      UserView = require("./views/user);
+  React = require("react"),
+  ReactDOM = require("react-dom/server"),
+  User = require("./user"),
+  UserView = require("./views/user");
 
-app.param('user', (req, res, next, id) => {
-    req.userId = id;
-    next();
+app.param("user", (req, res, next, id) => {
+  req.userId = id;
+  next();
 });
 
-app.get("/user/:user, (req, res, next) => {
-    // the underlying DB event called by User.find will _not_ contain the additional fields.
-    User.find(req.userId).then(user => {
-/**/    honey.customContext.add("user.id", user.id);
-/**/    honey.customContext.add("user.email", user.email);
+app.get("/user/:user", (req, res, next) => {
+  // the underlying DB event called by User.find will _not_ contain the additional fields.
+  User.find(req.userId)
+    .then((user) => {
+      /**/ honey.customContext.add("user.id", user.id);
+      /**/ honey.customContext.add("user.email", user.email);
 
-        // the express request event will contain the additional fields.
+      // the express request event will contain the additional fields.
 
-        // the react renderToString event here will also contain the additional fields.
-        res.send(ReactDOM.renderToString(React.createElement(UserView, { user })));
-    }).catch(err => {
-        return next(err);
+      // the react renderToString event here will also contain the additional fields.
+      res.send(ReactDOM.renderToString(React.createElement(UserView, { user })));
     })
+    .catch((err) => {
+      return next(err);
+    });
 });
 ```
 
@@ -91,31 +93,31 @@ app.get("/user/:user, (req, res, next) => {
 const honey = require("honeycomb-beeline")();
 
 const express = require("express"),
-      React = require("react"),
-      ReactDOM = require("react-dom/server"),
-      User = require("./user"),
-      UserView = require("./views/user);
+  React = require("react"),
+  ReactDOM = require("react-dom/server"),
+  User = require("./user"),
+  UserView = require("./views/user");
 
-app.param('user', (req, res, next, id) => {
-    req.userId = id;
-    next();
+app.param("user", (req, res, next, id) => {
+  req.userId = id;
+  next();
 });
 
-app.get("/user/:user, async (req, res, next) => {
-    try {
-        // the underlying DB event called by User.find will _not_ contain the additional fields.
-        let user = await User.find(req.userId);
+app.get("/user/:user", async (req, res, next) => {
+  try {
+    // the underlying DB event called by User.find will _not_ contain the additional fields.
+    let user = await User.find(req.userId);
 
-/**/    honey.customContext.add("user.id", user.id);
-/**/    honey.customContext.add("user.email", user.email);
+    /**/ honey.customContext.add("user.id", user.id);
+    /**/ honey.customContext.add("user.email", user.email);
 
-        // the express request event will contain the additional fields.
+    // the express request event will contain the additional fields.
 
-        // the react renderToString event here will also contain the additional fields.
-        res.send(ReactDOM.renderToString(React.createElement(UserView, { user })));
-    } catch(e) {
-        return next(e);
-    }
+    // the react renderToString event here will also contain the additional fields.
+    res.send(ReactDOM.renderToString(React.createElement(UserView, { user })));
+  } catch (e) {
+    return next(e);
+  }
 });
 ```
 
@@ -131,7 +133,7 @@ const express = require("express"),
       React = require("react"),
       ReactDOM = require("react-dom/server"),
       User = require("./user"),
-      UserView = require("./views/user);
+      UserView = require("./views/user");
 
 app.param('user', async (req, res, next, id) => {
     try {
@@ -149,7 +151,7 @@ app.param('user', async (req, res, next, id) => {
     }
 });
 
-app.get("/user/:user, (req, res, next) => {
+app.get("/user/:user", (req, res, next) => {
     // the express request event will still contain the additional fields.
 
     // the react renderToString event here will also contain the additional fields.

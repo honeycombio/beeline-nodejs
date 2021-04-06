@@ -15,6 +15,7 @@
     "url": "https://github.com/honeycombio/beeline-nodejs/issues"
   },
   "main": "lib/index.js",
+  "types": "lib/types.d.ts",
   "scripts": {
     "test": "jest",
     "debug-test": "DEBUG=honeycomb-beeline:* jest",
@@ -59,6 +60,7 @@
   },
   "dependencies": {
     "@opentelemetry/core": "^0.18.0",
+    "@types/node": "^14.14.25",
     "array-flatten": "^3.0.0",
     "debug": "^4.2.0",
     "libhoney": "^2.2.1",

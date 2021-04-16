@@ -34,6 +34,7 @@ export interface BeelineOpts {
 
   httpTraceParserHook?: HttpTraceParserHook;
   httpTracePropagationHook?: HttpTracePropagationHook;
+  transmission?: string;
 }
 
 export interface Schema {

@@ -1,5 +1,41 @@
 # beeline-nodejs changelog
 
+## 2.7.0 [04-28-2021]
+
+### Improvements
+
+- TypeScript definitions (#308) | [@antonvasin](https://github.com/antonvasin)
+
+### Fixes
+
+- Add missing quotes to CustomContext.md (#321) | [@mmalecki](https://github.com/mmalecki)
+- transmission is a property of libhoney, but if not declared we cannot pass it from typescript (#339) | [@ilbambino](https://github.com/ilbambino)
+
+### Maintenance
+
+- Bump react-dom from 17.0.1 to 17.0.2 (#334)
+- Bump @opentelemetry/core from 0.18.0 to 0.18.2 (#333)
+- Bump react from 17.0.1 to 17.0.2 (#332)
+- Bump husky from 5.2.0 to 6.0.0 (#331)
+- Bump fastify from 3.14.0 to 3.14.1 (#328)
+- Bump semver from 7.3.4 to 7.3.5 (#327)
+- Bump libhoney from 2.2.1 to 2.2.3 (#326)
+- Bump eslint from 7.22.0 to 7.23.0 (#325)
+- Bump husky from 5.1.3 to 5.2.0 (#323)
+- Bump fastify from 3.12.0 to 3.14.0 (#320)
+- Bump eslint from 7.19.0 to 7.22.0 (#319)
+- Bump @opentelemetry/core from 0.16.0 to 0.18.0 (#317)
+- Bump husky from 4.3.8 to 5.1.3 (#316)
+- Bump fastify from 3.11.0 to 3.12.0 (#311)
+- Bump lint-staged from 10.5.3 to 10.5.4 (#306)
+- Bump @opentelemetry/core from 0.15.0 to 0.16.0 (#305)
+- Bump eslint from 7.18.0 to 7.19.0 (#304)
+- Toshok no longer has a branch for that (kidding, he totally has a branch for that) (#303)
+- Bump supertest from 6.1.1 to 6.1.3 (#302)
+- Bump fastify from 3.10.1 to 3.11.0 (#301)
+- Bump prettier from 2.1.2 to 2.2.1 (#300)
+- Bump @opentelemetry/core from 0.12.0 to 0.15.0 (#299)
+
 ## 2.6.0
 
 ### Improvements

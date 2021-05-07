@@ -114,7 +114,8 @@ declare namespace beeline {
       fn: SpanFn<F>,
       traceId?: string,
       parentSpanId?: string,
-      dataset?: string
+      dataset?: string,
+      propagatedContext?: MetadataContext
     ): F;
 
     startSpan(metadataContext?: MetadataContext): Span | undefined;

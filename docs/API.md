@@ -16,8 +16,7 @@ const beeline = require("honeycomb-beeline")();
 Or in TypeScript:
 
 ```typescript
-import honeycomb from "honeycomb-beeline";
-const beeline = honeycomb();
+import beeline = require('honeycomb-beeline');
 
 /* beeline.traceActive() works, as do all the other calls below */
 ```

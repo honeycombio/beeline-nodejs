@@ -1,181 +1,184 @@
 import { IncomingMessage } from "http";
 
-export interface SamplerResponse {
-  sampleRate: number;
-  shouldSample: boolean;
-}
+declare namespace beeline {
 
-export interface BeelineOpts {
-  writeKey?: string;
-  dataset?: string;
-  serviceName?: string;
-  sampleRate?: number;
-  enabledInstrumentations?: string[];
+  export interface SamplerResponse {
+    sampleRate: number;
+    shouldSample: boolean;
+  }
 
-  samplerHook?(event: unknown): SamplerResponse;
-  presendHook?(event: unknown): void;
-  disableInstrumentation?: boolean;
+  export interface BeelineOpts {
+    writeKey?: string;
+    dataset?: string;
+    serviceName?: string;
+    sampleRate?: number;
+    enabledInstrumentations?: string[];
 
-  express?: {
-    userContext?: MetadataContext;
-    traceIdSource?: string | ((req: IncomingMessage) => string);
-    parentIdSource?: string | ((req: IncomingMessage) => string);
-  };
+    samplerHook?(event: unknown): SamplerResponse;
+    presendHook?(event: unknown): void;
+    disableInstrumentation?: boolean;
 
-  fastify?: {
-    userContext?: MetadataContext;
-    traceIdSource?: string | ((req: IncomingMessage) => string);
-    parentIdSource?: string | ((req: IncomingMessage) => string);
-  };
+    express?: {
+      userContext?: MetadataContext;
+      traceIdSource?: string | ((req: IncomingMessage) => string);
+      parentIdSource?: string | ((req: IncomingMessage) => string);
+    };
 
-  mongodb?: {
-    includeDocuments?: boolean;
-  };
+    fastify?: {
+      userContext?: MetadataContext;
+      traceIdSource?: string | ((req: IncomingMessage) => string);
+      parentIdSource?: string | ((req: IncomingMessage) => string);
+    };
 
-  httpTraceParserHook?: HttpTraceParserHook;
-  httpTracePropagationHook?: HttpTracePropagationHook;
-  transmission?: string;
-}
+    mongodb?: {
+      includeDocuments?: boolean;
+    };
 
-export interface Schema {
-  "meta.type"?: string;
-  "meta.node_version"?: string;
-  "meta.beeline_version"?: string;
-  "meta.package"?: string;
-  "meta.package_version"?: string;
-  "meta.instrumentations"?: string;
-  "meta.instrumentation_count"?: string;
-  "meta.local_hostname"?: string;
-  duration_ms?: number;
-  "trace.trace_id"?: string;
-  "trace.trace_id_source"?: string;
-  "trace.parent_id"?: string;
-  "trace.span_id"?: string;
-  service_name?: string;
-  name?: string;
-}
+    httpTraceParserHook?: HttpTraceParserHook;
+    httpTracePropagationHook?: HttpTracePropagationHook;
+    transmission?: string;
+  }
 
-export interface Span {
-  addContext(metadataContext: MetadataContext): void;
-  payload: Schema & MetadataContext;
-  startTime: number;
-  startTimeHR: [number, number];
-}
+  export interface Schema {
+    "meta.type"?: string;
+    "meta.node_version"?: string;
+    "meta.beeline_version"?: string;
+    "meta.package"?: string;
+    "meta.package_version"?: string;
+    "meta.instrumentations"?: string;
+    "meta.instrumentation_count"?: string;
+    "meta.local_hostname"?: string;
+    duration_ms?: number;
+    "trace.trace_id"?: string;
+    "trace.trace_id_source"?: string;
+    "trace.parent_id"?: string;
+    "trace.span_id"?: string;
+    service_name?: string;
+    name?: string;
+  }
 
-export type MetadataContext = Record<string, any>;
+  export interface Span {
+    addContext(metadataContext: MetadataContext): void;
+    payload: Schema & MetadataContext;
+    startTime: number;
+    startTimeHR: [number, number];
+  }
 
-export interface TraceContext {
-  traceId?: string;
-  parentSpanId?: string;
-  dataset?: string;
-  customContext?: MetadataContext;
-  source?: string;
-}
+  export type MetadataContext = Record<string, any>;
 
-export interface ExecutionContext {
-  id?: string;
-  traceContext?: MetadataContext;
-  stack?: Span[];
-  dataset?: string;
-}
+  export interface TraceContext {
+    traceId?: string;
+    parentSpanId?: string;
+    dataset?: string;
+    customContext?: MetadataContext;
+    source?: string;
+  }
 
-export type MarshallableContext = MetadataContext | ExecutionContext;
+  export interface ExecutionContext {
+    id?: string;
+    traceContext?: MetadataContext;
+    stack?: Span[];
+    dataset?: string;
+  }
 
-export interface Timer {
-  name: string;
-  startTimeHR: [number, number];
-}
+  export type MarshallableContext = MetadataContext | ExecutionContext;
 
-type SpanFn<F> = (...args: any[]) => F;
+  export interface Timer {
+    name: string;
+    startTimeHR: [number, number];
+  }
 
-type Configure = (opts?: BeelineOpts) => Beeline & Configure;
+  type SpanFn<F> = (...args: any[]) => F;
 
-type Headers = Record<string, string>;
-export type HttpTraceParserHook = (req: IncomingMessage) => TraceContext;
-export type HttpTracePropagationHook = (ctx: TraceContext) => Headers;
+  type Configure = (opts?: BeelineOpts) => Beeline & Configure;
 
-export interface Beeline {
-  traceActive(): boolean;
-  clearTrace(): void;
-  getTraceContext(): ExecutionContext;
+  type Headers = Record<string, string>;
+  export type HttpTraceParserHook = (req: IncomingMessage) => TraceContext;
+  export type HttpTracePropagationHook = (ctx: TraceContext) => Headers;
 
-  startTrace(
-    metadataContext?: MetadataContext,
-    traceId?: string,
-    parentSpanId?: string,
-    dataset?: string,
-    propagatedContext?: MetadataContext
-  ): Span | undefined;
-  finishTrace(trace: Span): void;
-  withTrace<F>(
-    metadataContext: MetadataContext,
-    fn: SpanFn<F>,
-    traceId?: string,
-    parentSpanId?: string,
-    dataset?: string
-  ): F;
+  export interface Beeline {
+    traceActive(): boolean;
+    clearTrace(): void;
+    getTraceContext(): ExecutionContext;
 
-  startSpan(metadataContext?: MetadataContext): Span | undefined;
-  finishSpan(event: Span, rollup?: string): void;
-  withSpan<F>(metadataContext: MetadataContext, fn: SpanFn<F>, rollup?: string): F;
-  startAsyncSpan<F>(metadataContext: MetadataContext, fn: SpanFn<F>): F;
+    startTrace(
+      metadataContext?: MetadataContext,
+      traceId?: string,
+      parentSpanId?: string,
+      dataset?: string,
+      propagatedContext?: MetadataContext
+    ): Span | undefined;
+    finishTrace(trace: Span): void;
+    withTrace<F>(
+      metadataContext: MetadataContext,
+      fn: SpanFn<F>,
+      traceId?: string,
+      parentSpanId?: string,
+      dataset?: string
+    ): F;
 
-  startTimer(name: string): Timer;
-  finishTimer(timer: Timer): void;
-  withTimer<F>(name: string, fn: SpanFn<F>): F;
+    startSpan(metadataContext?: MetadataContext): Span | undefined;
+    finishSpan(event: Span, rollup?: string): void;
+    withSpan<F>(metadataContext: MetadataContext, fn: SpanFn<F>, rollup?: string): F;
+    startAsyncSpan<F>(metadataContext: MetadataContext, fn: SpanFn<F>): F;
 
-  addTraceContext(metadataContext: MetadataContext): void;
-  addContext(metadataContext: MetadataContext): void;
-  /** @deprecated this method will be removed in the next major release. */
-  removeContext(key: string): void;
+    startTimer(name: string): Timer;
+    finishTimer(timer: Timer): void;
+    withTimer<F>(name: string, fn: SpanFn<F>): F;
 
-  customContext: {
-    /** @deprecated this method will be removed in the next major release. Please use .addTraceContext. */
-    add(k: string, v: any): void;
+    addTraceContext(metadataContext: MetadataContext): void;
+    addContext(metadataContext: MetadataContext): void;
     /** @deprecated this method will be removed in the next major release. */
-    remove(k: string): void;
-  };
+    removeContext(key: string): void;
 
-  bindFunctionToTrace<F>(fn: SpanFn<F>): F;
-  runWithoutTrace<F>(fn: SpanFn<F>): F;
+    customContext: {
+      /** @deprecated this method will be removed in the next major release. Please use .addTraceContext. */
+      add(k: string, v: any): void;
+      /** @deprecated this method will be removed in the next major release. */
+      remove(k: string): void;
+    };
 
-  flush(): Promise<void>;
+    bindFunctionToTrace<F>(fn: SpanFn<F>): F;
+    runWithoutTrace<F>(fn: SpanFn<F>): F;
 
-  getInstrumentations(): string[];
+    flush(): Promise<void>;
 
-  /** @deprecated this method will be removed in the next major release. Please use honeycomb.marshalTraceContext() instead. */
-  marshalTraceContext(ctx: MarshallableContext): string;
-  /** @deprecated this method will be removed in the next major release. Please use honeycomb.unmarshalTraceContext() instead. */
-  unmarshalTraceContext(ctx: string): TraceContext | undefined;
+    getInstrumentations(): string[];
 
-  honeycomb: {
+    /** @deprecated this method will be removed in the next major release. Please use honeycomb.marshalTraceContext() instead. */
     marshalTraceContext(ctx: MarshallableContext): string;
-    unmarshalTraceContext(honeycombTraceHeader: string): TraceContext | undefined;
-    httpTraceParserHook: HttpTraceParserHook;
-    httpTracePropagationHook: HttpTracePropagationHook;
-    TRACE_HTTP_HEADER: string;
-  };
+    /** @deprecated this method will be removed in the next major release. Please use honeycomb.unmarshalTraceContext() instead. */
+    unmarshalTraceContext(ctx: string): TraceContext | undefined;
 
-  w3c: {
-    marshalTraceContext(ctx: MarshallableContext): string;
-    unmarshalTraceContext(traceparent: string, tracestate?: string): TraceContext | undefined;
-    httpTraceParserHook: HttpTraceParserHook;
-    httpTracePropagationHook: HttpTracePropagationHook;
-    TRACE_HTTP_HEADER: string;
-  };
+    honeycomb: {
+      marshalTraceContext(ctx: MarshallableContext): string;
+      unmarshalTraceContext(honeycombTraceHeader: string): TraceContext | undefined;
+      httpTraceParserHook: HttpTraceParserHook;
+      httpTracePropagationHook: HttpTracePropagationHook;
+      TRACE_HTTP_HEADER: string;
+    };
 
-  aws: {
-    marshalTraceContext(ctx: MarshallableContext): string;
-    unmarshalTraceContext(amazonTraceHeader: string): TraceContext | undefined;
-    httpTraceParserHook: HttpTraceParserHook;
-    httpTracePropagationHook: HttpTracePropagationHook;
-    TRACE_HTTP_HEADER: string;
-  };
+    w3c: {
+      marshalTraceContext(ctx: MarshallableContext): string;
+      unmarshalTraceContext(traceparent: string, tracestate?: string): TraceContext | undefined;
+      httpTraceParserHook: HttpTraceParserHook;
+      httpTracePropagationHook: HttpTracePropagationHook;
+      TRACE_HTTP_HEADER: string;
+    };
 
-  /** @deprecated this constant will be removed in the next major release. Please use honeycomb.TRACE_HTTP_HEADER instead. */
-  TRACE_HTTP_HEADER: string;
+    aws: {
+      marshalTraceContext(ctx: MarshallableContext): string;
+      unmarshalTraceContext(amazonTraceHeader: string): TraceContext | undefined;
+      httpTraceParserHook: HttpTraceParserHook;
+      httpTracePropagationHook: HttpTracePropagationHook;
+      TRACE_HTTP_HEADER: string;
+    };
+
+    /** @deprecated this constant will be removed in the next major release. Please use honeycomb.TRACE_HTTP_HEADER instead. */
+    TRACE_HTTP_HEADER: string;
+  }
 }
 
-declare const beeline: Beeline & Configure;
+declare const beeline: beeline.Beeline & beeline.Configure;
 
-export default beeline;
+export = beeline;

@@ -1,5 +1,22 @@
 # beeline-nodejs changelog
 
+## 2.7.1 [06-02-2021]
+
+### Improvements
+
+- Make api.withTrace's type signature match api.startTrace (#348) | [@ajvondrak](https://github.com/ajvondrak)
+- Ensure beeline can be import-ed or require-d when using typescript (#352) | [@vreynolds](https://github.com/vreynolds)
+
+### Maintenance
+
+- Bump lint-staged from 10.5.4 to 11.0.0 (#356)
+- Bump pg from 8.5.1 to 8.6.0 (#344)
+- Bump @types/node from 14.14.25 to 15.3.0 (#354)
+- Bump pg-query-stream from 4.0.0 to 4.1.0 (#342)
+- Bump fastify from 3.14.1 to 3.15.1 (#353)
+- Bump eslint from 7.23.0 to 7.26.0 (#350)
+- Bump prettier from 2.2.1 to 2.3.0 (#357)
+
 ## 2.7.0 [04-28-2021]
 
 ### Improvements
@@ -83,6 +100,7 @@ Improvements:
 - Support fastify v3 #263
 
 Maintenance:
+
 - Update dependencies #259 & #260
 
 ## 2.4.0

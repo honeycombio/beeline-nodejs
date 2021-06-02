@@ -13,6 +13,14 @@ const beeline = require("honeycomb-beeline")();
 /* beeline.traceActive() works, as do all the other calls below */
 ```
 
+Or in TypeScript:
+
+```typescript
+import beeline = require('honeycomb-beeline');
+
+/* beeline.traceActive() works, as do all the other calls below */
+```
+
 Contents
 
 1.  [Traces and spans](#traces-and-spans)

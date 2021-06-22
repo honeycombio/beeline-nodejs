@@ -3,7 +3,7 @@ import { IncomingMessage } from "http";
 declare namespace beeline {
 
   export interface SamplerResponse {
-    sampleRate: number;
+    sampleRate?: number;
     shouldSample: boolean;
   }
 

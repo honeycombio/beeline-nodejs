@@ -1,5 +1,15 @@
 # beeline-nodejs changelog
 
+## 2.7.2 [06-25-2021]
+
+### Fixes
+
+- Fix: http(s) instrumentation URL arg. (#361) | [@vreynolds](https://github.com/vreynolds)
+
+### Improvements
+
+- Make sampleRate optional in the interface. (#379) | [@Thom-netexpo](https://github.com/Thom-netexpo)
+
 ## 2.7.1 [06-02-2021]
 
 ### Improvements

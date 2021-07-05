@@ -39,6 +39,8 @@ executors:
         environment:
           POSTGRES_USER: root
           POSTGRES_DB: circle_test
+      - image: circleci/mongo:latest
+
   github:
     docker:
       - image: cibuilds/github:0.13.0

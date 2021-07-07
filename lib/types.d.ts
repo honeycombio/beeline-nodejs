@@ -13,6 +13,7 @@ declare namespace beeline {
     serviceName?: string;
     sampleRate?: number;
     enabledInstrumentations?: string[];
+    impl?: "libhoney-event" | "mock";
 
     samplerHook?(event: unknown): SamplerResponse;
     presendHook?(event: unknown): void;

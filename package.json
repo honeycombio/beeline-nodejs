@@ -6,7 +6,7 @@
     "node": "12.22.1"
   },
   "license": "Apache-2.0",
-  "version": "2.7.2",
+  "version": "2.7.3",
   "repository": {
     "type": "git",
     "url": "https://github.com/honeycombio/beeline-nodejs.git"
@@ -60,7 +60,7 @@
   },
   "dependencies": {
     "@opentelemetry/core": "^0.18.0",
-    "@types/node": "^15.3.0",
+    "@types/node": "^16.0.1",
     "array-flatten": "^3.0.0",
     "debug": "^4.2.0",
     "libhoney": "^2.2.1",

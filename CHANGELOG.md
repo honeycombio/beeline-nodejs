@@ -1,5 +1,11 @@
 # beeline-nodejs changelog
 
+## 2.7.3 [07-08-2021]
+
+### Fixes
+
+- Add impl type to BeelineOpts TypeScript definition [#389](https://github.com/honeycombio/beeline-nodejs/pull/389) | [@Cameron485](https://github.com/Cameron485)
+
 ## 2.7.2 [06-25-2021]
 
 ### Fixes

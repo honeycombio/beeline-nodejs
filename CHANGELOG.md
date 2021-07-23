@@ -1,5 +1,17 @@
 # beeline-nodejs changelog
 
+## 2.7.5 [07-23-2021]
+
+### Fixes
+
+- Use JSON.stringify only when debugging is enabled [#401](https://github.com/honeycombio/beeline-nodejs/pull/401) | [@kamilkisiela](https://github.com/kamilkisiela)
+
+### Maintenance
+
+- Bump eslint from 7.29.0 to 7.30.0 (#398)
+- Bump @types/node from 15.12.4 to 16.3.2 (#403)
+- Bump prettier from 2.3.1 to 2.3.2 (#382)
+
 ## 2.7.3 [07-08-2021]
 
 ### Fixes

@@ -46,7 +46,7 @@
     "eslint": "^7.11.0",
     "express": "^4.17.1",
     "fastify": "^3.0.0",
-    "husky": "^6.0.0",
+    "husky": "^7.0.1",
     "jest": "^27.0.4",
     "jest-in-case": "^1.0.2",
     "lint-staged": "^11.0.0",

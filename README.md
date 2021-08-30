@@ -11,6 +11,10 @@ This package makes it easy to instrument your Express/NodeJS application to send
 
 - **Node 10+**
 
+## Known Issues
+
+- Using a bundler (esbuild, webpack, etc.) with the Beeline is unsupported. You may be able to use the Beeline with a bundler, but auto-instrumentations will likely not work.
+
 ## Contributions
 
 Features, bug fixes and other changes to `beeline-nodejs` are gladly accepted. Please

@@ -1,5 +1,28 @@
 # beeline-nodejs changelog
 
+## 2.8.0 [09-01-2021]
+
+### Improvements
+
+- Support esbuild (#415) [@markandrus](https://github.com/markandrus)
+  - **Note:** The use of any JavaScript bundler will prevent the use of the majority of Beeline auto-instrumentations.
+  The Beeline's API can still be used for generating traces manually for your own application logic.
+
+### Maintenance
+
+- Bump @opentelemetry/core from 0.18.0 to 0.24.0 (#414)
+- Bump pg-query-stream from 4.1.0 to 4.2.1 (#430)
+- Bump husky from 6.0.0 to 7.0.2 (#431)
+- Bump supertest from 6.1.3 to 6.1.6 (#432)
+- Bump libhoney from 2.3.0 to 2.3.2 (#435)
+- Bump eslint from 7.30.0 to 7.32.0 (#434)
+- Bump pg from 8.6.0 to 8.7.1 (#433)
+- Bump lint-staged from 11.0.0 to 11.1.2 (#416)
+- Bump fastify from 3.15.1 to 3.20.2 (#426)
+- Bump @types/node from 16.3.2 to 16.7.1 (#428)
+- Bump jest from 27.0.4 to 27.0.6 (#388)
+- Bump debug from 4.3.1 to 4.3.2 (#404)
+
 ## 2.7.5 [07-23-2021]
 
 ### Fixes

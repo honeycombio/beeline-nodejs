@@ -24,12 +24,6 @@ CONTRIBUTORS file!
 
 All contributions will be released under the Apache License 2.0.
 
-## Releasing new versions
-
-Use `npm version --no-git-tag-version` to update the version number using `major`, `minor`, `patch`, or the prerelease variants `premajor`, `preminor`, or `prepatch`. We use `--no-git-tag-version` to avoid automatically tagging - tagging with the version automatically triggers a CI run that publishes, and we only want to do that upon merging the PR into `main`.
-
-After doing this, follow our usual instructions for the actual process of tagging and releasing the package.
-
 ## Running postgresql tests locally
 
 If you don't have postgresql running locally, you can launch postgresql in docker.

@@ -11,6 +11,9 @@
     "type": "git",
     "url": "https://github.com/honeycombio/beeline-nodejs.git"
   },
+  "engines": {
+    "node": ">= 10.*"
+  },
   "bugs": {
     "url": "https://github.com/honeycombio/beeline-nodejs/issues"
   },

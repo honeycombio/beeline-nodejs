@@ -17,6 +17,7 @@ declare namespace beeline {
 
     samplerHook?(event: unknown): SamplerResponse;
     presendHook?(event: unknown): void;
+    /** @deprecated use enabledInstrumentations: [] */
     disableInstrumentation?: boolean;
 
     express?: {

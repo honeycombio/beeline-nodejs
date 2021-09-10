@@ -17,6 +17,7 @@ declare namespace beeline {
 
     samplerHook?(event: unknown): SamplerResponse;
     presendHook?(event: unknown): void;
+    /** @deprecated use enabledInstrumentations: [] */
     disableInstrumentation?: boolean;
 
     express?: {
@@ -147,9 +148,9 @@ declare namespace beeline {
 
     getInstrumentations(): string[];
 
-    /** @deprecated this method will be removed in the next major release. Please use honeycomb.marshalTraceContext() instead. */
+    /** @deprecated use provider-specific functions, e.g. honeycomb.marshalTraceContext */
     marshalTraceContext(ctx: MarshallableContext): string;
-    /** @deprecated this method will be removed in the next major release. Please use honeycomb.unmarshalTraceContext() instead. */
+    /** @deprecated use provider-specific functions, e.g. honeycomb.unmarshalTraceContext */
     unmarshalTraceContext(ctx: string): TraceContext | undefined;
 
     honeycomb: {
@@ -176,7 +177,7 @@ declare namespace beeline {
       TRACE_HTTP_HEADER: string;
     };
 
-    /** @deprecated this constant will be removed in the next major release. Please use honeycomb.TRACE_HTTP_HEADER instead. */
+    /** @deprecated use provider-specific constants, e.g. honeycomb.TRACE_HTTP_HEADER */
     TRACE_HTTP_HEADER: string;
   }
 }

@@ -141,7 +141,7 @@ declare namespace beeline {
       remove(k: string): void;
     };
 
-    bindFunctionToTrace<F>(fn: SpanFn<F>): F;
+    bindFunctionToTrace<T>(fn:T): T;
     runWithoutTrace<F>(fn: SpanFn<F>): F;
 
     flush(): Promise<void>;

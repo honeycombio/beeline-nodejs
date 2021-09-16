@@ -1,12 +1,30 @@
 # beeline-nodejs changelog
 
+## 2.8.1 [2021-09-16]
+
+### Fixes
+
+- Fix types on bindFunctionToTrace (#450).
+  - Thanks [@gmunguia](https://github.com/gmunguia) and [@zenazn](https://github.com/zenazn) for raising the issue.
+
+### Maintenance
+
+- Update deprecation comments (#444) [@vreynolds](https://github.com/vreynolds)
+- Add engines to package.json (#443)
+- Add NOTICE (#442)
+- Bump prettier from 2.3.2 to 2.4.0 (#446)
+- Bump jest from 27.0.6 to 27.1.1 (#447)
+- Bump @types/node from 16.7.1 to 16.9.1 (#449)
+- Bump fastify from 3.20.2 to 3.21.0 (#448)
+- Bump @opentelemetry/api from 1.0.2 to 1.0.3 (#440)
+
 ## 2.8.0 [09-01-2021]
 
 ### Improvements
 
 - Support esbuild (#415) [@markandrus](https://github.com/markandrus)
   - **Note:** The use of any JavaScript bundler will prevent the use of the majority of Beeline auto-instrumentations.
-  The Beeline's API can still be used for generating traces manually for your own application logic.
+    The Beeline's API can still be used for generating traces manually for your own application logic.
 
 ### Maintenance
 

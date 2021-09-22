@@ -1,6 +1,6 @@
 {
-  "name": "honeycomb-beeline",
-  "description": "automatic instrumentation for honeycomb.io",
+  "name": "@outreach/honeycomb-beeline",
+  "description": "automatic instrumentation for honeycomb.io (Outreach fork)",
   "author": "support@honeycomb.io",
   "volta": {
     "node": "12.22.1"
@@ -9,7 +9,7 @@
   "version": "2.8.1",
   "repository": {
     "type": "git",
-    "url": "https://github.com/honeycombio/beeline-nodejs.git"
+    "url": "https://github.com/getoutreach/beeline-nodejs.git"
   },
   "engines": {
     "node": ">= 10.*"

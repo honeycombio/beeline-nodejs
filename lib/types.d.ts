@@ -131,15 +131,6 @@ declare namespace beeline {
 
     addTraceContext(metadataContext: MetadataContext): void;
     addContext(metadataContext: MetadataContext): void;
-    /** @deprecated this method will be removed in the next major release. */
-    removeContext(key: string): void;
-
-    customContext: {
-      /** @deprecated this method will be removed in the next major release. Please use .addTraceContext. */
-      add(k: string, v: any): void;
-      /** @deprecated this method will be removed in the next major release. */
-      remove(k: string): void;
-    };
 
     bindFunctionToTrace<T>(fn:T): T;
     runWithoutTrace<F>(fn: SpanFn<F>): F;
@@ -147,11 +138,6 @@ declare namespace beeline {
     flush(): Promise<void>;
 
     getInstrumentations(): string[];
-
-    /** @deprecated use provider-specific functions, e.g. honeycomb.marshalTraceContext */
-    marshalTraceContext(ctx: MarshallableContext): string;
-    /** @deprecated use provider-specific functions, e.g. honeycomb.unmarshalTraceContext */
-    unmarshalTraceContext(ctx: string): TraceContext | undefined;
 
     honeycomb: {
       marshalTraceContext(ctx: MarshallableContext): string;
@@ -177,8 +163,6 @@ declare namespace beeline {
       TRACE_HTTP_HEADER: string;
     };
 
-    /** @deprecated use provider-specific constants, e.g. honeycomb.TRACE_HTTP_HEADER */
-    TRACE_HTTP_HEADER: string;
   }
 }
 

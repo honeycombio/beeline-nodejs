@@ -134,6 +134,8 @@ declare namespace beeline {
     /** @deprecated this method will be removed in the next major release. */
     removeContext(key: string): void;
 
+    incrementTraceRollup(key: string, durationMs: number, count?: number): void;
+
     customContext: {
       /** @deprecated this method will be removed in the next major release. Please use .addTraceContext. */
       add(k: string, v: any): void;

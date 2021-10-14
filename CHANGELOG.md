@@ -1,5 +1,28 @@
 # beeline-nodejs changelog
 
+## 3.0.0 [2021-10-14]
+
+### !!! Breaking Changes !!!
+
+- Remove deprecated APIs (#457) | [@vreynolds](https://github.com/vreynolds)
+- Stop auto-detecting x-request-id and amazon trace headers (#445) | [@vreynolds](https://github.com/vreynolds)
+- Fix api.addContext so it works on the current span (not the root) (#347) | [@ajvondrak](https://github.com/ajvondrak)
+
+### Maintenance
+
+- Clean up npm tarball (#465) | [@vreynolds](https://github.com/vreynolds)
+- Change maintenance badge to maintained (#459)
+- Adds Stalebot (#460)
+- Bump @types/node from 16.9.4 to 16.10.2 (#466)
+- Bump @opentelemetry/core from 0.24.0 to 0.25.0 (#464)
+- Bump fastify from 3.21.3 to 3.21.6 (#461)
+- Bump jest from 27.2.0 to 27.2.2 (#462)
+- Bump fastify from 3.21.0 to 3.21.3 (#452)
+- Bump jest from 27.1.1 to 27.2.0 (#453)
+- Bump libhoney from 2.3.2 to 2.3.3 (#454)
+- Bump @types/node from 16.9.1 to 16.9.4 (#456)
+- Bump prettier from 2.4.0 to 2.4.1 (#455)
+
 ## 2.8.1 [2021-09-16]
 
 ### Fixes

@@ -4,9 +4,18 @@
 
 ### !!! Breaking Changes !!!
 
-- Remove deprecated APIs (#457) | [@vreynolds](https://github.com/vreynolds)
-- Stop auto-detecting x-request-id and amazon trace headers (#445) | [@vreynolds](https://github.com/vreynolds)
-- Fix api.addContext so it works on the current span (not the root) (#347) | [@ajvondrak](https://github.com/ajvondrak)
+- Remove deprecated APIs (#457) | @vreynolds
+  - `marshalTraceContext()` --> use provider-specific functions, e.g. `honeycomb.marshalTraceContext()`
+  - `unmarshalTraceContext()` --> use provider-specific functions, e.g. `honeycomb.unmarshalTraceContext()`
+  - `TRACE_HTTP_HEADER` --> use provider-specific constants, e.g. `honeycomb.TRACE_HTTP_HEADER`
+  - `AMAZON_TRACE_HTTP_HEADER` --> use `aws.TRACE_HTTP_HEADER`
+  - `removeContext()` --> no replacement
+  - `customContext.add()` --> use `addTraceContext()`
+  - `customContext.remove()` --> no replacement
+- Stop auto-detecting x-request-id and amazon trace headers (#445) | @vreynolds
+  - Users will have to opt-in to custom trace propagation
+- Fix api.addContext so it works on the current span (not the root) (#347) | @ajvondrak
+  - This is a fix to match documentation and intention, but breaks current (incorrect) behavior.
 
 ### Maintenance
 

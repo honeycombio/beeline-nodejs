@@ -70,7 +70,6 @@
   "dependencies": {
     "@opentelemetry/api": "^1.0.2",
     "@opentelemetry/core": "^1.0.0",
-    "@types/node": "^16.3.2",
     "array-flatten": "^3.0.0",
     "debug": "^4.2.0",
     "libhoney": "^2.2.1",

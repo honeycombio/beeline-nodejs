@@ -19,7 +19,7 @@ filters_publish: &filters_publish
 matrix_nodeversions: &matrix_nodeversions
   matrix:
     parameters:
-      nodeversion: ["10.24", "12.22", "14.17", "15.14", "16.2"]
+      nodeversion: ["10.24", "12.22", "14.17", "15.14", "16.2", "17.0"]
 
 # Default version of node to use for lint and publishing
 default_nodeversion: &default_nodeversion "12.22"

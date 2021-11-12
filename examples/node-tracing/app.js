@@ -1,20 +1,25 @@
 /* eslint-env node */
-const HONEYCOMB_DATASET = "tracing-example";
+"use strict";
+const beeline = require("honeycomb-beeline");
 
-const beeline = require("honeycomb-beeline")({
-  writeKey: process.env.HONEYCOMB_API_KEY,
+const HONEYCOMB_DATASET = `${process.env.HONEYCOMB_DATASET}` || "tracing-example";
+const SERVICE_NAME = `${process.env.SERVICE_NAME}` || "wall";
+const HONEYCOMB_API_KEY = `${process.env.HONEYCOMB_API_KEY}` || "abc123";
+
+beeline({
+  writeKey: HONEYCOMB_API_KEY,
   dataset: HONEYCOMB_DATASET,
-  serviceName: "wall",
+  serviceName: SERVICE_NAME,
+  httpTraceParserHook: beeline.w3c.httpTraceParserHook, // in case of mixed services
+  httpTracePropagationHook: beeline.w3c.httpTracePropagationHook, // in case of mixed services
 });
 
 const express = require("express");
 const bodyParser = require("body-parser");
-const rp = require("request-promise-native");
 const app = express();
+const PORT = 3000;
 
 const contents = ["first post"];
-const hashtagRegexp = /#([a-z0-9]+)/gi;
-const hashtagSearch = `<a href="https://twitter.com/hashtag/$1">#$1</a>`;
 
 app.use(bodyParser.urlencoded({ extended: false, type: "*/*" }));
 
@@ -34,15 +39,7 @@ app.use((req, res, next) => {
     })
   );
 
-  // Add some way to identify these requests as coming from you!
-  // addTraceContext ensures that this field will be populated on
-  // *all* spans in the trace, not just the currently active one.
-  // beeline.addTraceContext("username", "YOUR_USERNAME_HERE");
-
   next();
-});
-app.get("/favicon.ico", (req, res) => {
-  res.status(404);
 });
 
 // = HANDLER =======================================================
@@ -71,95 +68,15 @@ app.post("/", async (req, res) => {
     res.status(500).send("not a string body");
     return;
   }
+
+  const postSpan = beeline.startSpan({ name: "Posting a message" });
   let body = req.body.message.trim();
 
-  let analysisPromise = analyze(body);
-
-  body = await twitterize(body);
-
-  // Let's persist our wall contents! POST each message to a
-  // third-party service (in this case, a Lambda function).
-  await persist(body);
-
-  let sentiment = await analysisPromise;
-  beeline.addContext({ sentiment });
-  if (sentiment >= 0.2) {
-    body = `<b>${body}</b>`;
-  } else if (sentiment <= -0.2) {
-    body = `<i>${body}</i>`;
-  }
-
   contents.push(body);
+  beeline.addTraceContext({ message: body });
+  beeline.finishSpan(postSpan);
 
   res.redirect("/");
 });
 
-// = HELPER ========================================================
-// Identifies hashtags and Twitter handle-like strings. Replaces
-// hashtags with links to a Twitter search for the found hashtag and
-// replaces handle-like strings with links to the Twitter profile
-// *if* a valid profile is found.
-// =================================================================
-const twitterize = async (content) => {
-  let newContent = content.replace(hashtagRegexp, hashtagSearch);
-
-  let matches = newContent.match(/@([a-z0-9_]+)/g);
-  let promiseArr = (matches || []).map((handle) => {
-    const profile = `https://twitter.com/${handle.substr(1)}`;
-    return beeline.startAsyncSpan(
-      {
-        name: "check_twitter",
-        "app.twitter.handle": handle,
-      },
-      (span) => {
-        return rp({ uri: profile, resolveWithFullResponse: true })
-          .then((resp) => {
-            newContent = newContent.replace(handle, `<a href="${profile}">${handle}</a>`);
-            beeline.addContext({ "app.twitter.response_status": resp.statusCode });
-            beeline.finishSpan(span);
-          })
-          .catch((err) => {
-            beeline.addContext({ "app.twitter.response_status": err.statusCode });
-            beeline.finishSpan(span);
-          });
-      }
-    );
-  });
-
-  await Promise.all(promiseArr);
-  return newContent;
-};
-
-// = HELPER ========================================================
-// Calls out to a second service of ours (which may or may not be
-// live) to perform some further analysis on the post content.
-// =================================================================
-const analyze = async (content) => {
-  let options = {
-    uri: "http://localhost:8088",
-    method: "POST",
-    headers: { "Content-Type": "text/plain" },
-    body: content,
-  };
-  return rp(options)
-    .then((v) => v)
-    .catch(() => 0.0);
-};
-
-// = HELPER ========================================================
-// Calls out to a third service over which we *don't* have control,
-// in order to persist the contents of a single message.
-// =================================================================
-const persist = async (content) => {
-  let options = {
-    uri: "https://p3m11fv104.execute-api.us-east-1.amazonaws.com/dev/",
-    method: "POST",
-    headers: { "Content-Type": "text/plain" },
-    body: content,
-  };
-  return rp(options)
-    .then(() => {})
-    .catch(() => {});
-};
-
-app.listen(8080, () => console.log(`'wall' service listening on port 8080!`));
+app.listen(PORT, () => console.log(`'wall' service listening on port ${PORT}}!`));

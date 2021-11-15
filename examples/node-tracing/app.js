@@ -2,9 +2,9 @@
 "use strict";
 const beeline = require("honeycomb-beeline");
 
-const HONEYCOMB_DATASET = `${process.env.HONEYCOMB_DATASET}` || "tracing-example";
-const SERVICE_NAME = `${process.env.SERVICE_NAME}` || "wall";
-const HONEYCOMB_API_KEY = `${process.env.HONEYCOMB_API_KEY}` || "abc123";
+const HONEYCOMB_DATASET = process.env.HONEYCOMB_DATASET || "tracing-example";
+const SERVICE_NAME = process.env.SERVICE_NAME || "wall";
+const HONEYCOMB_API_KEY = process.env.HONEYCOMB_API_KEY || "abc123";
 
 beeline({
   writeKey: HONEYCOMB_API_KEY,

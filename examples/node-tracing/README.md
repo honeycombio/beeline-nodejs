@@ -27,7 +27,7 @@ Run our sample `wall` service with:
 
 ```bash
 # Will run on port 3000
-$ npm start
+$ HONEYCOMB_API_KEY=abc123 npm start
 ```
 
 ### Interacting with your application

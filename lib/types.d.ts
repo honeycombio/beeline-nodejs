@@ -8,15 +8,32 @@ declare namespace beeline {
   }
 
   export interface BeelineOpts {
+    // Options passed through to libhoney
+    apiHost?: string;
+    proxy?: string;
     writeKey?: string;
     dataset?: string;
-    serviceName?: string;
     sampleRate?: number;
+    batchSizeTrigger?: number;
+    batchTimeTrigger?: number;
+    maxConcurrentBatches?: number;
+    pendingWorkCapacity?: number;
+    maxResponseQueueSize?: number;
+    timeout?: number;
+    disabled?: false;
+    userAgentAddition?: string;
+    transmission?: string;
+
+    // Beeline-specific options
+    serviceName?: string;
     enabledInstrumentations?: string[];
     impl?: "libhoney-event" | "mock";
 
     samplerHook?(event: unknown): SamplerResponse;
     presendHook?(event: unknown): void;
+    httpTraceParserHook?: HttpTraceParserHook;
+    httpTracePropagationHook?: HttpTracePropagationHook;
+
     /** @deprecated use enabledInstrumentations: [] */
     disableInstrumentation?: boolean;
 
@@ -35,10 +52,6 @@ declare namespace beeline {
     mongodb?: {
       includeDocuments?: boolean;
     };
-
-    httpTraceParserHook?: HttpTraceParserHook;
-    httpTracePropagationHook?: HttpTracePropagationHook;
-    transmission?: string;
   }
 
   export interface Schema {

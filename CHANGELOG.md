@@ -31,6 +31,7 @@
 - Bump jest from 27.3.0 to 27.3.1 (#480)
 - Bump fastify from 3.21.6 to 3.22.1 (#479)
 - Bump jest from 27.2.2 to 27.3.0 (#476)
+
 ## 3.0.0 [2021-10-14]
 
 ### !!! Breaking Changes !!!

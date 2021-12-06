@@ -1,5 +1,36 @@
 # beeline-nodejs changelog
 
+## 3.1.0 [2021-12-06]
+
+### Improvements
+
+- Expand type definitions to include all libhoney options (#502) | [@glenjamin](https://github.com/glenjamin)
+
+### Maintenance
+
+- Update dependabot to monthly (#500) | [@vreynolds](https://github.com/vreynolds)
+- Add node 17 to test matrix (#485) | [@vreynolds](https://github.com/vreynolds)
+- Remove unnecessary dependency on node types (#484) | [@vreynolds](https://github.com/vreynolds)
+- Migrate and update example from examples repo (#494) | [@JamieDanielson](https://github.com/JamieDanielson)
+- Empower apply-labels action to apply labels (#490) | [@robbkidd](https://github.com/robbkidd)
+  
+### Dependencies
+
+- Bump lint-staged from 12.1.1 to 12.1.2 (#501)
+- Bump fastify from 3.22.1 to 3.24.0 (#497)
+- Bump @opentelemetry/core from 1.0.0 to 1.0.1 (#496)
+- Bump lint-staged from 11.2.4 to 12.1.1 (#498)
+- Bump eslint from 8.1.0 to 8.3.0 (#499)
+- Bump lint-staged from 11.2.3 to 11.2.4 (#487)
+- Bump eslint from 8.0.1 to 8.1.0 (#488)
+- Bump libhoney from 2.3.3 to 3.0.0 (#478)
+- Bump @opentelemetry/core from 0.25.0 to 1.0.0 (#467)
+- Bump eslint from 7.32.0 to 8.0.1 (#474)
+- Bump husky from 7.0.2 to 7.0.4 (#483)
+- Bump lint-staged from 11.1.2 to 11.2.3 (#482)
+- Bump jest from 27.3.0 to 27.3.1 (#480)
+- Bump fastify from 3.21.6 to 3.22.1 (#479)
+- Bump jest from 27.2.2 to 27.3.0 (#476)
 ## 3.0.0 [2021-10-14]
 
 ### !!! Breaking Changes !!!

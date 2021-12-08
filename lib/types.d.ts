@@ -7,6 +7,12 @@ declare namespace beeline {
     shouldSample: boolean;
   }
 
+  export interface libhoneyEvent {
+    data: Record<string, unknown>;
+    add(data: Record<string, unknown>): this;
+    addField(key: string, value: unknown): this;
+  }
+
   export interface BeelineOpts {
     // Options passed through to libhoney
     apiHost?: string;
@@ -29,8 +35,8 @@ declare namespace beeline {
     enabledInstrumentations?: string[];
     impl?: "libhoney-event" | "mock";
 
-    samplerHook?(event: unknown): SamplerResponse;
-    presendHook?(event: unknown): void;
+    samplerHook?(event: libhoneyEvent): SamplerResponse;
+    presendHook?(event: libhoneyEvent): void;
     httpTraceParserHook?: HttpTraceParserHook;
     httpTracePropagationHook?: HttpTracePropagationHook;
 
@@ -103,7 +109,7 @@ declare namespace beeline {
     startTimeHR: [number, number];
   }
 
-  type SpanFn<F> = (...args: any[]) => F;
+  type SpanFn<F> = (span: Span) => F;
 
   type Configure = (opts?: BeelineOpts) => Beeline & Configure;
 
@@ -145,8 +151,8 @@ declare namespace beeline {
     addTraceContext(metadataContext: MetadataContext): void;
     addContext(metadataContext: MetadataContext): void;
 
-    bindFunctionToTrace<T>(fn:T): T;
-    runWithoutTrace<F>(fn: SpanFn<F>): F;
+    bindFunctionToTrace<T extends Function>(fn:T): T;
+    runWithoutTrace<T extends Function>(fn:T): T;
 
     flush(): Promise<void>;
 
@@ -176,6 +182,10 @@ declare namespace beeline {
       TRACE_HTTP_HEADER: string;
     };
 
+    _apiForTesting(): {
+      sentEvents: Span["payload"][];
+      traceId: number;
+    };
   }
 }
 

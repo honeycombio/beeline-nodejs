@@ -7,7 +7,7 @@ declare namespace beeline {
     shouldSample: boolean;
   }
 
-  export interface libhoneyEvent {
+  export interface LibhoneyEvent {
     data: Record<string, unknown>;
     add(data: Record<string, unknown>): this;
     addField(key: string, value: unknown): this;
@@ -35,8 +35,8 @@ declare namespace beeline {
     enabledInstrumentations?: string[];
     impl?: "libhoney-event" | "mock";
 
-    samplerHook?(event: libhoneyEvent): SamplerResponse;
-    presendHook?(event: libhoneyEvent): void;
+    samplerHook?(event: LibhoneyEvent): SamplerResponse;
+    presendHook?(event: LibhoneyEvent): void;
     httpTraceParserHook?: HttpTraceParserHook;
     httpTracePropagationHook?: HttpTracePropagationHook;
 
@@ -85,7 +85,7 @@ declare namespace beeline {
     startTimeHR: [number, number];
   }
 
-  export type MetadataContext = Record<string, any>;
+  export type MetadataContext = Record<string, unknown>;
 
   export interface TraceContext {
     traceId?: string;
@@ -110,6 +110,7 @@ declare namespace beeline {
   }
 
   type SpanFn<F> = (span: Span) => F;
+  type AnyFunction = (...args: unknown[]) => unknown;
 
   type Configure = (opts?: BeelineOpts) => Beeline & Configure;
 
@@ -151,8 +152,8 @@ declare namespace beeline {
     addTraceContext(metadataContext: MetadataContext): void;
     addContext(metadataContext: MetadataContext): void;
 
-    bindFunctionToTrace<T extends Function>(fn:T): T;
-    runWithoutTrace<T extends Function>(fn:T): T;
+    bindFunctionToTrace<T extends AnyFunction>(fn:T): T;
+    runWithoutTrace<T extends AnyFunction>(fn:T): T;
 
     flush(): Promise<void>;
 

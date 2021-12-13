@@ -85,7 +85,7 @@ declare namespace beeline {
     startTimeHR: [number, number];
   }
 
-  export type MetadataContext = Record<string, unknown>;
+  export type MetadataContext = Record<string, any>;
 
   export interface TraceContext {
     traceId?: string;
@@ -153,7 +153,7 @@ declare namespace beeline {
     addContext(metadataContext: MetadataContext): void;
 
     bindFunctionToTrace<T extends AnyFunction>(fn:T): T;
-    runWithoutTrace<T extends AnyFunction>(fn:T): T;
+    runWithoutTrace<T extends AnyFunction>(fn:T): ReturnType<T>;
 
     flush(): Promise<void>;
 
@@ -183,6 +183,12 @@ declare namespace beeline {
       TRACE_HTTP_HEADER: string;
     };
 
+    /**
+     * When using the "mock" implementation, _apiForTesting() can be used to
+     * inspect the events that would have been sent.
+     *
+     * As the name implies, this should only be used for testing purposes.
+     */
     _apiForTesting(): {
       sentEvents: Span["payload"][];
       traceId: number;

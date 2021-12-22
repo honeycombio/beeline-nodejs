@@ -1,5 +1,22 @@
 # beeline-nodejs changelog
 
+## 3.2.0 [2021-12-22]
+
+### Improvements
+
+- feat: accept both w3c and honeycomb propagation headers by default (#514) | [@JamieDanielson](https://github.com/JamieDanielson)
+- Further improvements to typescript types (#509) | [@glenjamin](https://github.com/glenjamin)
+
+### Maintenance
+
+- add docker-compose config for test-worthy Postgres (#515) | [@robbkidd](https://github.com/robbkidd)
+- Bump debug from 4.3.2 to 4.3.3 (#505) | [@dependabot](https://github.com/dependabot)
+- Bump jest from 27.3.1 to 27.4.3 (#512) | [@dependabot](https://github.com/dependabot)
+- Bump fastify from 3.24.0 to 3.24.1 (#506) | [@dependabot](https://github.com/dependabot)
+- Add npm shield with link to npm package (#513) | [@JamieDanielson](https://github.com/JamieDanielson)
+- Bump prettier from 2.4.1 to 2.5.1 (#511) | [@dependabot](https://github.com/dependabot)
+- maint: Enable linting for ts files (to lint types file) (#510) | [@JamieDanielson](https://github.com/JamieDanielson)
+
 ## 3.1.0 [2021-12-06]
 
 ### Improvements
@@ -13,7 +30,7 @@
 - Remove unnecessary dependency on node types (#484) | [@vreynolds](https://github.com/vreynolds)
 - Migrate and update example from examples repo (#494) | [@JamieDanielson](https://github.com/JamieDanielson)
 - Empower apply-labels action to apply labels (#490) | [@robbkidd](https://github.com/robbkidd)
-  
+
 ### Dependencies
 
 - Bump lint-staged from 12.1.1 to 12.1.2 (#501)

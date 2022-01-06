@@ -6,7 +6,7 @@
     "node": "12.22.1"
   },
   "license": "Apache-2.0",
-  "version": "3.2.0",
+  "version": "3.2.1",
   "repository": {
     "type": "git",
     "url": "https://github.com/honeycombio/beeline-nodejs.git"

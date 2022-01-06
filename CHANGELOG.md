@@ -5,6 +5,7 @@
 ### Fixes
 
 - Check parent exists during instrumentation (#525) | [Asgaroth](https://github.com/Asgaroth)
+- Use beforeEach() and afterEach() in tests (#524) | [@JamieDanielson](https://github.com/JamieDanielson)
 
 ### Maintenance
 
@@ -15,7 +16,6 @@
 - Bump fastify from 3.24.1 to 3.25.3 (#522)
 - Bump @opentelemetry/api from 1.0.3 to 1.0.4 (#521)
 - Bump express from 4.17.1 to 4.17.2 (#523)
-- Use beforeEach() and afterEach() in tests (#524) | [@JamieDanielson](https://github.com/JamieDanielson)
 - Add re-triage workflow (#517) | [@vreynolds](https://github.com/vreynolds)
 
 ## 3.2.0 [2021-12-22]

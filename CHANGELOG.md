@@ -1,5 +1,23 @@
 # beeline-nodejs changelog
 
+## 3.2.1 [2022-01-06]
+
+### Fixes
+
+- Check parent exists during instrumentation (#525) | [Asgaroth](https://github.com/Asgaroth)
+- Use beforeEach() and afterEach() in tests (#524) | [@JamieDanielson](https://github.com/JamieDanielson)
+
+### Maintenance
+
+- Bump typescript from 4.5.2 to 4.5.4 (#526)
+- Bump @typescript-eslint/parser from 5.6.0 to 5.9.0 (#527)
+- Bump lint-staged from 12.1.2 to 12.1.5 (#528)
+- Bump @typescript-eslint/eslint-plugin from 5.6.0 to 5.9.0 (#529)
+- Bump fastify from 3.24.1 to 3.25.3 (#522)
+- Bump @opentelemetry/api from 1.0.3 to 1.0.4 (#521)
+- Bump express from 4.17.1 to 4.17.2 (#523)
+- Add re-triage workflow (#517) | [@vreynolds](https://github.com/vreynolds)
+
 ## 3.2.0 [2021-12-22]
 
 ### Improvements

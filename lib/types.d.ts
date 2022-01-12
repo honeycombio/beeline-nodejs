@@ -45,13 +45,17 @@ declare namespace beeline {
 
     express?: {
       userContext?: MetadataContext;
+      /** @deprecated use httpTraceParserHook */
       traceIdSource?: string | ((req: IncomingMessage) => string);
+      /** @deprecated use httpTraceParserHook */
       parentIdSource?: string | ((req: IncomingMessage) => string);
     };
 
     fastify?: {
       userContext?: MetadataContext;
+      /** @deprecated use httpTraceParserHook */
       traceIdSource?: string | ((req: IncomingMessage) => string);
+      /** @deprecated use httpTraceParserHook */
       parentIdSource?: string | ((req: IncomingMessage) => string);
     };
 

@@ -1,5 +1,15 @@
 # beeline-nodejs changelog
 
+## 3.2.2 [2022-01-19]
+
+### Fixes
+
+- Fix parser defaults (#533) | [@vreynolds](https://github.com/vreynolds)
+
+### Maintenance
+
+- Update vulnerable dependencies (#532) | [@vreynolds](https://github.com/vreynolds)
+
 ## 3.2.1 [2022-01-06]
 
 ### Fixes

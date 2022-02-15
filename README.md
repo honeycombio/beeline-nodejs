@@ -15,7 +15,7 @@ This package makes it easy to instrument your Express/NodeJS application to send
 
 ## Known Issues
 
-- Using a bundler (esbuild, webpack, etc.) with the Beeline is unsupported. You may be able to use the Beeline with a bundler, but auto-instrumentations will likely not work.
+- Using a bundler (esbuild, webpack, etc.) or ESM with the Beeline is unsupported. You may be able to use the Beeline in those cases, but auto-instrumentations will likely not work.
 
 ## Contributions
 

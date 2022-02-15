@@ -1,7 +1,6 @@
 import { IncomingMessage } from "http";
 
 declare namespace beeline {
-
   export interface SamplerResponse {
     sampleRate?: number;
     shouldSample: boolean;
@@ -35,7 +34,7 @@ declare namespace beeline {
     enabledInstrumentations?: string[];
     impl?: "libhoney-event" | "mock";
 
-    samplerHook?(event: LibhoneyEvent): SamplerResponse;
+    samplerHook?(event: LibhoneyEvent["data"]): SamplerResponse;
     presendHook?(event: LibhoneyEvent): void;
     httpTraceParserHook?: HttpTraceParserHook;
     httpTracePropagationHook?: HttpTracePropagationHook;
@@ -156,8 +155,8 @@ declare namespace beeline {
     addTraceContext(metadataContext: MetadataContext): void;
     addContext(metadataContext: MetadataContext): void;
 
-    bindFunctionToTrace<T extends AnyFunction>(fn:T): T;
-    runWithoutTrace<T extends AnyFunction>(fn:T): ReturnType<T>;
+    bindFunctionToTrace<T extends AnyFunction>(fn: T): T;
+    runWithoutTrace<T extends AnyFunction>(fn: T): ReturnType<T>;
 
     flush(): Promise<void>;
 

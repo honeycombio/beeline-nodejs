@@ -1,5 +1,16 @@
 # beeline-nodejs changelog
 
+## 3.3.0 [2022-03-21]
+
+### Enhancements
+
+- Add Environment & Services support (#551) | [@MikeGoldsmith](https://github.com/MikeGoldsmith)
+
+### Maintenance
+
+- docs: add note about ESM (#542) | [@vreynolds](https://github.com/vreynolds)
+- Bump vm2 from 3.9.5 to 3.9.7 (#543) | [@dependabot](https://github.com/dependabot)
+
 ## 3.2.2 [2022-01-19]
 
 ### Fixes

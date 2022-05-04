@@ -1,5 +1,51 @@
 # beeline-nodejs changelog
 
+## 3.3.1 [2022-03-05]
+
+### Enhancements
+
+- Add meta.span_type to root/subroot spans (#576) | [@MikeGoldsmith](https://github.com/MikeGoldsmith)
+
+### Fixes
+
+- Make api.addContext work in impl:mock mode (#557) | [@glenjamin](https://github.com/glenjamin)
+
+### Maintenance
+
+- maint: remove lint-staged (#566) | [@vreynolds](https://github.com/vreynolds)
+- Bump jest from 27.5.1 to 28.0.3 (#583)
+- Bump @opentelemetry/api from 1.0.4 to 1.1.0 (#590)
+- Bump @typescript-eslint/eslint-plugin from 5.18.0 to 5.22.0 (#591)
+- Bump eslint from 8.13.0 to 8.14.0 (#589)
+- Bump react-dom from 18.0.0 to 18.1.0 (#587)
+- Bump react from 18.0.0 to 18.1.0 (#586)
+- Bump libhoney from 3.1.0 to 3.1.1 (#585)
+- Bump express from 4.17.3 to 4.18.1 (#588)
+- Bump @typescript-eslint/parser from 5.18.0 to 5.22.0 (#584)
+- Bump supertest from 6.2.2 to 6.2.3 (#580)
+- Bump typescript from 4.6.3 to 4.6.4 (#581)
+- Bump fastify from 3.28.0 to 3.29.0 (#579)
+- Bump @typescript-eslint/parser from 5.18.0 to 5.21.0 (#578)
+- Bump @opentelemetry/core from 1.0.1 to 1.2.0 (#577)
+- Bump react and react-dom (#570)
+- Bump typescript from 4.5.4 to 4.6.3 (#574)
+- Bump minimist from 1.2.5 to 1.2.6 in /examples/node-tracing (#560)
+- Bump libhoney from 3.0.0 to 3.1.0 (#571)
+- Bump pg-query-stream from 4.2.1 to 4.2.3 (#572)
+- Bump prettier from 2.5.1 to 2.6.2 (#573)
+- Bump fastify from 3.25.3 to 3.28.0 (#569)
+- Bump express from 4.17.2 to 4.17.3 (#568)
+- Bump semver from 7.3.5 to 7.3.6 (#567)
+- Bump debug from 4.3.3 to 4.3.4 (#563)
+- Bump supertest from 6.1.6 to 6.2.2 (#536)
+- Bump @typescript-eslint/parser from 5.9.0 to 5.18.0 (#564)
+- Bump pg from 8.7.1 to 8.7.3 (#565)
+- Bump jest from 27.4.3 to 27.5.1 (#549)
+- Bump @typescript-eslint/eslint-plugin from 5.17.0 to 5.18.0 (#561)
+- Bump eslint from 8.3.0 to 8.13.0 (#562)
+- Bump @typescript-eslint/eslint-plugin from 5.9.0 to 5.17.0 (#559)
+- Bump minimist from 1.2.5 to 1.2.6 (#556)
+
 ## 3.3.0 [2022-03-21]
 
 ### Enhancements

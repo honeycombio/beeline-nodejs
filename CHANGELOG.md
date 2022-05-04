@@ -1,6 +1,6 @@
 # beeline-nodejs changelog
 
-## 3.3.1 [2022-03-05]
+## 3.4.0 [2022-05-04]
 
 ### Enhancements
 

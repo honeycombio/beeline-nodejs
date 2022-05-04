@@ -44,8 +44,8 @@
     "pg": "^8.5.1",
     "pg-query-stream": "^4.0.0",
     "prettier": "^2.1.2",
-    "react": "^17.0.0",
-    "react-dom": "^17.0.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
     "semver": "^7.3.2",
     "supertest": "^6.0.1",
     "typescript": "^4.5.2"

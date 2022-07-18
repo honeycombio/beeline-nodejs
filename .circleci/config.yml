@@ -73,6 +73,7 @@ jobs:
         default: *default_nodeversion
     executor:
       name: node
+      nodeversion: "<< parameters.nodeversion >>"
     steps:
       - checkout
       - run: npm i

@@ -16,7 +16,7 @@ const beeline = require("honeycomb-beeline")();
 Or in TypeScript:
 
 ```typescript
-import beeline = require('honeycomb-beeline');
+import beeline = require("honeycomb-beeline");
 
 /* beeline.traceActive() works, as do all the other calls below */
 ```
@@ -37,8 +37,6 @@ Contents
 2.  [Interprocess trace propagation](#interprocess-trace-propagation)
 
 - [Trace context object](#trace-context-object)
-- [deprecated: `marshalTraceContext()`](#marshaltracecontext)
-- [deprecated: `unmarshalTraceContext()`](#unmarshaltracecontext)
 - [`honeycomb.marshalTraceContext()`](#honeycombmarshaltracecontext)
 - [`honeycomb.unmarshalTraceContext()`](#honeycombunmarshaltracecontext)
 - [Trace interoperability](#trace-interoperability)
@@ -57,7 +55,7 @@ Contents
     - [`beeline.honeycomb.httpTracePropagationHook`](#beelinehoneycombhttptracepropagationhook)
     - [`beeline.w3c.httpTracePropagationHook`](#beelinew3chttptracepropagationhook)
     - [`beeline.aws.httpTracePropagationHook`](#beelineawshttptracepropagationhook)
-- [`TRACE_HTTP_HEADER`](#trace_http_header)
+- [`honeycomb.TRACE_HTTP_HEADER`](#honeycombtrace_http_header)
   - [`w3c.TRACE_HTTP_HEADER`](#w3ctrace_http_header)
   - [`aws.TRACE_HTTP_HEADER`](#awstrace_http_header)
 
@@ -69,9 +67,6 @@ Contents
 - [`startTimer()`](#starttimer)
 - [`finishTimer()`](#finishtimer)
 - [`withTimer()`](#withtimer)
-- [deprecated: `removeContext()`](#removecontext)
-- [deprecated: `customContext.add()`](#customcontextadd)
-- [deprecated: `customContext.remove()`](#customcontextremove)
 
 4.  [Async context bookkeeping](#async-context-bookkeeping)
 
@@ -127,8 +122,8 @@ let rootSpan = beeline.startTrace({
   task: "writing a file",
   filePath,
 });
-fs.writeFile(filePath, fileContents, err => {
-  beeline.customContext.add("fileError", err.toString());
+fs.writeFile(filePath, fileContents, (err) => {
+  beeline.addTraceContext({ fileError: err.toString() });
   beeline.finishTrace(rootSpan);
 });
 ```
@@ -195,8 +190,8 @@ let span = beeline.startSpan({
   task: "writing a file",
   filePath,
 });
-fs.writeFile(filePath, fileContents, err => {
-  beeline.customContext.add("fileError", err.toString());
+fs.writeFile(filePath, fileContents, (err) => {
+  beeline.addTraceContext({ fileError: err.toString() });
   beeline.finishSpan(span);
 });
 ```
@@ -223,7 +218,7 @@ beeline.startAsyncSpan({
     filePath,
 }, span => {
        fs.writeFile(filePath, fileContents, err => {
-           beeline.customContext.add("fileError", err.toString());
+           beeline.addTraceContext({"fileError": err.toString()});
            beeline.finishSpan(span);
        });
    }
@@ -312,55 +307,6 @@ Trace context object contains information about a trace that can cross process b
 
 #### The following APIs exist to ease the task of adding propagation to other transports.
 
-#### `marshalTraceContext()`
-
-```javascript
-beeline.marshalTraceContext(beeline.getTraceContext());
-```
-
-Returns a serialized form of the current trace context (including the trace id and the current span), encoded as a string. The format is documented at https://github.com/honeycombio/beeline-nodejs/blob/main/lib/propagation/honeycomb.js#L17
-
-example:
-
-```javascript
-let traceContext = beeline.marshalTraceContext(beeline.getTraceContext());
-console.log(traceContext); // => 1;trace_id=weofijwoeifj,parent_id=owefjoweifj,context=SGVsbG8gV29ybGQ=
-```
-
-**Deprecated: this method will be removed in the next major release. Please use [`honeycomb.marshalTraceContext()`](#honeycombmarshaltracecontext) instead.**
-
----
-
-#### `unmarshalTraceContext()`
-
-```javascript
-beeline.unmarshalTraceContext(traceContext);
-```
-
-Accepts a serialized trace header and returns a [trace context object](#trace-context-object).
-
-example:
-
-```javascript
-let { traceId, parentSpanId } = beeline.unmarshalTraceContext(
-  req.headers[beeline.TRACE_HTTP_HEADER]
-);
-
-let trace = startTrace({ name }, traceId, parentSpanId);
-```
-
-```javascript
-let { traceId, parentSpanId, dataset, customContext } = beeline.unmarshalTraceContext(
-  req.headers[beeline.TRACE_HTTP_HEADER]
-);
-
-let trace = startTrace({ name }, traceId, parentSpanId, dataset, customContext);
-```
-
-**Deprecated: this method will be removed in the next major release. Please use [`honeycomb.unmarshalTraceContext()`](#honeycombunmarshaltracecontext) instead.**
-
----
-
 #### `honeycomb.marshalTraceContext()`
 
 ```javascript
@@ -387,6 +333,7 @@ beeline.honeycomb.unmarshalTraceContext(traceContext);
 Accepts a serialized trace header and returns a [trace context object](#trace-context-object).
 
 Field mapping (trace header --> Trace Context Object):
+
 - trace_id --> traceId
 - parent_id --> parentSpanId
 - dataset --> dataset
@@ -425,6 +372,7 @@ To support interoperability with W3C and AWS tracing formats, we provide APIs fo
 Accepts serialized w3c trace headers [`traceparent`](https://www.w3.org/TR/trace-context/#traceparent-header) and [`tracestate`](https://www.w3.org/TR/trace-context/#tracestate-header), and returns a [trace context object](#trace-context-object).
 
 Field mapping (w3c trace headers --> Trace Context Object):
+
 - traceparent.traceId --> traceId
 - traceparent.spanId --> parentSpanId
 - tracestate --> customContext
@@ -434,6 +382,7 @@ beeline.w3c.unmarshalTraceContext(traceparent, tracestate);
 ```
 
 ##### `w3c.marshalTraceContext()`
+
 Accepts the current trace context and returns a serialized trace header in w3c [`traceparent`](https://www.w3.org/TR/trace-context/#traceparent-header) format.
 
 ```javascript
@@ -447,6 +396,7 @@ let traceHeader = beeline.w3c.marshalTraceContext(beeline.getTraceContext());
 Accepts a serialized aws trace header [`X-Amzn-Trace-Id`](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-request-tracing.html) and returns a [trace context object](#trace-context-object).
 
 Field mapping (aws trace header --> Trace Context Object):
+
 - Root --> traceId
 - Parent --> parentSpanId
   - If Parent is not present, Self --> parentSpanId
@@ -458,6 +408,7 @@ beeline.aws.unmarshalTraceContext(amazonTraceHeader);
 ```
 
 ##### `aws.marshalTraceContext()`
+
 Accepts the current trace context and returns a serialized trace header in aws [`X-Amzn-Trace-Id`](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-request-tracing.html) format
 
 ```javascript
@@ -467,55 +418,68 @@ beeline.aws.marshalTraceContext(beeline.getTraceContext());
 ---
 
 #### Trace hooks
+
 Trace hooks are convenience functions available to configure the beeline to use one of the three pre-defined trace header formats [Honeycomb, W3C, AWS] for both receiving (parser) and sending (propagation) inter-process requests.
 
 Example configuration:
+
 ```javascript
 beeline({
-  writeKey: 'writeKey',
-  dataset: 'my-dataset',
-  serviceName: 'my-node-service',
+  writeKey: "writeKey",
+  dataset: "my-dataset",
+  serviceName: "my-node-service",
   httpTraceParserHook: beeline.w3c.httpTraceParserHook,
-  httpTracePropagationHook: beeline.w3c.httpTracePropagationHook
-})
+  httpTracePropagationHook: beeline.w3c.httpTracePropagationHook,
+});
 ```
 
 ---
 
 ##### `httpTraceParserHook`
+
 Accepts an HTTP request object and returns a [trace context object](#trace-context-object).
 
 ###### `beeline.honeycomb.httpTraceParserHook`
-Used for parsing the [Honeycomb trace header](#trace_http_header)
+
+Used for parsing the [Honeycomb trace header](#honeycombtrace_http_header)
 
 ###### `beeline.w3c.httpTraceParserHook`
+
 Used for parsing the W3C [`traceparent`](https://www.w3.org/TR/trace-context/#traceparent-header) and [`tracestate`](https://www.w3.org/TR/trace-context/#tracestate-header) headers
 
 ###### `beeline.aws.httpTraceParserHook`
+
 Used for parsing the [AWS trace header](#awstrace_http_header)
 
 ---
 
 ##### `httpTracePropagationHook`
+
 Accepts a [trace context object](#trace-context-object) and returns an array of HTTP headers containing trace propagation headers in the desired format.
 
 ###### `beeline.honeycomb.httpTracePropagationHook`
+
 Marshals a trace context object into the following headers:
-- [Honeycomb trace header](#trace_http_header): context
+
+- [Honeycomb trace header](#honeycombtrace_http_header): context
 - [tracestate](https://www.w3.org/TR/trace-context/#tracestate-header): context.customContext.tracestate
 
 ###### `beeline.w3c.httpTracePropagationHook`
+
 Marshals a trace context object into the following headers:
+
 - [traceparent](https://www.w3.org/TR/trace-context/#traceparent-header): context
 - [tracestate](https://www.w3.org/TR/trace-context/#tracestate-header): context.customContext
 
 ###### `beeline.aws.httpTracePropagationHook`
+
 Marshals a trace context object into the following headers:
+
 - [AWS trace header](#awstrace_http_header): context
 
 ---
 
-#### `TRACE_HTTP_HEADER`
+#### `honeycomb.TRACE_HTTP_HEADER`
 
 The HTTP header that the beeline uses both for sending and receiving trace context. The value is `"X-Honeycomb-Trace"`.
 
@@ -549,7 +513,7 @@ service2:
 let service2 = createBespokeServer();
 
 // the handler for the `doSomething` call above
-service2.on("something", async payload => {
+service2.on("something", async (payload) => {
   let { traceContext, ...restOfPayload } = payload;
   let { traceId, parentSpanId } = traceContext;
 
@@ -620,7 +584,7 @@ Adds all key/value pairs in `contextMap` as toplevel fields on the current span,
 beeline.addContext(contextMap);
 ```
 
-Adds all key/value pairs in `contextMap` as toplevel fields on the current span. Should only be used when writing your own instrumentation. Context added with this method is _only_ attached to the current span. We recommend using `customContext.add()` for application-specific context, as `customContext.add()`-added context will be attached to all spans sent after it was added.
+Adds all key/value pairs in `contextMap` as toplevel fields on the current span. Should only be used when writing your own instrumentation. Context added with this method is _only_ attached to the current span. We recommend using `addTraceContext()` for application-specific context, as `addTraceContext()`-added context will be attached to all spans sent after it was added.
 
 In the next major version, this method will be changed to prepend `app.` to keys, much like `addTraceContext` above.
 
@@ -632,61 +596,6 @@ beeline.addContext({
   field2: value2,
 });
 ```
-
----
-
-#### removeContext()
-
-```javascript
-beeline.removeContext(key);
-```
-
-Removes a single `key` (and its value) from the fields on the current span. A noop if the key doesn't exist.
-
-example:
-
-```javascript
-beeline.removeContext(fieldName);
-```
-
-**Deprecated: this method will be removed in the next major release.**
-
----
-
-#### customContext.add()
-
-```javascript
-beeline.customContext.add(key, value);
-```
-
-Adds a single key/value pair as a field on the current span. The key is automatically prefixed with `app.` to set it apart from (and keep from conflicting with) the instrumentation-added fields. Custom context is attached to all spans sent after the call to `customContext.add` call.
-
-example:
-
-```javascript
-beeline.customContext.add("userName", "toshok");
-// adds the key/value pair { "app.userName": "toshok" } to the current span, and all those that sent after.
-```
-
-**Deprecated: this method will be removed in the next major release. Please use [`.addTraceContext`](#addtracecontext) above.**
-
----
-
-#### customContext.remove()
-
-```javascript
-beeline.customContext.remove(key);
-```
-
-Removes a single key/value pair from the current span. A noop if the key doesn't exist.
-
-example:
-
-```javascript
-beeline.customContext.remove("userName");
-```
-
-Deprecated: this method will be removed in the next major release.
 
 ---
 
@@ -764,7 +673,7 @@ example:
 ```javascript
 myDBLibrary.query(
   "select * from table",
-  beeline.bindFunctionToTrace(rows => {
+  beeline.bindFunctionToTrace((rows) => {
     // inside this function the trace is guaranteed to be
     // the same as the the active trace when myDBLibrary.query
     // was called, even if some pattern in myDBLibrary causes

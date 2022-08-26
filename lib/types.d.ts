@@ -7,38 +7,61 @@ declare namespace beeline {
     shouldSample: boolean;
   }
 
+  export interface LibhoneyEvent {
+    data: Record<string, unknown>;
+    add(data: Record<string, unknown>): this;
+    addField(key: string, value: unknown): this;
+  }
+
   export interface BeelineOpts {
+    // Options passed through to libhoney
+    apiHost?: string;
+    proxy?: string;
     writeKey?: string;
     dataset?: string;
-    serviceName?: string;
     sampleRate?: number;
+    batchSizeTrigger?: number;
+    batchTimeTrigger?: number;
+    maxConcurrentBatches?: number;
+    pendingWorkCapacity?: number;
+    maxResponseQueueSize?: number;
+    timeout?: number;
+    disabled?: false;
+    userAgentAddition?: string;
+    transmission?: string;
+
+    // Beeline-specific options
+    serviceName?: string;
     enabledInstrumentations?: string[];
     impl?: "libhoney-event" | "mock";
 
-    samplerHook?(event: unknown): SamplerResponse;
-    presendHook?(event: unknown): void;
+    samplerHook?(event: LibhoneyEvent): SamplerResponse;
+    presendHook?(event: LibhoneyEvent): void;
+    httpTraceParserHook?: HttpTraceParserHook;
+    httpTracePropagationHook?: HttpTracePropagationHook;
+
     /** @deprecated use enabledInstrumentations: [] */
     disableInstrumentation?: boolean;
 
     express?: {
       userContext?: MetadataContext;
+      /** @deprecated use httpTraceParserHook */
       traceIdSource?: string | ((req: IncomingMessage) => string);
+      /** @deprecated use httpTraceParserHook */
       parentIdSource?: string | ((req: IncomingMessage) => string);
     };
 
     fastify?: {
       userContext?: MetadataContext;
+      /** @deprecated use httpTraceParserHook */
       traceIdSource?: string | ((req: IncomingMessage) => string);
+      /** @deprecated use httpTraceParserHook */
       parentIdSource?: string | ((req: IncomingMessage) => string);
     };
 
     mongodb?: {
       includeDocuments?: boolean;
     };
-
-    httpTraceParserHook?: HttpTraceParserHook;
-    httpTracePropagationHook?: HttpTracePropagationHook;
-    transmission?: string;
   }
 
   export interface Schema {
@@ -90,7 +113,8 @@ declare namespace beeline {
     startTimeHR: [number, number];
   }
 
-  type SpanFn<F> = (...args: any[]) => F;
+  type SpanFn<F> = (span: Span) => F;
+  type AnyFunction = (...args: unknown[]) => unknown;
 
   type Configure = (opts?: BeelineOpts) => Beeline & Configure;
 
@@ -131,29 +155,13 @@ declare namespace beeline {
 
     addTraceContext(metadataContext: MetadataContext): void;
     addContext(metadataContext: MetadataContext): void;
-    /** @deprecated this method will be removed in the next major release. */
-    removeContext(key: string): void;
 
-    incrementTraceRollup(key: string, durationMs: number, count?: number): void;
-
-    customContext: {
-      /** @deprecated this method will be removed in the next major release. Please use .addTraceContext. */
-      add(k: string, v: any): void;
-      /** @deprecated this method will be removed in the next major release. */
-      remove(k: string): void;
-    };
-
-    bindFunctionToTrace<T>(fn:T): T;
-    runWithoutTrace<F>(fn: SpanFn<F>): F;
+    bindFunctionToTrace<T extends AnyFunction>(fn:T): T;
+    runWithoutTrace<T extends AnyFunction>(fn:T): ReturnType<T>;
 
     flush(): Promise<void>;
 
     getInstrumentations(): string[];
-
-    /** @deprecated use provider-specific functions, e.g. honeycomb.marshalTraceContext */
-    marshalTraceContext(ctx: MarshallableContext): string;
-    /** @deprecated use provider-specific functions, e.g. honeycomb.unmarshalTraceContext */
-    unmarshalTraceContext(ctx: string): TraceContext | undefined;
 
     honeycomb: {
       marshalTraceContext(ctx: MarshallableContext): string;
@@ -179,8 +187,16 @@ declare namespace beeline {
       TRACE_HTTP_HEADER: string;
     };
 
-    /** @deprecated use provider-specific constants, e.g. honeycomb.TRACE_HTTP_HEADER */
-    TRACE_HTTP_HEADER: string;
+    /**
+     * When using the "mock" implementation, _apiForTesting() can be used to
+     * inspect the events that would have been sent.
+     *
+     * As the name implies, this should only be used for testing purposes.
+     */
+    _apiForTesting(): {
+      sentEvents: Span["payload"][];
+      traceId: number;
+    };
   }
 }
 

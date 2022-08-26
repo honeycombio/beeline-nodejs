@@ -1,0 +1,10 @@
+version: "3"
+
+services:
+  pg:
+    image: postgres
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
+      POSTGRES_USER: ${USER}
+    ports:
+      - "127.0.0.1:5432:5432"

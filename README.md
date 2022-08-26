@@ -1,7 +1,8 @@
 # Honeycomb Beeline for NodeJS
 
-[![OSS Lifecycle](https://img.shields.io/osslifecycle/honeycombio/beeline-nodejs)](https://github.com/honeycombio/home/blob/main/honeycomb-oss-lifecycle-and-practices.md)
+[![OSS Lifecycle](https://img.shields.io/osslifecycle/honeycombio/beeline-nodejs?color=success)](https://github.com/honeycombio/home/blob/main/honeycomb-oss-lifecycle-and-practices.md)
 [![CircleCI](https://circleci.com/gh/honeycombio/beeline-nodejs.svg?style=shield)](https://circleci.com/gh/honeycombio/beeline-nodejs)
+[![npm](https://img.shields.io/npm/v/honeycomb-beeline)](https://www.npmjs.com/package/honeycomb-beeline)
 
 This package makes it easy to instrument your Express/NodeJS application to send useful events to [Honeycomb](https://honeycomb.io), a service for debugging your software in production.
 
@@ -14,7 +15,7 @@ This package makes it easy to instrument your Express/NodeJS application to send
 
 ## Known Issues
 
-- Using a bundler (esbuild, webpack, etc.) with the Beeline is unsupported. You may be able to use the Beeline with a bundler, but auto-instrumentations will likely not work.
+- Using a bundler (esbuild, webpack, etc.) or ESM with the Beeline is unsupported. You may be able to use the Beeline in those cases, but auto-instrumentations will likely not work.
 
 ## Contributions
 

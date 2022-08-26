@@ -1,0 +1,23 @@
+{
+  "name": "node-tracing-example",
+  "version": "1.0.0",
+  "description": "node tracing example with honeycomb-beeline",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "setup": "npm install && npm install ../../ && npm link ../../ && npm link honeycomb-beeline",
+    "start": "node app.js",
+    "start-all": "node app.js & node analysis.js"
+  },
+  "author": "Honeycomb.io",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "honeycomb-beeline": "file:../..",
+    "https": "^1.0.0",
+    "nodemon": "^2.0.14",
+    "request": "^2.88.2",
+    "request-promise-native": "^1.0.9"
+  }
+}

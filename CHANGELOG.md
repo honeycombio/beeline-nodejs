@@ -1,5 +1,171 @@
 # beeline-nodejs changelog
 
+## 3.4.0 [2022-05-04]
+
+### Enhancements
+
+- Add meta.span_type to root/subroot spans (#576) | [@MikeGoldsmith](https://github.com/MikeGoldsmith)
+
+### Fixes
+
+- Make api.addContext work in impl:mock mode (#557) | [@glenjamin](https://github.com/glenjamin)
+
+### Maintenance
+
+- maint: remove lint-staged (#566) | [@vreynolds](https://github.com/vreynolds)
+- Bump jest from 27.5.1 to 28.0.3 (#583)
+- Bump @opentelemetry/api from 1.0.4 to 1.1.0 (#590)
+- Bump @typescript-eslint/eslint-plugin from 5.18.0 to 5.22.0 (#591)
+- Bump eslint from 8.13.0 to 8.14.0 (#589)
+- Bump react-dom from 18.0.0 to 18.1.0 (#587)
+- Bump react from 18.0.0 to 18.1.0 (#586)
+- Bump libhoney from 3.1.0 to 3.1.1 (#585)
+- Bump express from 4.17.3 to 4.18.1 (#588)
+- Bump @typescript-eslint/parser from 5.18.0 to 5.22.0 (#584)
+- Bump supertest from 6.2.2 to 6.2.3 (#580)
+- Bump typescript from 4.6.3 to 4.6.4 (#581)
+- Bump fastify from 3.28.0 to 3.29.0 (#579)
+- Bump @typescript-eslint/parser from 5.18.0 to 5.21.0 (#578)
+- Bump @opentelemetry/core from 1.0.1 to 1.2.0 (#577)
+- Bump react and react-dom (#570)
+- Bump typescript from 4.5.4 to 4.6.3 (#574)
+- Bump minimist from 1.2.5 to 1.2.6 in /examples/node-tracing (#560)
+- Bump libhoney from 3.0.0 to 3.1.0 (#571)
+- Bump pg-query-stream from 4.2.1 to 4.2.3 (#572)
+- Bump prettier from 2.5.1 to 2.6.2 (#573)
+- Bump fastify from 3.25.3 to 3.28.0 (#569)
+- Bump express from 4.17.2 to 4.17.3 (#568)
+- Bump semver from 7.3.5 to 7.3.6 (#567)
+- Bump debug from 4.3.3 to 4.3.4 (#563)
+- Bump supertest from 6.1.6 to 6.2.2 (#536)
+- Bump @typescript-eslint/parser from 5.9.0 to 5.18.0 (#564)
+- Bump pg from 8.7.1 to 8.7.3 (#565)
+- Bump jest from 27.4.3 to 27.5.1 (#549)
+- Bump @typescript-eslint/eslint-plugin from 5.17.0 to 5.18.0 (#561)
+- Bump eslint from 8.3.0 to 8.13.0 (#562)
+- Bump @typescript-eslint/eslint-plugin from 5.9.0 to 5.17.0 (#559)
+- Bump minimist from 1.2.5 to 1.2.6 (#556)
+
+## 3.3.0 [2022-03-21]
+
+### Enhancements
+
+- Add Environment & Services support (#551) | [@MikeGoldsmith](https://github.com/MikeGoldsmith)
+
+### Maintenance
+
+- docs: add note about ESM (#542) | [@vreynolds](https://github.com/vreynolds)
+- Bump vm2 from 3.9.5 to 3.9.7 (#543) | [@dependabot](https://github.com/dependabot)
+
+## 3.2.2 [2022-01-19]
+
+### Fixes
+
+- Fix parser defaults (#533) | [@vreynolds](https://github.com/vreynolds)
+
+### Maintenance
+
+- Update vulnerable dependencies (#532) | [@vreynolds](https://github.com/vreynolds)
+
+## 3.2.1 [2022-01-06]
+
+### Fixes
+
+- Check parent exists during instrumentation (#525) | [Asgaroth](https://github.com/Asgaroth)
+- Use beforeEach() and afterEach() in tests (#524) | [@JamieDanielson](https://github.com/JamieDanielson)
+
+### Maintenance
+
+- Bump typescript from 4.5.2 to 4.5.4 (#526)
+- Bump @typescript-eslint/parser from 5.6.0 to 5.9.0 (#527)
+- Bump lint-staged from 12.1.2 to 12.1.5 (#528)
+- Bump @typescript-eslint/eslint-plugin from 5.6.0 to 5.9.0 (#529)
+- Bump fastify from 3.24.1 to 3.25.3 (#522)
+- Bump @opentelemetry/api from 1.0.3 to 1.0.4 (#521)
+- Bump express from 4.17.1 to 4.17.2 (#523)
+- Add re-triage workflow (#517) | [@vreynolds](https://github.com/vreynolds)
+
+## 3.2.0 [2021-12-22]
+
+### Improvements
+
+- feat: accept both w3c and honeycomb propagation headers by default (#514) | [@JamieDanielson](https://github.com/JamieDanielson)
+- Further improvements to typescript types (#509) | [@glenjamin](https://github.com/glenjamin)
+
+### Maintenance
+
+- add docker-compose config for test-worthy Postgres (#515) | [@robbkidd](https://github.com/robbkidd)
+- Bump debug from 4.3.2 to 4.3.3 (#505) | [@dependabot](https://github.com/dependabot)
+- Bump jest from 27.3.1 to 27.4.3 (#512) | [@dependabot](https://github.com/dependabot)
+- Bump fastify from 3.24.0 to 3.24.1 (#506) | [@dependabot](https://github.com/dependabot)
+- Add npm shield with link to npm package (#513) | [@JamieDanielson](https://github.com/JamieDanielson)
+- Bump prettier from 2.4.1 to 2.5.1 (#511) | [@dependabot](https://github.com/dependabot)
+- maint: Enable linting for ts files (to lint types file) (#510) | [@JamieDanielson](https://github.com/JamieDanielson)
+
+## 3.1.0 [2021-12-06]
+
+### Improvements
+
+- Expand type definitions to include all libhoney options (#502) | [@glenjamin](https://github.com/glenjamin)
+
+### Maintenance
+
+- Update dependabot to monthly (#500) | [@vreynolds](https://github.com/vreynolds)
+- Add node 17 to test matrix (#485) | [@vreynolds](https://github.com/vreynolds)
+- Remove unnecessary dependency on node types (#484) | [@vreynolds](https://github.com/vreynolds)
+- Migrate and update example from examples repo (#494) | [@JamieDanielson](https://github.com/JamieDanielson)
+- Empower apply-labels action to apply labels (#490) | [@robbkidd](https://github.com/robbkidd)
+
+### Dependencies
+
+- Bump lint-staged from 12.1.1 to 12.1.2 (#501)
+- Bump fastify from 3.22.1 to 3.24.0 (#497)
+- Bump @opentelemetry/core from 1.0.0 to 1.0.1 (#496)
+- Bump lint-staged from 11.2.4 to 12.1.1 (#498)
+- Bump eslint from 8.1.0 to 8.3.0 (#499)
+- Bump lint-staged from 11.2.3 to 11.2.4 (#487)
+- Bump eslint from 8.0.1 to 8.1.0 (#488)
+- Bump libhoney from 2.3.3 to 3.0.0 (#478)
+- Bump @opentelemetry/core from 0.25.0 to 1.0.0 (#467)
+- Bump eslint from 7.32.0 to 8.0.1 (#474)
+- Bump husky from 7.0.2 to 7.0.4 (#483)
+- Bump lint-staged from 11.1.2 to 11.2.3 (#482)
+- Bump jest from 27.3.0 to 27.3.1 (#480)
+- Bump fastify from 3.21.6 to 3.22.1 (#479)
+- Bump jest from 27.2.2 to 27.3.0 (#476)
+
+## 3.0.0 [2021-10-14]
+
+### !!! Breaking Changes !!!
+
+- Remove deprecated APIs (#457) | [@vreynolds](https://github.com/vreynolds)
+  - `marshalTraceContext()` --> use provider-specific functions, e.g. `honeycomb.marshalTraceContext()`
+  - `unmarshalTraceContext()` --> use provider-specific functions, e.g. `honeycomb.unmarshalTraceContext()`
+  - `TRACE_HTTP_HEADER` --> use provider-specific constants, e.g. `honeycomb.TRACE_HTTP_HEADER`
+  - `AMAZON_TRACE_HTTP_HEADER` --> use `aws.TRACE_HTTP_HEADER`
+  - `removeContext()` --> no replacement
+  - `customContext.add()` --> use `addTraceContext()`
+  - `customContext.remove()` --> no replacement
+- Stop auto-detecting x-request-id and amazon trace headers (#445) | [@vreynolds](https://github.com/vreynolds)
+  - Users will have to opt-in to custom trace propagation
+- Fix api.addContext so it works on the current span (not the root) (#347) | [@ajvondrak](https://github.com/ajvondrak)
+  - This is a fix to match documentation and intention, but breaks current (incorrect) behavior.
+
+### Maintenance
+
+- Clean up npm tarball (#465) | [@vreynolds](https://github.com/vreynolds)
+- Change maintenance badge to maintained (#459)
+- Adds Stalebot (#460)
+- Bump @types/node from 16.9.4 to 16.10.2 (#466)
+- Bump @opentelemetry/core from 0.24.0 to 0.25.0 (#464)
+- Bump fastify from 3.21.3 to 3.21.6 (#461)
+- Bump jest from 27.2.0 to 27.2.2 (#462)
+- Bump fastify from 3.21.0 to 3.21.3 (#452)
+- Bump jest from 27.1.1 to 27.2.0 (#453)
+- Bump libhoney from 2.3.2 to 2.3.3 (#454)
+- Bump @types/node from 16.9.1 to 16.9.4 (#456)
+- Bump prettier from 2.4.0 to 2.4.1 (#455)
+
 ## 2.8.1 [2021-09-16]
 
 ### Fixes

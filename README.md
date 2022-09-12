@@ -11,7 +11,7 @@ This package makes it easy to instrument your Express/NodeJS application to send
 
 ## Dependencies
 
-- **Node 10+**
+- **Node 14+**
 
 ## Known Issues
 

@@ -12,7 +12,7 @@
     "url": "https://github.com/honeycombio/beeline-nodejs.git"
   },
   "engines": {
-    "node": ">= 10.*"
+    "node": ">= 14.*"
   },
   "files": [
     "docs",

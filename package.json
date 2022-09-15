@@ -3,7 +3,7 @@
   "description": "automatic instrumentation for honeycomb.io",
   "author": "support@honeycomb.io",
   "volta": {
-    "node": "12.22.1"
+    "node": "16.17.0"
   },
   "license": "Apache-2.0",
   "version": "3.4.0",

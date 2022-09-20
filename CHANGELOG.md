@@ -1,6 +1,6 @@
 # beeline-nodejs changelog
 
-## [4.0.0] - 2022-09-20
+## 4.0.0 [2022-09-20]
 
 ### !!! Breaking Changes !!!
 

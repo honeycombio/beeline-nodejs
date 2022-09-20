@@ -3,7 +3,7 @@
   "description": "automatic instrumentation for honeycomb.io",
   "author": "support@honeycomb.io",
   "volta": {
-    "node": "12.22.1"
+    "node": "16.17.0"
   },
   "license": "Apache-2.0",
   "version": "3.4.0",
@@ -12,7 +12,7 @@
     "url": "https://github.com/honeycombio/beeline-nodejs.git"
   },
   "engines": {
-    "node": ">= 10.*"
+    "node": ">= 14.*"
   },
   "files": [
     "docs",
@@ -55,7 +55,7 @@
     "@opentelemetry/core": "^1.0.0",
     "array-flatten": "^3.0.0",
     "debug": "^4.2.0",
-    "libhoney": "^3.0.0",
+    "libhoney": "^4.0.0",
     "on-headers": "^1.0.2",
     "shimmer": "^1.2.1"
   }

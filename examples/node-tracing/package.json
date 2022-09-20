@@ -16,7 +16,7 @@
     "express": "^4.17.1",
     "honeycomb-beeline": "file:../..",
     "https": "^1.0.0",
-    "nodemon": "^2.0.14",
+    "nodemon": "^2.0.20",
     "request": "^2.88.2",
     "request-promise-native": "^1.0.9"
   }

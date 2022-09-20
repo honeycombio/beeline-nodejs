@@ -1,5 +1,30 @@
 # beeline-nodejs changelog
 
+## [4.0.0] - 2022-09-19
+
+### !!! Breaking Changes !!!
+
+- Drop Node v12, no longer security supported (#614) | [@emilyashley](https://github.com/emilyashley)
+
+### Maintenance
+
+- maint: add node 18 to CI matrix (#610) | [@vreynolds](https://github.com/vreynolds)
+- maint: make sure ci uses node matrix (#607) | [@vreynolds](https://github.com/vreynolds)
+- Bump jest from 28.1.3 to 29.0.3 (#622)
+- Bump fastify from 3.29.2 to 4.6.0 (#621)
+- Bump @opentelemetry/core from 1.6.0 to 1.7.0 (#620)
+- Bump @typescript-eslint/eslint-plugin from 5.37.0 to 5.38.0 (#619)
+- Bump @typescript-eslint/parser from 5.37.0 to 5.38.0 (#618)
+- Bump @typescript-eslint/eslint-plugin from 5.30.0 to 5.31.0 (#609)
+- Bump eslint from 8.14.0 to 8.20.0 (#604)
+- Bump @typescript-eslint/eslint-plugin from 5.27.0 to 5.30.0 (#600)
+- Bump typescript from 4.7.3 to 4.7.4 (#599)
+- Bump typescript from 4.6.4 to 4.7.3 (#598)
+- Bump @typescript-eslint/eslint-plugin from 5.22.0 to 5.27.0 (#596)
+- Bump @opentelemetry/core from 1.2.0 to 1.3.0 (#595)
+- Bump jest from 28.0.3 to 28.1.0 (#594)
+- Bump @typescript-eslint/parser from 5.22.0 to 5.27.0 (#593)
+
 ## 3.4.0 [2022-05-04]
 
 ### Enhancements

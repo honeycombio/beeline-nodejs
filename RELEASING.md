@@ -11,5 +11,8 @@
 - Update `CHANGELOG.md` with the changes since the last release.
 - Commit changes, push, and open a release preparation pull request for review.
 - Once the pull request is merged, fetch the updated `main` branch.
-- Apply a tag for the new version on the merged commit: vX.Y.Z, for example v1.1.2.
-- Push the new version tag up to the project repository to kick off build and artifact publishing to GitHub and the NPM registry.
+- Apply a tag for the new version on the merged commit (e.g. `git tag -a v2.3.1 -m "v2.3.1"`)
+- Push the tag upstream (this will kick off the release pipeline in CI) e.g. `git push origin v2.3.1`
+- Copy change log entry for newest version into draft GitHub release created as part of CI publish steps. 
+  - Make sure to "generate release notes" in github for full changelog notes and any new contributors
+- Publish the github draft release and this will kick off publishing to GitHub and the NPM registry.

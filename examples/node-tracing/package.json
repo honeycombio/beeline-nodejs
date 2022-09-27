@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "setup": "npm install && npm install ../../ && npm link ../../ && npm link honeycomb-beeline",
+    "setup": "npm install && (cd ../.. && npm install)",
     "start": "node app.js",
     "start-all": "node app.js & node analysis.js"
   },

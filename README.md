@@ -17,6 +17,8 @@ This package makes it easy to instrument your Express/NodeJS application to send
 
 - Using a bundler (esbuild, webpack, etc.) or ESM with the Beeline is unsupported. You may be able to use the Beeline in those cases, but auto-instrumentations will likely not work.
 
+- An error like `'api.traceActive is not a function' error` may occur for some auto-instrumentation and can be resolved by manually requiring `https` before requiring other libraries such as `request-promise`.
+
 ## Contributions
 
 Features, bug fixes and other changes to `beeline-nodejs` are gladly accepted. Please

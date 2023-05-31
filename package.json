@@ -6,7 +6,7 @@
     "node": "12.22.1"
   },
   "license": "Apache-2.0",
-  "version": "3.4.0-outreach6",
+  "version": "3.4.0-outreach8",
   "repository": {
     "type": "git",
     "url": "https://github.com/getoutreach/beeline-nodejs.git"
@@ -58,6 +58,6 @@
     "libhoney": "^3.0.0",
     "on-headers": "^1.0.2",
     "shimmer": "^1.2.1",
-    "vm2": "^3.9.16"
+    "vm2": "^3.9.18"
   }
 }

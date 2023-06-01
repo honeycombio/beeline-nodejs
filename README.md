@@ -4,7 +4,7 @@
 [![CircleCI](https://circleci.com/gh/honeycombio/beeline-nodejs.svg?style=shield)](https://circleci.com/gh/honeycombio/beeline-nodejs)
 [![npm](https://img.shields.io/npm/v/honeycomb-beeline)](https://www.npmjs.com/package/honeycomb-beeline)
 
-**Note**: Honeycomb embraces OpenTelemetry as the effective way to instrument applications. For any new observability efforts, we recommend [instrumenting with OpenTelemetry](https://docs.honeycomb.io/getting-data-in/opentelemetry/node-distro/).
+⚠️**Note**: Beelines are Honeycomb's legacy instrumentation libraries. We embrace OpenTelemetry as the effective way to instrument applications. For any new observability efforts, we recommend [instrumenting with OpenTelemetry](https://docs.honeycomb.io/getting-data-in/opentelemetry/node-distro/).
 
 This package makes it easy to instrument your Express/NodeJS application to send useful events to [Honeycomb](https://honeycomb.io), a service for debugging your software in production.
 

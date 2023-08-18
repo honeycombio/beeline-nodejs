@@ -35,7 +35,7 @@ executors:
         environment:
           PGUSER: root
           PGDATABASE: circle_test
-      - image: circleci/postgres:9-alpine-ram
+      - image: cimg/postgres:15.4
         environment:
           POSTGRES_USER: root
           POSTGRES_DB: circle_test

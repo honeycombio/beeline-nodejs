@@ -1,5 +1,5 @@
 {
-  "name": "@outreach/honeycomb-beeline",
+  "name": "@getoutreach/honeycomb-beeline",
   "description": "automatic instrumentation for honeycomb.io (Outreach fork)",
   "author": "support@honeycomb.io",
   "volta": {

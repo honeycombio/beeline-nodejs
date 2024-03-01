@@ -55,7 +55,7 @@
     "@opentelemetry/core": "^1.0.0",
     "array-flatten": "^3.0.0",
     "debug": "^4.2.0",
-    "libhoney": "^4.0.0",
+    "libhoney": "^4.2.0",
     "on-headers": "^1.0.2",
     "shimmer": "^1.2.1"
   }

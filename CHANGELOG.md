@@ -1,5 +1,78 @@
 # beeline-nodejs changelog
 
+## 4.1.0 [2024-03-07]
+
+### Enhancements
+
+- feat: support classic ingest keys, upgrade to libhoney 4.2.0 (#726) | @cewkrupa 
+
+### Maintenance
+
+- ci: move nightly to weekly (#698) | @vreynolds
+- maint: update codeowners to pipeline-team (#725) | @JamieDanielson
+- maint: update codeowners to pipeline (#724) | @JamieDanielson
+- docs: update readme (#689) | @vreynolds
+- docs: add otel recommendation to readme (#673) | @pkanal
+- docs: add note about requiring http (#655)
+- chore: give dependabot PRs better title (#652) | @vreynolds
+- ci: update validate PR title workflow (#645) | @pkanal
+- ci: validate PR title (#644) | @pkanal
+- maint: delete workflows for old board (#637) | @vreynolds
+- maint: add release file (#636) | @vreynolds
+- maint: add new project workflow (#634) | @vreynolds
+- docs: developing with a local version of libhoney in the beeline's example application (#616) | @emilyashley
+- maint(deps-dev): bump @typescript-eslint/eslint-plugin from 5.60.1 to 6.4.0 (#711)
+- maint(deps-dev): bump prettier from 2.8.8 to 3.0.2 (#710)
+- maint(deps-dev): bump jest from 29.5.0 to 29.6.2 (#709)
+- maint(deps): bump @opentelemetry/core from 1.12.0 to 1.15.2 (#705)
+- maint(deps): bump libhoney from 4.0.1 to 4.1.0 (#704)
+- maint(deps-dev): bump pg-query-stream from 4.5.2 to 4.5.3 (#707)
+- maint(deps-dev): bump eslint from 8.24.0 to 8.47.0 (#708)
+- maint(deps-dev): bump fastify from 4.15.0 to 4.21.0 (#702)
+- maint(deps-dev): bump pg-query-stream from 4.2.4 to 4.5.2 (#701)
+- maint(deps-dev): bump semver from 7.5.2 to 7.5.4 (#700)
+- maint(deps-dev): bump typescript from 4.8.4 to 5.1.6 (#693)
+- maint(deps-dev): bump @typescript-eslint/parser from 5.57.0 to 5.62.0 (#703)
+- maint(deps): bump word-wrap from 1.2.3 to 1.2.4 (#699)
+- maint(deps-dev): bump @typescript-eslint/eslint-plugin from 5.42.0 to 5.60.1 (#692)
+- maint(deps-dev): bump semver from 7.5.0 to 7.5.2 (#696)
+- chore(deps): bump semver from 5.7.1 to 5.7.2 in /examples/node-tracing (#695)
+- maint(deps): bump @opentelemetry/api from 1.2.0 to 1.4.1 (#685)
+- maint(deps-dev): bump semver from 7.3.8 to 7.5.0 (#676)
+- maint(deps): bump @opentelemetry/core from 1.9.1 to 1.12.0 (#679)
+- maint(deps): bump libhoney from 4.0.0 to 4.0.1 (#678)
+- maint(deps): bump vm2 from 3.9.17 to 3.9.18 (#680)
+- maint(deps-dev): bump prettier from 2.8.7 to 2.8.8 (#675)
+- maint(deps-dev): bump @typescript-eslint/parser from 5.54.0 to 5.57.0 (#669)
+- maint(deps): bump vm2 from 3.9.16 to 3.9.17 (#672)
+- maint(deps-dev): bump prettier from 2.7.1 to 2.8.7 (#665)
+- maint(deps-dev): bump fastify from 4.10.2 to 4.15.0 (#668)
+- maint(deps): bump vm2 from 3.9.15 to 3.9.16 (#671)
+- maint(deps-dev): bump jest from 29.4.3 to 29.5.0 (#667)
+- maint(deps): bump vm2 from 3.9.11 to 3.9.15 (#670)
+- maint(deps): bump @opentelemetry/core from 1.7.0 to 1.9.1 (#659)
+- maint(deps-dev): bump supertest from 6.3.0 to 6.3.3 (#653)
+- maint(deps-dev): bump @typescript-eslint/parser from 5.39.0 to 5.54.0 (#663)
+- maint(deps-dev): bump jest from 29.1.2 to 29.4.3 (#662)
+- maint(deps-dev): bump express from 4.18.1 to 4.18.2 (#642)
+- maint(deps): bump cookiejar from 2.1.3 to 2.1.4 (#658)
+- maint(deps): bump json5 from 2.2.1 to 2.2.3 (#657)
+- build(deps): bump qs from 6.5.2 to 6.5.3 in /examples/node-tracing (#650)
+- build(deps): bump qs and formidable (#649)
+- build(deps): bump express from 4.17.1 to 4.17.3 in /examples/node-tracing (#651)
+- build(deps-dev): bump fastify from 4.8.1 to 4.10.2 (#643)
+- build(deps-dev): bump @typescript-eslint/eslint-plugin from 5.39.0 to 5.42.0 (#640)
+- Bump fastify from 4.7.0 to 4.8.1 (#635)
+- Bump @typescript-eslint/eslint-plugin from 5.38.1 to 5.39.0 (#633)
+- Bump semver from 7.3.7 to 7.3.8 (#632)
+- Bump supertest from 6.2.4 to 6.3.0 (#631)
+- Bump jest from 29.0.3 to 29.1.2 (#630)
+- Bump @typescript-eslint/parser from 5.38.0 to 5.39.0 (#629)
+- Bump typescript from 4.8.3 to 4.8.4 (#628)
+- Bump eslint from 8.23.1 to 8.24.0 (#626)
+- Bump fastify from 4.6.0 to 4.7.0 (#625)
+- Bump @typescript-eslint/eslint-plugin from 5.38.0 to 5.38.1 (#624)
+
 ## 4.0.0 [2022-09-20]
 
 ### !!! Breaking Changes !!!

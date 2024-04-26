@@ -6,13 +6,13 @@
     "node": "16.17.0"
   },
   "license": "Apache-2.0",
-  "version": "4.1.0",
+  "version": "4.2.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/honeycombio/beeline-nodejs.git"
   },
   "engines": {
-    "node": ">= 14.*"
+    "node": ">= 14.18"
   },
   "files": [
     "docs",

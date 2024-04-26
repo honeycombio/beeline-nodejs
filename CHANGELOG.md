@@ -1,5 +1,16 @@
 # beeline-nodejs changelog
 
+## 4.2.0 [2024-04-26]
+
+### !!! Breaking Changes !!!
+
+Minimum Node version is now 14.18.
+
+### Maintenance
+
+- maint: Bump libhoney to 4.3.0 (#729) | @MikeGoldsmith
+- maint: add labels to release.yml for auto-generated grouping (#728) | @JamieDanielson
+
 ## 4.1.0 [2024-03-07]
 
 ### Enhancements

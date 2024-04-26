@@ -13,7 +13,7 @@ This package makes it easy to instrument your Express/NodeJS application to send
 
 ## Dependencies
 
-- **Node 14+**
+- **Node 14.18+**
 
 ## Known Issues
 

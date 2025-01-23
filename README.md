@@ -4,7 +4,7 @@
 [![CircleCI](https://circleci.com/gh/honeycombio/beeline-nodejs.svg?style=shield)](https://circleci.com/gh/honeycombio/beeline-nodejs)
 [![npm](https://img.shields.io/npm/v/honeycomb-beeline)](https://www.npmjs.com/package/honeycomb-beeline)
 
-**STATUS**: This project is being Sunset. See [this issue](https://github.com/honeycombio/beeline-java/issues/322) for more details.
+**STATUS**: This project is being Sunset. See [this issue](https://github.com/honeycombio/beeline-nodejs/issues/733) for more details.
 
 ⚠️**Note**: Beelines are Honeycomb's legacy instrumentation libraries. We embrace OpenTelemetry as the effective way to instrument applications. For any new observability efforts, we recommend [instrumenting with OpenTelemetry](https://docs.honeycomb.io/send-data/javascript-nodejs/opentelemetry-sdk/).
 

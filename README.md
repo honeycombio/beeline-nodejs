@@ -36,7 +36,7 @@ All contributions will be released under the Apache License 2.0.
 If you don't have postgresql running locally, you can launch postgresql in docker.
 
 ```
-docker run -p 5432:5432 -e POSTGRES_USER=root circleci/postgres:9-alpine-ram
+docker run -p 5432:5432 -e POSTGRES_USER=root cimg/postgres:15.4
 ```
 
 Then run the tests using
